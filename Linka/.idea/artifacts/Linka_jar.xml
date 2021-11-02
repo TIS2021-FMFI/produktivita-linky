@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="Linka:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Linka_jar</output-path>
+    <root id="archive" name="Linka.jar">
+      <element id="module-output" name="Linka" />
+    </root>
+  </artifact>
+</component>
