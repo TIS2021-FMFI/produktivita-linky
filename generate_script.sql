@@ -1,6 +1,8 @@
 
+INSERT INTO shift_names(name)VALUES ('jozkova'),('jankova');
 
-INSERT INTO event(name) VALUES ('porucha'),('udrzba'),('ine');
+
+INSERT INTO event_types(name) VALUES ('porucha'),('udrzba'),('ine');
 INSERT INTO series(id,name,worth) VALUES
 (1,'PLONG',800/352)
 ,(3,'PE40',800/597)
@@ -73,9 +75,6 @@ SELECT  ts + random() * (timestamp '2021-01-01 08:00:00' - timestamp '2021-01-01
 FROM timestamps as t;
 $$;
 
-SELECT  insertRow()
-FROM generate_series(0,Cast(floor(random()*10)+20 as integer));
-
 
 CREATE OR REPLACE FUNCTION lost(dt date)
     RETURNS double precision
@@ -86,6 +85,27 @@ SELECT (800-sum(t.paletts * s.worth))::double precision
 FROM t_raw_data as t inner join series s on s.id = t.series
 WHERE timestamp::date = dt and timestamp::time < TIME '14:00'
 $$;
+
+INSERT INTO shift_history(timestamp_begin,timestamp_end,goal,shift)
+SELECT TIMESTAMP '2021-11-1 14:00:01'+ (INTERVAL '1 days'*d),
+       TIMESTAMP '2021-11-1 22:00:00'+ (INTERVAL '1 days'*d),
+       800,
+       smena(TIMESTAMP '2021-11-1 14:00:01'+ (INTERVAL '1 days'*d))
+FROM generate_series(0,365*10)as d
+WHERE (mod(d,7)!= 6 and mod(d,7)!=5);
+
+INSERT INTO shift_history(timestamp_begin,timestamp_end,goal,shift)
+SELECT TIMESTAMP '2021-11-1 06:00:00'+ (INTERVAL '1 days'*d),
+       TIMESTAMP '2021-11-1 14:00:00'+ (INTERVAL '1 days'*d),
+       800,
+       mod(smena(TIMESTAMP '2021-11-1 14:00:01'+ (INTERVAL '1 days'*d)),2)+1
+FROM generate_series(0,365*10)as d
+WHERE (mod(d,7)!= 6 and mod(d,7)!=5);
+
+SELECT  insertRow()
+FROM generate_series(0,Cast(floor(random()*10)+20 as integer));
+
+
 INSERT INTO events
 SELECT 3*d,1,
 TIMESTAMP '2021-11-1 07:00:00'+ (INTERVAL '1 days'*d),
