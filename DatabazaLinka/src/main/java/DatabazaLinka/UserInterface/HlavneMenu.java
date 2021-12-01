@@ -8,13 +8,21 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HlavneMenu {
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+
+public class HlavneMenu{
     boolean stop = false;
-    public void start() throws SQLException, Vynimka,IOException {
+    public void start(Stage primaryStage) throws SQLException, Vynimka,IOException {
 
         stop = false;
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -24,17 +32,40 @@ public class HlavneMenu {
         print();
         System.out.println();
 
-        while (!stop) {
-            String line = br.readLine();
-            if (line == null) {
-                return;
-            }
+        skuska();
 
-            System.out.println();
+        FXMLLoader loader = new FXMLLoader();
+        URL xmlUrl = getClass().getResource("/operator.fxml");
+        loader.setController(new OperController());
+        loader.setLocation(xmlUrl);
+        OperController opc = loader.getController();
 
-            handle(line);
-            print();
-        }
+        Parent root = loader.load();
+
+
+        FXMLLoader loader2 = new FXMLLoader();
+        xmlUrl = getClass().getResource("/guiSupervisor.fxml");
+        //loader2.setController(new OperController());
+        loader2.setLocation(xmlUrl);
+
+        Parent admin = loader2.load();//FXMLLoader.load(getClass().getResource("sample.fxml"));
+
+        Stage secondStage = new Stage();
+        secondStage.setTitle("Admin");
+        secondStage.setScene(new Scene(admin,  700, 500));
+        secondStage.show();
+
+        primaryStage.setTitle("Operator");
+        primaryStage.setScene(new Scene(root, 700, 500));
+        primaryStage.show();
+
+        //testovanie
+        opc.setTodayGraph(200, 500);
+        opc.setBoxes(25,40,75);
+        opc.setModel("PLONG");
+        opc.setNextModel(null);
+        opc.setShiftName("Doobedna");
+
     }
     public void handle(String option)throws IOException,NullPointerException,SQLException {
         try {
