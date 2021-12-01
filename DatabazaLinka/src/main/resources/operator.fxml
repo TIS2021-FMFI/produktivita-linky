@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.StackedBarChart?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+  <children>
+    <AnchorPane fx:id="productionLabel" accessibleRole="CONTEXT_MENU" maxHeight="-1.0" maxWidth="-1.0" prefHeight="470.0"
+                prefWidth="670.0" VBox.vgrow="ALWAYS">
+         <children>
+            <BarChart fx:id="todayGraph" layoutX="354.0" layoutY="54.0" minHeight="-Infinity" minWidth="-Infinity"
+                      prefHeight="157.0" prefWidth="184.0" AnchorPane.bottomAnchor="259.0" AnchorPane.leftAnchor="354.0"
+                      AnchorPane.rightAnchor="102.0" AnchorPane.topAnchor="54.0">
+              <xAxis>
+                <CategoryAxis prefHeight="11.0" prefWidth="91.0" side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </BarChart>
+            <Text fx:id="todayLabel" fontSmoothingType="LCD" layoutX="374.0" layoutY="49.0" strokeType="INSIDE"
+                  strokeWidth="0.0" text="Today's statisticks" wrappingWidth="177.92364860830435">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Text>
+            <StackedBarChart fx:id="weekGraph" layoutX="21.0" layoutY="246.0" prefHeight="142.0" prefWidth="285.0">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis prefHeight="122.0" prefWidth="34.0" side="LEFT" />
+              </yAxis>
+            </StackedBarChart>
+            <Text fx:id="weekLabel" layoutX="37.0" layoutY="241.0" strokeType="INSIDE" strokeWidth="0.0" text="Weekly statisticks" wrappingWidth="143.9000280028356">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Text>
+            <Text fx:id="dayLabel" layoutX="374.0" layoutY="241.0" strokeType="INSIDE" strokeWidth="0.0" text="Today's production" wrappingWidth="143.9000280028356">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Text>
+            <TableView fx:id="table" layoutX="374.0" layoutY="255.0" prefHeight="94.0" prefWidth="206.0">
+              <columns>
+                <TableColumn prefWidth="104.00071716308594" text="Model name" />
+                <TableColumn prefWidth="100.99932861328125" text="Count" />
+              </columns>
+            </TableView>
+            <Text fx:id="boxes" layoutX="388.0" layoutY="433.0" strokeType="INSIDE" strokeWidth="0.0" text="37 / 42 / 40" wrappingWidth="115.88052727041372">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <Text fx:id="boxesLabel" layoutX="374.0" layoutY="402.0" strokeType="INSIDE" strokeWidth="0.0" text="Number of boxes per hour" wrappingWidth="197.93756462392935">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Text>
+            <Text fx:id="shiftName" layoutX="556.0" layoutY="462.0" strokeType="INSIDE" strokeWidth="0.0" text="Shift name" wrappingWidth="83.85834099111685">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Text>
+            <Text fx:id="model" fontSmoothingType="LCD" layoutX="122.0" layoutY="103.0" strokeType="INSIDE" strokeWidth="0.0" text="MODEL" wrappingWidth="99.81122659670473">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Text>
+            <Text fx:id="nextModel" layoutX="118.0" layoutY="138.0" strokeType="INSIDE" strokeWidth="0.0" text="NEXT MODEL" wrappingWidth="107.8750035887731">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Text>
+            <ImageView fitHeight="72.0" fitWidth="84.0" layoutX="14.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@logo.png" />
+               </image>
+            </ImageView>
+         </children>
+    </AnchorPane>
+  </children>
+</VBox>
