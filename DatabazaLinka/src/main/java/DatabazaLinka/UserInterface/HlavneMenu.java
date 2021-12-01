@@ -10,18 +10,37 @@ import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class HlavneMenu{
     boolean stop = false;
+
+    Random rnd = new Random();
+    Scene prestavka;
+    Scene oper;
+    Boolean pr = false;
+
+    Stage pstage;
+    int x = 700;
+    int y = 500;
+
+    OperController opc;
+    SuperController suc;
+    PauseController pac;
     public void start(Stage primaryStage) throws SQLException, Vynimka,IOException {
 
         stop = false;
@@ -38,35 +57,85 @@ public class HlavneMenu{
         URL xmlUrl = getClass().getResource("/operator.fxml");
         loader.setController(new OperController());
         loader.setLocation(xmlUrl);
-        OperController opc = loader.getController();
-
         Parent root = loader.load();
+        opc = loader.getController();
 
 
         FXMLLoader loader2 = new FXMLLoader();
         xmlUrl = getClass().getResource("/guiSupervisor.fxml");
-        //loader2.setController(new OperController());
+        loader2.setController(new SuperController());
         loader2.setLocation(xmlUrl);
+        Parent admin = loader2.load();
+        suc = loader2.getController();
 
-        Parent admin = loader2.load();//FXMLLoader.load(getClass().getResource("sample.fxml"));
+        FXMLLoader loader3 = new FXMLLoader();
+        xmlUrl = getClass().getResource("/prestavka.fxml");
+        loader3.setController(new PauseController());
+        loader3.setLocation(xmlUrl);
+        pac = loader3.getController();
+        Parent pres = loader3.load();
+        prestavka = new Scene(pres , x, y);
+        pstage = primaryStage;
 
         Stage secondStage = new Stage();
         secondStage.setTitle("Admin");
-        secondStage.setScene(new Scene(admin,  700, 500));
+        secondStage.setScene(new Scene(admin,  x, y));
         secondStage.show();
 
+        oper = new Scene(root, x, y);
         primaryStage.setTitle("Operator");
-        primaryStage.setScene(new Scene(root, 700, 500));
+        primaryStage.setScene(oper);
         primaryStage.show();
 
         //testovanie
-        opc.setTodayGraph(200, 500);
-        opc.setBoxes(25,40,75);
+
+        update();
+        opc.setUp();
+        suc.setUp(this);
+
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), ev -> {
+            update();
+        }));
+
+        Timeline timelineDatetime = new Timeline(new KeyFrame(Duration.millis(500), ev -> {
+            updateDatetime();
+        }));
+
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timelineDatetime.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+        timelineDatetime.play();
+
+    }
+
+    public void pause(){
+        pr = !pr;
+        if(pr){
+            pstage.setScene(prestavka);
+        }
+        else {
+            pstage.setScene(oper);
+        }
+    }
+
+    public void updateDatetime(){
+        pac.setCurrentDate();
+    }
+
+    public void update(){
+
+        opc.setTodayGraph(rnd.nextInt(500), 500);
+
+        opc.setWeekGraph();
+
+        opc.setBoxes(25, 40, 75);
         opc.setModel("PLONG");
         opc.setNextModel(null);
         opc.setShiftName("Doobedna");
 
+        opc.setTable();
     }
+
     public void handle(String option)throws IOException,NullPointerException,SQLException {
         try {
             switch (option) {
