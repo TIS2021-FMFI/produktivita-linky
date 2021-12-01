@@ -1,14 +1,11 @@
 package DatabazaLinka.UserInterface;
 
-import DatabazaLinka.RowDateGateway.Daily_statistics;
-import DatabazaLinka.RowDateGateway.Daily_statistics_Finder;
-import DatabazaLinka.RowDateGateway.T_raw_data_Finder;
-
 import javax.swing.*;
 
 public class LoginMenu {
     static int userRight = 0; //0 = user, 1 = level one admin, 2 = level 2 admin
     public static void main(String[] args) {
+
         login();//placeholder volanie, len aby bolo vidiet ze to ide
         logout();
     }
