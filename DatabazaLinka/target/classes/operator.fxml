@@ -13,6 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.cell.MapValueFactory?>
 <VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
   <children>
     <AnchorPane fx:id="productionLabel" accessibleRole="CONTEXT_MENU" maxHeight="-1.0" maxWidth="-1.0" prefHeight="470.0"
@@ -22,10 +23,10 @@
                       prefHeight="157.0" prefWidth="184.0" AnchorPane.bottomAnchor="259.0" AnchorPane.leftAnchor="354.0"
                       AnchorPane.rightAnchor="102.0" AnchorPane.topAnchor="54.0">
               <xAxis>
-                <CategoryAxis prefHeight="11.0" prefWidth="91.0" side="BOTTOM" />
+                <NumberAxis prefHeight="11.0" prefWidth="91.0" side="BOTTOM" />
               </xAxis>
               <yAxis>
-                <NumberAxis side="LEFT" />
+                <CategoryAxis side="LEFT" />
               </yAxis>
             </BarChart>
             <Text fx:id="todayLabel" fontSmoothingType="LCD" layoutX="374.0" layoutY="49.0" strokeType="INSIDE"
@@ -34,7 +35,7 @@
                   <Font size="22.0" />
                </font>
             </Text>
-            <StackedBarChart fx:id="weekGraph" layoutX="21.0" layoutY="246.0" prefHeight="142.0" prefWidth="285.0">
+            <StackedBarChart fx:id="weekGraph" layoutX="21.0" layoutY="256.0" prefHeight="142.0" prefWidth="285.0">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>
@@ -52,13 +53,13 @@
                   <Font size="17.0" />
                </font>
             </Text>
-            <TableView fx:id="table" layoutX="374.0" layoutY="255.0" prefHeight="94.0" prefWidth="206.0">
+            <TableView fx:id="table" layoutX="374.0" layoutY="270.0" prefHeight="94.0" prefWidth="206.0">
               <columns>
-                <TableColumn prefWidth="104.00071716308594" text="Model name" />
-                <TableColumn prefWidth="100.99932861328125" text="Count" />
+                <TableColumn fx:id="col1" prefWidth="104.00071716308594" text="Model name"/>
+                <TableColumn fx:id="col2" prefWidth="100.99932861328125" text="Count" />
               </columns>
             </TableView>
-            <Text fx:id="boxes" layoutX="388.0" layoutY="433.0" strokeType="INSIDE" strokeWidth="0.0" text="37 / 42 / 40" wrappingWidth="115.88052727041372">
+            <Text fx:id="boxes" layoutX="388.0" layoutY="463.0" strokeType="INSIDE" strokeWidth="0.0" text="37 / 42 / 40" wrappingWidth="115.88052727041372">
                <font>
                   <Font size="20.0" />
                </font>
