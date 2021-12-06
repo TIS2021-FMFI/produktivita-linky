@@ -1,5 +1,10 @@
 package DatabazaLinka.RowDateGateway;
 
+import DatabazaLinka.DbContext;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 
 public class Events {
@@ -7,7 +12,6 @@ public class Events {
     private Integer id_event;
     private Timestamp timestamp_begin;
     private Timestamp timestamp_end;
-
     private Double potencionaly_washed_pallets;
 
     public Integer getId() {
@@ -49,7 +53,37 @@ public class Events {
     public void setPotencionaly_washed_pallets(Double potencionaly_washed_pallets) {
         this.potencionaly_washed_pallets = potencionaly_washed_pallets;
     }
+    public void insert() throws SQLException {
+        String sql = "INSERT INTO events (id,id_event,timestamp_begin,timestamp_end,potencionaly_washed_pallets)"+
+                "VALUES (?, ?,?,?,?)";
 
+        Connection connection = DbContext.getConnection();
+
+        try(PreparedStatement s = connection.prepareStatement(sql)) {
+            s.setInt(1,id);
+            s.setInt(2,id_event);
+            s.setTimestamp(3,timestamp_begin);
+            s.setTimestamp(4,timestamp_end);
+            s.setDouble(5,potencionaly_washed_pallets);
+            s.executeUpdate();
+        }
+    }
+    public void update() throws SQLException{
+        String sql = "UPDATE events " +
+                "SET potencionaly_washed_pallets = ?, timestamp_begin = ?," +
+                " timestamp_end = ?, id_event = ?  " +
+                "WHERE id = ?";
+        Connection connection = DbContext.getConnection();
+
+        try(PreparedStatement s = connection.prepareStatement(sql)) {
+            s.setInt(5,id);
+            s.setInt(4,id_event);
+            s.setTimestamp(2,timestamp_begin);
+            s.setTimestamp(3,timestamp_end);
+            s.setDouble(1,potencionaly_washed_pallets);
+            s.executeUpdate();
+        }
+    }
     @Override
     public String toString() {
         return "Events{" +

@@ -80,5 +80,21 @@ public class Shift_history {
             s.executeUpdate();
         }
     }
+    public void update() throws SQLException{
+        String sql = "UPDATE shift_history " +
+                "SET shift = ?, timestamp_begin = ?," +
+                " timestamp_end = ?, goal = ?,  " +
+                   "WHERE id = ?";
+        Connection connection = DbContext.getConnection();
+
+        try(PreparedStatement s = connection.prepareStatement(sql)) {
+            s.setInt(5,id);
+            s.setTimestamp(2,timestamp_begin);
+            s.setTimestamp(3,timestamp_end);
+            s.setInt(4,goal);
+            s.setInt(1,shift);
+            s.executeUpdate();
+        }
+    }
 
 }

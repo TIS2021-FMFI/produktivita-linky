@@ -3,6 +3,7 @@ package DatabazaLinka.RowDateGateway;
 import DatabazaLinka.DbContext;
 
 import java.sql.*;
+import java.util.List;
 
 public class Daily_statistics_Finder {
     private static final Daily_statistics_Finder INSTANCE = new Daily_statistics_Finder();
@@ -13,28 +14,39 @@ public class Daily_statistics_Finder {
 
     private Daily_statistics_Finder() {
     }
-    public Daily_statistics findByDateAndShift(Date date,int shift) throws SQLException {
-        String sql = "SELECT sum(paletts * worth) as paletts, Cast(timestamp as date) as date,shift "+
-        "from t_raw_data as t join series as s  on s.id = t.series "+
-        "where shift = ? and  Cast(timestamp as date) = ? " +
-                " group by Cast(timestamp as date),shift";
-        Connection connection = DbContext.getConnection();
+    //tato funkcia popocita kolko z jednotlivých modelov sa vyrobilo, a upsertuje to  do history
+    public Daily_statistics findByShiftAndSeries(int shift,int series) throws SQLException {
+        Daily_statistics result = new Daily_statistics();
+        result.setShift(shift);
 
-        try (PreparedStatement s = connection.prepareStatement(sql)) {
-            s.setInt(1, shift);
-            s.setDate(2,date);
-            try (ResultSet rs = s.executeQuery()){
-                if(rs.next()){
-                    return load(rs);
-                }
-            }
+        List<T_raw_data> all = T_raw_data_Finder.getInstance().findBySeriesAndShift(series,shift);
+        if (all.size() == 0){
+            result.setPallets(0D);
+            return result;
         }
-        return null;
+        int size = all.size();
+        double add = 0;
+        int i = 0;
+        while (i+1 < size){
+            if (all.get(i).getPaletts() > all.get(i+1).getPaletts()){
+
+                add+=all.get(i).getPaletts();
+            }
+            i++;}
+        add+=all.get(i).getPaletts();
+        result.setPallets(add);
+
+        T_raw_data_history vloz = new T_raw_data_history();
+        vloz.setShift(shift);
+        vloz.setPaletts(add);
+        vloz.setSeries(series);
+        vloz.setDate(new Date(all.get(0).getTime_stamp().getTime()));
+        vloz.upsert();
+        return result;
     }
     public Daily_statistics load(ResultSet rs) throws SQLException {
         Daily_statistics log = new Daily_statistics();
 
-        log.setDate(rs.getDate("date"));
         log.setPallets(rs.getDouble("paletts"));
         log.setShift(rs.getInt("shift"));
         return log;

@@ -4,18 +4,18 @@ INSERT INTO shift_names(name)VALUES ('jozkova'),('jankova');
 
 INSERT INTO event_types(name) VALUES ('porucha'),('udrzba'),('ine');
 INSERT INTO series(id,name,worth) VALUES
-(1,'PLONG',800/352)
-,(3,'PE40',800/597)
+(1,'PLONG',800.0/352.0)
+,(3,'PE40',800.0/597.0)
 ,(4,'PE60',1)
-,(5,'PE10',800/267)
-,(6,'PE20',800/560)
-,(7,'PE05',800/267)
+,(5,'PE10',800.0/267.0)
+,(6,'PE20',800.0/560.0)
+,(7,'PE05',800.0/267.0)
 ,(13,'PLA05',1)
 ,(14,'PLA10',1)
 ,(21,'PLA05',1)
 ,(22,'PLA10',1)
-,(31,'PE05',800/267)
-,(32,'PE10',800/267);
+,(31,'PE05',800.0/267.0)
+,(32,'PE10',800.0/267.0);
 
 CREATE OR REPLACE FUNCTION random_pick()
     RETURNS int AS
@@ -42,7 +42,7 @@ $$;
 CREATE OR REPLACE VIEW timestamps as
 SELECT TsTable.ts
 FROM (SELECT TIMESTAMP '2021-11-1 06:00:00'+ (INTERVAL '1 days'*d) as ts
-      FROM generate_series(0,365*10)as d
+      FROM generate_series(0,365*1)as d
       WHERE (mod(d,7)!= 6 and mod(d,7)!=5)) as TsTable;
 
 CREATE OR REPLACE FUNCTION insertRow()
@@ -53,7 +53,7 @@ INSERT INTO t_raw_data
 SELECT  ts +(interval '8 hour') -- poobedna
             + random() * (timestamp '2021-01-01 08:00:00' - timestamp '2021-01-01 00:00:00'),  --timestamp
         random_pick(), --series
-       floor(random()*30+10), --pallets
+        floor(random()*10+16), --pallets
        smena(ts) , --shift
             random_pick(), --next_series
             floor(random()*50+50),--Perf_norm_per_h integer,
@@ -65,13 +65,31 @@ SELECT  ts +(interval '8 hour') -- poobedna
 INSERT INTO t_raw_data
 SELECT  ts + random() * (timestamp '2021-01-01 08:00:00' - timestamp '2021-01-01 00:00:00'),  --timestamp
         random_pick(), --series
-        floor(random()*30+10), --pallets
+        floor(random()*10+16), --pallets
         mod(smena(ts),2)+1, --shift
         random_pick(), --next_series
         floor(random()*50+50),--Perf_norm_per_h integer,
         floor(random()*50+50),--Perf_real_per_h integer,
         floor(random()*5+5),--Perf_norm_per_min integer,
         floor(random()*5+5)--Perf_real_per_min intege
+FROM timestamps as t;
+
+INSERT INTO t_raw_data
+SELECT  ts +(interval '8 hour') -- poobedna
+            + random() * (timestamp '2021-01-01 08:00:00' - timestamp '2021-01-01 00:00:00'),  --timestamp
+        random_pick(), --series
+        null, --pallets
+        smena(ts) , --shift
+        null, --next_series
+        floor(random()*50+50),--Perf_norm_per_h integer,
+        floor(random()*50+50),--Perf_real_per_h integer,
+        floor(random()*5+5),--Perf_norm_per_min integer,
+        floor(random()*5+5)--Perf_real_per_min intege
+FROM timestamps as t;
+
+INSERT INTO t_raw_data
+SELECT ts +(interval '8 hour') -- poobedna
+           + random() * (timestamp '2021-01-01 08:00:00' - timestamp '2021-01-01 00:00:00'),random_pick(),null,null,null,null,null,null,null
 FROM timestamps as t;
 $$;
 
@@ -83,7 +101,7 @@ AS
 $$
 SELECT (800-sum(t.paletts * s.worth))::double precision
 FROM t_raw_data as t inner join series s on s.id = t.series
-WHERE timestamp::date = dt and timestamp::time < TIME '14:00'
+WHERE time_stamp::date = dt and time_stamp::time < TIME '14:00'
 $$;
 
 INSERT INTO shift_history(timestamp_begin,timestamp_end,goal,shift)
@@ -91,7 +109,7 @@ SELECT TIMESTAMP '2021-11-1 14:00:01'+ (INTERVAL '1 days'*d),
        TIMESTAMP '2021-11-1 22:00:00'+ (INTERVAL '1 days'*d),
        800,
        smena(TIMESTAMP '2021-11-1 14:00:01'+ (INTERVAL '1 days'*d))
-FROM generate_series(0,365*10)as d
+FROM generate_series(0,365*1)as d
 WHERE (mod(d,7)!= 6 and mod(d,7)!=5);
 
 INSERT INTO shift_history(timestamp_begin,timestamp_end,goal,shift)
@@ -99,19 +117,18 @@ SELECT TIMESTAMP '2021-11-1 06:00:00'+ (INTERVAL '1 days'*d),
        TIMESTAMP '2021-11-1 14:00:00'+ (INTERVAL '1 days'*d),
        800,
        mod(smena(TIMESTAMP '2021-11-1 14:00:01'+ (INTERVAL '1 days'*d)),2)+1
-FROM generate_series(0,365*10)as d
+FROM generate_series(0,365*1)as d
 WHERE (mod(d,7)!= 6 and mod(d,7)!=5);
 
 SELECT  insertRow()
 FROM generate_series(0,Cast(floor(random()*10)+20 as integer));
-
 
 INSERT INTO events
 SELECT 3*d,1,
 TIMESTAMP '2021-11-1 07:00:00'+ (INTERVAL '1 days'*d),
     TIMESTAMP '2021-11-1 07:10:00'+ (INTERVAL '1 days'*d),
        lost(Cast((TIMESTAMP '2021-11-1 07:00:00'+ (INTERVAL '1 days'*d)) as date))/3
-FROM generate_series(0,365*10)as d
+FROM generate_series(0,365*1)as d
 WHERE (mod(d,7)!= 6 and mod(d,7)!=5) and lost(Cast((TIMESTAMP '2021-11-1 07:00:00'+ (INTERVAL '1 days'*d)) as date)) >0 ;
 
 INSERT INTO events
@@ -119,15 +136,38 @@ SELECT 3*d+1,2,
        TIMESTAMP '2021-11-1 08:00:00'+ (INTERVAL '1 days'*d),
        TIMESTAMP '2021-11-1 08:10:00'+ (INTERVAL '1 days'*d),
        lost((TIMESTAMP '2021-11-1 07:00:00'+ (INTERVAL '1 days'*d))::Date)/3
-FROM generate_series(0,365*10)as d
+FROM generate_series(0,365*1)as d
 WHERE (mod(d,7)!= 6 and mod(d,7)!=5) and lost(Cast((TIMESTAMP '2021-11-1 07:00:00'+ (INTERVAL '1 days'*d)) as date)) >0;
 INSERT INTO events
 SELECT 3*d+2,3,
        TIMESTAMP '2021-11-1 09:00:00'+ (INTERVAL '1 days'*d),
        TIMESTAMP '2021-11-1 09:10:00'+ (INTERVAL '1 days'*d),
        lost((TIMESTAMP '2021-11-1 07:00:00'+ (INTERVAL '1 days'*d))::Date)/3
-FROM generate_series(0,365*10)as d
+FROM generate_series(0,365*1)as d
 WHERE (mod(d,7)!= 6 and mod(d,7)!=5)
   and lost(Cast((TIMESTAMP '2021-11-1 07:00:00'+ (INTERVAL '1 days'*d)) as date)) >0;
+
+
+INSERT INTO t_raw_data_history(series,shift, date,paletts)
+SELECT DISTINCT t.series,
+                t.shift,
+                Cast(t.time_stamp as date),
+                (SELECT sum(tt.paletts) FROM t_raw_data as tt
+                where t.series = tt.series and t.shift = tt.shift and Cast(t.time_stamp as date) = Cast(tt.time_stamp as date) and tt.paletts is not null)
+FROM t_raw_data as t where t.paletts is not null;
+
+INSERT INTO  t_raw_data
+SELECT t.time_stamp-(INTERVAL '1 second'*i),
+       t.series,
+       t.paletts-3*i,
+       t.shift,
+       t.series,
+       t.perf_norm_per_h,
+       t.perf_real_per_h,
+       t.perf_norm_per_min,
+       t.perf_real_per_min
+FROM t_raw_data as t,generate_series(1,5) as i;
+
+
 
 

@@ -27,7 +27,7 @@ CREATE TABLE Series
 DROP TABLE IF EXISTS t_raw_data CASCADE;
 CREATE TABLE t_raw_data
 (
-    Timestamp timestamp PRIMARY KEY,
+    Time_stamp timestamp PRIMARY KEY,
     Series integer REFERENCES Series,
     Paletts integer,
     Shift integer,
@@ -41,15 +41,11 @@ CREATE TABLE t_raw_data
 DROP TABLE IF EXISTS t_raw_data_history CASCADE;
 CREATE TABLE t_raw_data_history
 (
-    Timestamp timestamp PRIMARY KEY,
-    Series integer REFERENCES Series,
-    Paletts integer,
-    Shift integer,
-    Next_series integer REFERENCES Series,
-    Perf_norm_per_h integer,
-    Perf_real_per_h integer,
-    Perf_norm_per_min integer,
-    Perf_real_per_min integer
+    Series integer REFERENCES Series not null ,
+    Paletts double precision not null,
+    Shift integer not null ,
+    Date date not null ,
+    PRIMARY KEY (Date,Shift,Series)
 );
 
 DROP TABLE IF EXISTS Event_types CASCADE;
