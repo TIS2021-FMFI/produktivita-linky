@@ -1,22 +1,28 @@
 package DatabazaLinka.RowDateGateway;
 
+import DatabazaLinka.DbContext;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 
 public class T_raw_data {
-    private Timestamp timestamp;
+    private Timestamp Time_stamp;
     private Integer series;
     private Integer paletts;
     private Integer next_series;
     private Integer perf_norm_per_h;
     private Integer perf_real_per_h;
     private Integer perf_norm_per_min;
+    private Integer perf_real_per_min;
 
-    public Timestamp getTimestamp() {
-        return timestamp;
+    public Timestamp getTime_stamp() {
+        return Time_stamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
+    public void setTime_stamp(Timestamp time_stamp) {
+        Time_stamp = time_stamp;
     }
 
     public Integer getSeries() {
@@ -75,12 +81,17 @@ public class T_raw_data {
         this.perf_real_per_min = perf_real_per_min;
     }
 
-    private Integer perf_real_per_min;
-
+    public static void deleteEverythingExceptToday()throws SQLException{
+        String sql = "DELETE FROM t_raw_data WHERE Cast(time_stamp as date)!=current_date";
+        Connection connection = DbContext.getConnection();
+        try(PreparedStatement s = connection.prepareStatement(sql)){
+            s.executeUpdate();
+        }
+    }
     @Override
     public String toString() {
         return "T_raw_data{" +
-                "timestamp=" + timestamp +
+                "timestamp=" + Time_stamp +
                 ", series=" + series +
                 ", paletts=" + paletts +
                 ", next_series=" + next_series +

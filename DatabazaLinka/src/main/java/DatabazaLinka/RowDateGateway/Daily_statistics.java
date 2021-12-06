@@ -3,17 +3,8 @@ package DatabazaLinka.RowDateGateway;
 import java.sql.Date;
 
 public class Daily_statistics {
-    private Date date;
     private Integer shift;
     private Double pallets;
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
 
     public Integer getShift() {
         return shift;
@@ -34,7 +25,6 @@ public class Daily_statistics {
     @Override
     public String toString() {
         return "Daily_statistics{" +
-                "date=" + date +
                 ", shift=" + shift +
                 ", pallets=" + pallets +
                 '}';

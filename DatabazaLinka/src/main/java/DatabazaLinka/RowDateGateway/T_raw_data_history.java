@@ -1,23 +1,17 @@
 package DatabazaLinka.RowDateGateway;
 
-import java.sql.Timestamp;
+import DatabazaLinka.DbContext;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class T_raw_data_history {
-    private Timestamp timestamp;
     private Integer series;
-    private Integer paletts;
-    private Integer next_series;
-    private Integer perf_norm_per_h;
-    private Integer perf_real_per_h;
-    private Integer perf_norm_per_min;
-
-    public Timestamp getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
-    }
+    private Double paletts;
+    private Integer shift;
+    private Date date;
 
     public Integer getSeries() {
         return series;
@@ -27,67 +21,57 @@ public class T_raw_data_history {
         this.series = series;
     }
 
-    public Integer getPaletts() {
+    public Double getPaletts() {
         return paletts;
     }
 
-    public void setPaletts(Integer paletts) {
+    public void setPaletts(Double paletts) {
         this.paletts = paletts;
     }
 
-    public Integer getNext_series() {
-        return next_series;
+    public Integer getShift() {
+        return shift;
     }
 
-    public void setNext_series(Integer next_series) {
-        this.next_series = next_series;
+    public void setShift(Integer shift) {
+        this.shift = shift;
     }
 
-    public Integer getPerf_norm_per_h() {
-        return perf_norm_per_h;
+    public Date getDate() {
+        return date;
     }
 
-    public void setPerf_norm_per_h(Integer perf_norm_per_h) {
-        this.perf_norm_per_h = perf_norm_per_h;
+    public void setDate(Date date) {
+        this.date = date;
     }
+    public void upsert() throws SQLException {
+        String sql =
+                "INSERT INTO t_raw_data_history (series,paletts,shift,date)"+
+                        "VALUES (?, ?,?,?)" +
+                        "ON CONFLICT(Date,Shift,Series) DO UPDATE " +
+                        "SET series = ?,paletts = ?,shift = ?, date = ?";
 
-    public Integer getPerf_real_per_h() {
-        return perf_real_per_h;
+        Connection connection = DbContext.getConnection();
+
+        try(PreparedStatement s = connection.prepareStatement(sql)) {
+            s.setInt(1,series);
+            s.setDouble(2,paletts);
+            s.setDate(4,date);
+            s.setInt(3,shift);
+            s.setInt(5,series);
+            s.setDouble(6,paletts);
+            s.setDate(8,date);
+            s.setInt(7,shift);
+            s.executeUpdate();
+        }
     }
-
-    public void setPerf_real_per_h(Integer perf_real_per_h) {
-        this.perf_real_per_h = perf_real_per_h;
-    }
-
-    public Integer getPerf_norm_per_min() {
-        return perf_norm_per_min;
-    }
-
-    public void setPerf_norm_per_min(Integer perf_norm_per_min) {
-        this.perf_norm_per_min = perf_norm_per_min;
-    }
-
-    public Integer getPerf_real_per_min() {
-        return perf_real_per_min;
-    }
-
-    public void setPerf_real_per_min(Integer perf_real_per_min) {
-        this.perf_real_per_min = perf_real_per_min;
-    }
-
-    private Integer perf_real_per_min;
-
     @Override
     public String toString() {
         return "T_raw_data_history{" +
-                "timestamp=" + timestamp +
-                ", series=" + series +
+                "series=" + series +
                 ", paletts=" + paletts +
-                ", next_series=" + next_series +
-                ", perf_norm_per_h=" + perf_norm_per_h +
-                ", perf_real_per_h=" + perf_real_per_h +
-                ", perf_norm_per_min=" + perf_norm_per_min +
-                ", perf_real_per_min=" + perf_real_per_min +
+                ", shift=" + shift +
+                ", date=" + date +
                 '}';
     }
 }
