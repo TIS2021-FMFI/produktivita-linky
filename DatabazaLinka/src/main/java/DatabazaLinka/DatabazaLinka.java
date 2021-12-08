@@ -14,16 +14,16 @@ import org.postgresql.ds.PGSimpleDataSource;
 public class DatabazaLinka {
     public static void main(String[] args) throws SQLException, IOException, Vynimka {
         PGSimpleDataSource ds = new PGSimpleDataSource();
-        ds.setServerName("db.dai.fmph.uniba.sk");
-        ds.setPortNumber(5432);
-        ds.setDatabaseName("playground");
-        ds.setUser("zaikner1@uniba.sk");
-        ds.setPassword("databaza");
-//        ds.setServerName("213.160.162.7");
+//        ds.setServerName("db.dai.fmph.uniba.sk");
 //        ds.setPortNumber(5432);
-//        ds.setDatabaseName("rps");
-//        ds.setUser("rps_testing");
-//        ds.setPassword("ex!z?G@oR3l");
+//        ds.setDatabaseName("playground");
+//        ds.setUser("zaikner1@uniba.sk");
+//        ds.setPassword("databaza");
+        ds.setServerName("213.160.162.7");
+        ds.setPortNumber(5432);
+        ds.setDatabaseName("rps");
+        ds.setUser("rps_application");
+        ds.setPassword("sz!c6J1P}l@@+w");
 
         try (Connection connection = ds.getConnection()) {
             DbContext.setConnection(connection);

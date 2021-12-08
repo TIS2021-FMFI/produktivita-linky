@@ -54,6 +54,6 @@ public class HlavneMenu {
         System.out.println("|==============FUNGUJE=================|");
 
     }
-    public void skuska() throws SQLException{
-}
+    public void skuska() throws SQLException {
+    }
 }

@@ -1,4 +1,3 @@
-
 DROP TABLE IF EXISTS Shift_names CASCADE;
 CREATE TABLE Shift_names
 (
@@ -24,20 +23,6 @@ CREATE TABLE Series
    Worth double precision not null
 );
 
-DROP TABLE IF EXISTS t_raw_data CASCADE;
-CREATE TABLE t_raw_data
-(
-    Time_stamp timestamp PRIMARY KEY,
-    Series integer REFERENCES Series,
-    Paletts integer,
-    Shift integer,
-    Next_series integer REFERENCES Series,
-    Perf_norm_per_h integer,
-    Perf_real_per_h integer,
-    Perf_norm_per_min integer,
-    Perf_real_per_min integer
-);
-
 DROP TABLE IF EXISTS t_raw_data_history CASCADE;
 CREATE TABLE t_raw_data_history
 (
@@ -59,7 +44,7 @@ DROP TABLE IF EXISTS Events CASCADE;
 CREATE TABLE Events
 (
     Id serial PRIMARY KEY,
-    Id_event integer REFERENCES Event,
+    Id_event integer REFERENCES Event_types,
     Timestamp_begin timestamp not null ,
     Timestamp_end timestamp not null,
     Potencionaly_washed_pallets double precision not null
