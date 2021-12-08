@@ -15,13 +15,14 @@ public class Daily_statistics_Finder {
     private Daily_statistics_Finder() {
     }
     //tato funkcia popocita kolko z jednotlivých modelov sa vyrobilo, a upsertuje to  do history
-    public Daily_statistics findByShiftAndSeries(int shift,int series) throws SQLException {
+    public Daily_statistics findByShiftAndSeriesandDate(int shift,int series,Date date) throws SQLException {
         Daily_statistics result = new Daily_statistics();
         result.setShift(shift);
 
-        List<T_raw_data> all = T_raw_data_Finder.getInstance().findBySeriesAndShift(series,shift);
+        List<T_raw_data> all = T_raw_data_Finder.getInstance().findBySeriesAndShiftandDate(series,shift,date);
         if (all.size() == 0){
             result.setPallets(0D);
+            System.out.println("tu");
             return result;
         }
         int size = all.size();
@@ -29,7 +30,6 @@ public class Daily_statistics_Finder {
         int i = 0;
         while (i+1 < size){
             if (all.get(i).getPaletts() > all.get(i+1).getPaletts()){
-
                 add+=all.get(i).getPaletts();
             }
             i++;}
@@ -40,7 +40,7 @@ public class Daily_statistics_Finder {
         vloz.setShift(shift);
         vloz.setPaletts(add);
         vloz.setSeries(series);
-        vloz.setDate(new Date(all.get(0).getTime_stamp().getTime()));
+        vloz.setDate(date);
         vloz.upsert();
         return result;
     }

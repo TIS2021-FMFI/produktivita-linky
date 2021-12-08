@@ -55,5 +55,8 @@ public class HlavneMenu {
 
     }
     public void skuska() throws SQLException{
+        System.out.println((Daily_statistics_Finder.getInstance().findByShiftAndSeriesandDate(1,21,new Date(121,11,8)))
+        );
+        System.out.println(Normalized_Paletts_Finder.getInstance().findByDateSeriesShiftNormalized(new Date(121,11,8),21,1));
 }
 }

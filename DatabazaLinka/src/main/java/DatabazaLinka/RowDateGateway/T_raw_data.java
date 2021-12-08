@@ -82,7 +82,7 @@ public class T_raw_data {
     }
 
     public static void deleteEverythingExceptToday()throws SQLException{
-        String sql = "DELETE FROM t_raw_data WHERE Cast(time_stamp as date)!=current_date";
+        String sql = "DELETE FROM t_raw_data WHERE Cast(\"Time_stamp\" as date)!=current_date";
         Connection connection = DbContext.getConnection();
         try(PreparedStatement s = connection.prepareStatement(sql)){
             s.executeUpdate();

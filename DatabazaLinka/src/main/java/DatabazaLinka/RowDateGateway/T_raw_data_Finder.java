@@ -19,7 +19,7 @@ public class T_raw_data_Finder {
     public List<T_raw_data> findByTimestampInterval(Timestamp t1, Timestamp t2) throws SQLException {
         String sql = "SELECT *" +
                 "FROM t_raw_data " +
-                "WHERE  Time_stamp BETWEEN ? and ?";
+                "WHERE  \"Time_stamp\" BETWEEN ? and ?";
         Connection connection = DbContext.getConnection();
 
         List<T_raw_data> result = new ArrayList<>();
@@ -53,7 +53,7 @@ public class T_raw_data_Finder {
     }
     public T_raw_data findLast() throws SQLException {
         String sql = "SELECT *" +
-                "FROM t_raw_data ORDER BY Time_stamp DESC LIMiT 1; ";
+                "FROM t_raw_data ORDER BY \"Time_stamp\" DESC LIMIT 1; ";
         Connection connection = DbContext.getConnection();
         System.out.println("tu");
         try (PreparedStatement s = connection.prepareStatement(sql)) {
@@ -67,8 +67,11 @@ public class T_raw_data_Finder {
     }
 
 
-    public List<T_raw_data> findBySeriesAndShift(int series,int shift) throws SQLException {
-        String sql = "SELECT * From t_raw_data Where series = ? and shift = ? and paletts is not null  ORDER BY Time_stamp ";
+    public List<T_raw_data> findBySeriesAndShiftandDate(int series,int shift,Date date) throws SQLException {
+        String sql = "SELECT *" +
+                " From t_raw_data" +
+                " Where \"Series\" = ? and \"Shift\" = ? and \"Paletts\" is not null and Cast(\"Time_stamp\" as date) = ?" +
+                "  ORDER BY \"Time_stamp\" ";
 
         Connection connection = DbContext.getConnection();
 
@@ -77,6 +80,7 @@ public class T_raw_data_Finder {
         try (PreparedStatement s = connection.prepareStatement(sql)) {
             s.setInt(1,series);
             s.setInt(2,shift);
+            s.setDate(3,date);
             try (ResultSet rs = s.executeQuery()){
                 while (rs.next()){
                     result.add(load(rs));
