@@ -33,6 +33,7 @@ public class Event_type_Finder {
         }
         return null;
     }
+
     public Event_type load(ResultSet rs) throws SQLException {
         Event_type log = new Event_type();
 

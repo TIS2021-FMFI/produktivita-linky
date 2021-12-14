@@ -12,7 +12,16 @@ public class Events {
     private Integer id_event;
     private Timestamp timestamp_begin;
     private Timestamp timestamp_end;
+    private Double duration;
     private Double potencionaly_washed_pallets;
+
+    public Double getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Double duration) {
+        this.duration = duration;
+    }
 
     public Integer getId() {
         return id;
@@ -54,8 +63,8 @@ public class Events {
         this.potencionaly_washed_pallets = potencionaly_washed_pallets;
     }
     public void insert() throws SQLException {
-        String sql = "INSERT INTO events (id,id_event,timestamp_begin,timestamp_end,potencionaly_washed_pallets)"+
-                "VALUES (?, ?,?,?,?)";
+        String sql = "INSERT INTO events (id,id_event,timestamp_begin,timestamp_end,potencionaly_washed_pallets,duration)"+
+                "VALUES (?, ?,?,?,?,?)";
 
         Connection connection = DbContext.getConnection();
 
@@ -65,18 +74,20 @@ public class Events {
             s.setTimestamp(3,timestamp_begin);
             s.setTimestamp(4,timestamp_end);
             s.setDouble(5,potencionaly_washed_pallets);
+            s.setDouble(6,duration);
             s.executeUpdate();
         }
     }
     public void update() throws SQLException{
         String sql = "UPDATE events " +
                 "SET potencionaly_washed_pallets = ?, timestamp_begin = ?," +
-                " timestamp_end = ?, id_event = ?  " +
+                " timestamp_end = ?, id_event = ?,duration = ?  " +
                 "WHERE id = ?";
         Connection connection = DbContext.getConnection();
 
         try(PreparedStatement s = connection.prepareStatement(sql)) {
-            s.setInt(5,id);
+            s.setInt(6,id);
+            s.setDouble(5,duration);
             s.setInt(4,id_event);
             s.setTimestamp(2,timestamp_begin);
             s.setTimestamp(3,timestamp_end);
@@ -84,6 +95,7 @@ public class Events {
             s.executeUpdate();
         }
     }
+
     @Override
     public String toString() {
         return "Events{" +
@@ -91,6 +103,7 @@ public class Events {
                 ", id_event=" + id_event +
                 ", timestamp_begin=" + timestamp_begin +
                 ", timestamp_end=" + timestamp_end +
+                ", duration=" + duration +
                 ", potencionaly_washed_pallets=" + potencionaly_washed_pallets +
                 '}';
     }

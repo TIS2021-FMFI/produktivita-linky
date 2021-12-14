@@ -55,5 +55,10 @@ public class HlavneMenu {
 
     }
     public void skuska() throws SQLException {
-    }
+        // preleje data z t_raw_data do history , i < pocet dni v decembri ktore treba spocitat
+//        for (int i = 1; i < 15;i++){
+//            System.out.println(Daily_statistics_Finder.getInstance().findByShiftandDateAll(1,new Date(121,11,i)));
+//            System.out.println(Daily_statistics_Finder.getInstance().findByShiftandDateAll(2,new Date(121,11,i)));
+//        }
+      }
 }

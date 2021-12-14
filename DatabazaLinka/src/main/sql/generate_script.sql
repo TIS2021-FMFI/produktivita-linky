@@ -28,7 +28,8 @@ INSERT INTO events
 SELECT 3*d,1,
        TIMESTAMP '2021-11-1 07:00:00'+ (INTERVAL '1 days'*d),
        TIMESTAMP '2021-11-1 07:10:00'+ (INTERVAL '1 days'*d),
-       0
+       10,10*800.0/430.0
+
 FROM generate_series(0,365*1)as d
 WHERE (mod(d,7)!= 6 and mod(d,7)!=5) ;
 
@@ -36,7 +37,7 @@ INSERT INTO events
 SELECT 3*d+1,2,
        TIMESTAMP '2021-11-1 08:00:00'+ (INTERVAL '1 days'*d),
        TIMESTAMP '2021-11-1 08:10:00'+ (INTERVAL '1 days'*d),
-    0
+       10,10*800.0/430.0
 FROM generate_series(0,365*1)as d
 WHERE (mod(d,7)!= 6 and mod(d,7)!=5);
 
@@ -44,7 +45,7 @@ INSERT INTO events
 SELECT 3*d+2,3,
        TIMESTAMP '2021-11-1 09:00:00'+ (INTERVAL '1 days'*d),
        TIMESTAMP '2021-11-1 09:10:00'+ (INTERVAL '1 days'*d),
-       0
+       10,10*800.0/430.0
 FROM generate_series(0,365*1)as d
 WHERE (mod(d,7)!= 6 and mod(d,7)!=5);
 
