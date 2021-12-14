@@ -39,6 +39,6 @@ public class Series_Finder {
         log.setId(rs.getInt("id"));
         log.setName(rs.getString("name"));
         log.setWorth(rs.getDouble("worth"));
-        return log;
+          return log;
     }
 }

@@ -46,6 +46,7 @@ public class Events_Finder {
         log.setTimestamp_begin(rs.getTimestamp("timestamp_begin"));
         log.setTimestamp_end(rs.getTimestamp("timestamp_end"));
         log.setPotencionaly_washed_pallets(rs.getDouble("potencionaly_washed_pallets"));
+        log.setDuration(rs.getDouble("duration"));
         return log;
     }
 }

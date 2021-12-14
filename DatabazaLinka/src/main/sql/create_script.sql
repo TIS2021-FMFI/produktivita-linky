@@ -47,6 +47,7 @@ CREATE TABLE Events
     Id_event integer REFERENCES Event_types,
     Timestamp_begin timestamp not null ,
     Timestamp_end timestamp not null,
+    duration double precision not null,
     Potencionaly_washed_pallets double precision not null
 );
 
