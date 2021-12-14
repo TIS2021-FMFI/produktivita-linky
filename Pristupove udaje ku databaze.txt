@@ -1,5 +1,0 @@
-Adresa : db.dai.fmph.uniba.sk
-Port : 5432
-Databáza : playground
-Používateľke meno : zaikner1@uniba.sk
-Heslo: databaza
