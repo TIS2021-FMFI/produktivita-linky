@@ -14,19 +14,19 @@
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS" />
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="643.0">
          <children>
-            <ImageView id="img" fitHeight="465.0" fitWidth="717.0" layoutX="-71.0" layoutY="-7.0" pickOnBounds="true">
+            <ImageView fx:id="img" fitHeight="465.0" fitWidth="717.0" layoutX="-71.0" layoutY="-7.0" pickOnBounds="true">
                <image>
                   <Image url="@udrzba.jpg" />
                </image>
             </ImageView>
-            <Rectangle id="rectengle" arcHeight="5.0" arcWidth="5.0" fill="#d7d5d5" height="136.0" layoutX="192.0" layoutY="146.0" stroke="#e2ffbc" strokeType="INSIDE" strokeWidth="0.0" width="260.0" />
-            <Text id="text1" fill="#9d3128" layoutX="214.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prebieha údržba" textAlignment="CENTER" wrappingWidth="219.46252532248258">
+            <Rectangle fx:id="rectengle" arcHeight="5.0" arcWidth="5.0" fill="#d7d5d5" height="136.0" layoutX="192.0" layoutY="146.0" stroke="#e2ffbc" strokeType="INSIDE" strokeWidth="0.0" width="260.0" />
+            <Text fx:id="text1" fill="#9d3128" layoutX="214.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prebieha údržba" textAlignment="CENTER" wrappingWidth="219.46252532248258">
                <font>
                   <Font size="44.0" />
                </font>
             </Text>
-            <Rectangle id="rec2" arcHeight="5.0" arcWidth="5.0" fill="#9d3128" height="41.0" layoutX="232.0" layoutY="290.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="179.0" />
-            <Text id="text2" fill="#d7d5d5" layoutX="255.0" layoutY="318.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Čas a dátum">
+            <Rectangle fx:id="rec2" arcHeight="5.0" arcWidth="5.0" fill="#9d3128" height="41.0" layoutX="232.0" layoutY="290.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="179.0" />
+            <Text fx:id="text2" fill="#d7d5d5" layoutX="255.0" layoutY="318.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Čas a dátum">
                <font>
                   <Font size="24.0" />
                </font>

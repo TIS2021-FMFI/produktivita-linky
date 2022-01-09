@@ -3,22 +3,24 @@ package DatabazaLinka;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.List;
 
+import DatabazaLinka.RowDateGateway.Events;
+import DatabazaLinka.RowDateGateway.Events_Finder;
 import DatabazaLinka.TransactionScript.Vynimka;
 
 import DatabazaLinka.UserInterface.LoginMenu;
 import DatabazaLinka.UserInterface.LoginMenu;
 import DatabazaLinka.UserInterface.HlavneMenu;
+import javafx.application.Application;
+import javafx.stage.Stage;
 import org.postgresql.ds.PGSimpleDataSource;
 
-public class DatabazaLinka {
-    public static void main(String[] args) throws SQLException, IOException, Vynimka {
+public class DatabazaLinka extends Application {
+    @Override
+    public void start(Stage primaryStage) throws Exception{
         PGSimpleDataSource ds = new PGSimpleDataSource();
-//        ds.setServerName("db.dai.fmph.uniba.sk");
-//        ds.setPortNumber(5432);
-//        ds.setDatabaseName("playground");
-//        ds.setUser("zaikner1@uniba.sk");
-//        ds.setPassword("databaza");
         ds.setServerName("213.160.162.7");
         ds.setPortNumber(5432);
         ds.setDatabaseName("rps");
@@ -27,10 +29,15 @@ public class DatabazaLinka {
 
         try (Connection connection = ds.getConnection()) {
             DbContext.setConnection(connection);
+
+
             HlavneMenu menu = new HlavneMenu();
-            menu.start();
+            menu.start(primaryStage);
         } finally {
-            DbContext.clear();
+            //DbContext.clear();
         }
+    }
+    public static void main(String[] args) throws SQLException, IOException, Vynimka {
+        launch(args);
     }
 }

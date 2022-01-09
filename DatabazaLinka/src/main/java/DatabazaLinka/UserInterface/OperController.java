@@ -54,7 +54,7 @@ public class OperController {
             items.add(item1);
         }
 
-        table.getItems().setAll(items);
+        //table.getItems().setAll(items);
     }
 
     public void setTodayGraph(int vyrobene, int malobyt){
