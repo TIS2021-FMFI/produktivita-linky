@@ -12,22 +12,22 @@
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
          <children>
-            <Button layoutX="209.0" layoutY="126.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="227.0" text="Zapnúť program">
+            <Button fx:id="startButton" layoutX="209.0" layoutY="126.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="227.0" text="Zapnúť program">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button layoutX="207.0" layoutY="183.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="227.0" text="Vykonať zmeny">
+            <Button fx:id="editButton" layoutX="207.0" layoutY="183.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="227.0" text="Vykonať zmeny">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button layoutX="207.0" layoutY="238.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="227.0" text="Zmena prihlásenej osoby">
+            <Button fx:id="loginButton" layoutX="207.0" layoutY="238.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="227.0" text="Zmena prihlásenej osoby">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button id="exitButton" layoutX="601.0" layoutY="10.0" mnemonicParsing="false" text="X" />
+            <Button fx:id="exitButton" layoutX="601.0" layoutY="10.0" mnemonicParsing="false" text="X" />
             <Text layoutX="14.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Monitor">
                <font>
                   <Font size="24.0" />
@@ -35,7 +35,7 @@
             </Text>
             <ImageView fitHeight="72.0" fitWidth="84.0" layoutX="14.0" layoutY="314.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@Snímka%20obrazovky%202021-11-29%20o%2012.35.51.png" />
+                  <Image url="@logo.png" />
                </image>
             </ImageView>
          </children>

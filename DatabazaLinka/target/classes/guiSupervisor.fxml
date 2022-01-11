@@ -105,7 +105,7 @@
                </font>
             </Text>
             <TextField fx:id="to3" layoutX="166.0" layoutY="331.0" prefHeight="27.0" prefWidth="66.0" />
-            <Text fx:id="mode" layoutX="498.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin mode">
+            <Text fx:id="changeBT2" layoutX="498.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin mode">
                <font>
                   <Font size="24.0" />
                </font>
@@ -135,9 +135,7 @@
                </font>
             </Text>
             <TextField fx:id="to4" layoutX="467.0" layoutY="331.0" prefHeight="27.0" prefWidth="66.0" />
-            <Button fx:id="submit" layoutX="576.0" layoutY="362.0" mnemonicParsing="false" text="Submit" />
-            <Button fx:id="login" layoutX="576.0" layoutY="392.0" mnemonicParsing="false" text="Login" />
-            <Button fx:id="pause" layoutX="576.0" layoutY="422.0" mnemonicParsing="false" text="placeholder_button_pause" />
+            <Button layoutX="576.0" layoutY="362.0" mnemonicParsing="false" text="Submit" />
       </children>
     </AnchorPane>
   </children>

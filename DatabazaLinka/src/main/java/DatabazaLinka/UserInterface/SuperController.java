@@ -1,11 +1,8 @@
 package DatabazaLinka.UserInterface;
 
 import javafx.fxml.FXML;
-import javafx.scene.chart.BarChart;
 import javafx.scene.chart.StackedBarChart;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 
 import javax.swing.*;
 
@@ -21,15 +18,8 @@ public class SuperController {
 
     int userRight = 0;
 
-    public void setUp(HlavneMenu hm){
-        login.setOnAction(e -> {
-            if(userRight == 0) login();
-            else logout();
-        });
+    public void setUp(HlavneMenu menu){
 
-        pause.setOnAction(e -> {
-            hm.pause();
-        });
     }
 
     private void login(){//po zavolani vyziada v popupe heslo, potom ho skontroluje a
