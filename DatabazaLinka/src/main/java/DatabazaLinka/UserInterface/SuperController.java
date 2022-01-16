@@ -45,8 +45,4 @@ public class SuperController {
         });
         //open(menu);
     }
-
-    public void open(HlavneMenu menu) throws SQLException {
-
-    }
 }
