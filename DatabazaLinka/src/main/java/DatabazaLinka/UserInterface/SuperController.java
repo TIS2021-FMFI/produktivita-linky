@@ -1,61 +1,52 @@
 package DatabazaLinka.UserInterface;
 
+import DatabazaLinka.RowDateGateway.*;
 import javafx.fxml.FXML;
 import javafx.scene.chart.StackedBarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 
 import javax.swing.*;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SuperController {
     @FXML
     public StackedBarChart graph;
     @FXML
+    public Button exitButton;
+    @FXML
     public Button submit;
     @FXML
-    public Button login;
-    @FXML
-    public Button pause;
+    public Button statisticsButton;
 
-    int userRight = 0;
 
-    public void setUp(HlavneMenu menu){
-
-    }
-
-    private void login(){//po zavolani vyziada v popupe heslo, potom ho skontroluje a
-        //zmení prístupové práva
-        String heslo = JOptionPane.showInputDialog(null, "Heslo",
-                "Login", JOptionPane.INFORMATION_MESSAGE);
-
-        if (heslo != null) {
-            //SELECT level FROM pristup WHERE mysmas(heslo) == heslo
-
-            //placeholder
-            if (heslo.equals("heslo")) {
-                userRight = 2;
-                JOptionPane.showMessageDialog(null, "Dobré heslo, vitaj supervízor.",
-                        "Login success", JOptionPane.INFORMATION_MESSAGE);
-            } else if (heslo.equals("veslo")) {
-                userRight = 1;
-                JOptionPane.showMessageDialog(null, "Dobré heslo, vitaj administrátor.",
-                        "Login success", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(null, "Zlé heslo",
-                        "Login error", JOptionPane.ERROR_MESSAGE);
-            }  //error message - asi ostane
-        }
-    }
-
-    private void logout(){
-        if (userRight != 0) {
-            int odhlas = JOptionPane.showConfirmDialog(null, "Odhlásiť?",
-                    "Logout", JOptionPane.YES_NO_OPTION);
-
-            if (odhlas == 0) {
-                userRight = 0;
-                JOptionPane.showMessageDialog(null, "Úspešne odhlásené.",
-                        "Logout success", JOptionPane.INFORMATION_MESSAGE);
+    public void setUp(HlavneMenu menu) throws SQLException {
+        exitButton.setOnAction(e -> {
+            menu.adminStage.setTitle("Menu");
+            if (menu.adminPrihlaseny){
+                menu.adminStage.setScene(menu.adminMenu);
             }
-        }
+            else{
+                menu.adminStage.setScene(menu.monitorMenu);
+            }
+        });
+
+        submit.setOnAction(e -> {
+
+        });
+
+        statisticsButton.setOnAction(e -> {
+            menu.adminStage.setTitle("Stats");
+            menu.adminStage.setScene(menu.statistick);
+        });
+        //open(menu);
+    }
+
+    public void open(HlavneMenu menu) throws SQLException {
+
     }
 }

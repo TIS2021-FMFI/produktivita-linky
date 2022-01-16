@@ -92,7 +92,7 @@
                </font>
             </Text>
             <TextField fx:id="to3" layoutX="173.0" layoutY="332.0" prefHeight="27.0" prefWidth="66.0" />
-            <Text fx:id="changeBT" layoutX="509.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin ">
+            <Text fx:id="textAdmin" layoutX="509.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin ">
                <font>
                   <Font size="24.0" />
                </font>
@@ -114,19 +114,21 @@
                </font>
             </Text>
             <TextField fx:id="to4" layoutX="467.0" layoutY="332.0" prefHeight="27.0" prefWidth="66.0" />
-            <Button layoutX="569.0" layoutY="359.0" mnemonicParsing="false" text="potvrď" />
+            <Button fx:id="submit" layoutX="569.0" layoutY="359.0" mnemonicParsing="false" text="potvrď" />
             <Button fx:id="statisticsButton" layoutX="557.0" layoutY="241.0" mnemonicParsing="false" text="štatistiky" />
             <Text fx:id="changeDLtext" layoutX="14.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zmena denného limitu">
                <font>
                   <Font size="20.0" />
                </font>
             </Text>
+            <!--
             <Text fx:id="fromLabel42" layoutX="315.0" layoutY="312.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Deň:">
                <font>
                   <Font size="15.0" />
                </font>
             </Text>
             <DatePicker layoutX="364.0" layoutY="293.0" prefHeight="27.0" prefWidth="168.0" />
+            -->
             <ImageView fitHeight="43.0" fitWidth="60.0" layoutX="13.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@logo.png" />

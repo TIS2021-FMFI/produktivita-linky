@@ -27,14 +27,13 @@ public class DatabazaLinka extends Application {
         ds.setUser("rps_application");
         ds.setPassword("sz!c6J1P}l@@+w");
 
-        try (Connection connection = ds.getConnection()) {
+        try {
+            Connection connection = ds.getConnection();
             DbContext.setConnection(connection);
-
-
             HlavneMenu menu = new HlavneMenu();
             menu.start(primaryStage);
-        } finally {
-            //DbContext.clear();
+        }catch(Exception ex){
+            throw ex;
         }
     }
     public static void main(String[] args) throws SQLException, IOException, Vynimka {

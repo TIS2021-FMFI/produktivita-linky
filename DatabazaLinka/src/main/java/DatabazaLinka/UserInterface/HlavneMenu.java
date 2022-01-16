@@ -4,37 +4,37 @@ import DatabazaLinka.DbContext;
 import DatabazaLinka.RowDateGateway.*;
 import DatabazaLinka.TransactionScript.Vynimka;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.math.BigDecimal;
+import java.awt.*;
+import java.io.*;
 import java.net.URL;
 import java.sql.*;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
+import java.time.temporal.TemporalAmount;
+import java.time.temporal.TemporalUnit;
 import java.util.*;
+import java.util.List;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.chart.StackedBarChart;
+import javafx.scene.chart.XYChart;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import javax.sound.midi.Soundbank;
+import javax.swing.*;
 
 public class HlavneMenu{
-    boolean stop = false;
-    int shift = 1;
-
     Random rnd = new Random();
 
     Boolean pr = false;
@@ -60,13 +60,88 @@ public class HlavneMenu{
     PauseController pauseController;
     ChybyController chybyController;
     StatController statController;
+    PauseController udrzbaController;
+    PauseController chybaContoller;
+
 
     int x = 700;
     int y = 500;
 
-    public void start(Stage primaryStage) throws SQLException, Vynimka,IOException {
+    String heslo;
+    boolean ide = false;
+    int shift = 1;
+    int ciel;
+    Timeline timeline;
 
-        stop = false;
+    LocalTime zmena1zaciatok;
+    LocalTime zmena1koniec;
+
+    LocalTime zmena1prestavka1zaciatok;
+    LocalTime zmena1prestavka1koniec;
+
+    LocalTime zmena1prestavka2zaciatok;
+    LocalTime zmena1prestavka2koniec;
+
+    LocalTime zmena1prestavka3zaciatok;
+    LocalTime zmena1prestavka3koniec;
+
+    LocalTime zmena2zaciatok;
+    LocalTime zmena2koniec;
+
+    LocalTime zmena2prestavka1zaciatok;
+    LocalTime zmena2prestavka1koniec;
+
+    LocalTime zmena2prestavka2zaciatok;
+    LocalTime zmena2prestavka2koniec;
+
+    LocalTime zmena2prestavka3zaciatok;
+    LocalTime zmena2prestavka3koniec;
+
+    public void start(Stage primaryStage) throws SQLException, Vynimka,IOException {
+        File configFile = new File("src/main/resources/config.properties");
+
+        try {
+            FileReader reader = new FileReader(configFile);
+            Properties props = new Properties();
+            props.load(reader);
+
+            heslo = props.getProperty("heslo");
+            ciel = Integer.valueOf(props.getProperty("ciel"));
+
+            zmena1zaciatok = LocalTime.parse(props.getProperty("zmena1zaciatok"));
+            zmena1koniec = LocalTime.parse(props.getProperty("zmena1koniec"));
+
+            zmena1prestavka1zaciatok = LocalTime.parse(props.getProperty("zmena1prestavka1zaciatok"));
+            zmena1prestavka1koniec = LocalTime.parse(props.getProperty("zmena1prestavka1koniec"));
+
+            zmena1prestavka2zaciatok = LocalTime.parse(props.getProperty("zmena1prestavka2zaciatok"));
+            zmena1prestavka2koniec = LocalTime.parse(props.getProperty("zmena1prestavka2koniec"));
+
+            zmena1prestavka3zaciatok = LocalTime.parse(props.getProperty("zmena1prestavka3zaciatok"));
+            zmena1prestavka3koniec = LocalTime.parse(props.getProperty("zmena1prestavka3koniec"));
+
+            zmena2zaciatok = LocalTime.parse(props.getProperty("zmena2zaciatok"));
+            zmena2koniec = LocalTime.parse(props.getProperty("zmena2koniec"));
+
+            zmena2prestavka1zaciatok = LocalTime.parse(props.getProperty("zmena2prestavka1zaciatok"));
+            zmena2prestavka1koniec = LocalTime.parse(props.getProperty("zmena2prestavka1koniec"));
+
+            zmena2prestavka2zaciatok = LocalTime.parse(props.getProperty("zmena2prestavka2zaciatok"));
+            zmena2prestavka2koniec = LocalTime.parse(props.getProperty("zmena2prestavka2koniec"));
+
+            zmena2prestavka3zaciatok = LocalTime.parse(props.getProperty("zmena2prestavka3zaciatok"));
+            zmena2prestavka3koniec = LocalTime.parse(props.getProperty("zmena2prestavka3koniec"));
+
+            reader.close();
+        } catch (FileNotFoundException ex) {
+            // file does not exist
+            throw ex;
+        } catch (IOException ex) {
+            // I/O error
+            throw ex;
+        }
+
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("VITAJ V DATABAZE LINKY!");
         System.out.println("ZVOL PONUKA PRE PONUKU");
@@ -102,6 +177,7 @@ public class HlavneMenu{
         adminMenu = new Scene(root, x, y);
 
         //guiMonitor
+        /*
         loader = new FXMLLoader();
         xmlUrl = getClass().getResource("/ineguiSupervisor.fxml");
         loader.setController(new SuperController());
@@ -110,7 +186,7 @@ public class HlavneMenu{
         superController = loader.getController();
         superController.setUp(this);
 
-        guiMonitor = new Scene(root, x, y);
+        guiMonitor = new Scene(root, x, y);*/
 
         //guiAdmin
         loader = new FXMLLoader();
@@ -130,7 +206,7 @@ public class HlavneMenu{
         loader.setLocation(xmlUrl);
         root = loader.load();
         operController = loader.getController();
-        operController.setUp();
+        operController.setUp(this);
 
         operator = new Scene(root, x, y);
 
@@ -152,6 +228,7 @@ public class HlavneMenu{
         loader.setLocation(xmlUrl);
         root = loader.load();
         statController = loader.getController();
+        statController.setUp(this);
 
         statistick = new Scene(root, x, y);
 
@@ -172,7 +249,7 @@ public class HlavneMenu{
         loader.setController(new PauseController());
         loader.setLocation(xmlUrl);
         root = loader.load();
-        pauseController = loader.getController();
+        chybaContoller = loader.getController();
 
         chyba = new Scene(root, x, y);
 
@@ -182,86 +259,250 @@ public class HlavneMenu{
         loader.setController(new PauseController());
         loader.setLocation(xmlUrl);
         root = loader.load();
-        pauseController = loader.getController();
+        udrzbaController = loader.getController();
 
         udrzba = new Scene(root, x, y);
-
-        //testovanie
-
-        //update();
-        //opc.setUp();
-        Date date = new Date(System.currentTimeMillis());
-        Daily_statistics_Finder.getInstance().findByShiftandDateAll(shift, date);
-        System.out.println(Normalized_Paletts_Finder.getInstance().findByDateShiftNormalizedALl(date, shift).getPaletts());
-
-        Timeline timelineDatetime = new Timeline(new KeyFrame(Duration.millis(500), ev -> {
-            updateDatetime();
-        }));
-
-
-        timelineDatetime.setCycleCount(Animation.INDEFINITE);
-
-        timelineDatetime.play();
-
     }
 
-    public void pause(){
-        pr = !pr;
-        if(pr){
+
+    public void updateDatetime(){
+        LocalTime now = LocalTime.now();
+        String time = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now());
+        operController.setTime(time);
+        if (now.isAfter(zmena1prestavka1zaciatok) && now.isBefore(zmena1prestavka1koniec) ||
+                now.isAfter(zmena1prestavka2zaciatok) && now.isBefore(zmena1prestavka2koniec) ||
+                now.isAfter(zmena1prestavka3zaciatok) && now.isBefore(zmena1prestavka3koniec) ||
+                now.isAfter(zmena2prestavka1zaciatok) && now.isBefore(zmena2prestavka1koniec) ||
+                now.isAfter(zmena2prestavka2zaciatok) && now.isBefore(zmena2prestavka2koniec) ||
+                now.isAfter(zmena2prestavka3zaciatok) && now.isBefore(zmena2prestavka3koniec)){
+            operStage.setTitle("Prestavka");
             operStage.setScene(prestavka);
-        }
-        else {
+            pauseController.setCurrentDate();
+        }else if(operStage.getScene() == prestavka){
+            operStage.setTitle("Operator");
             operStage.setScene(operator);
         }
     }
 
-    public void updateDatetime(){
-        //pac.setCurrentDate();
+    public int kolkoMaloByt(){
+        double max = 0;
+        double teraz = 0;
+        LocalTime now = LocalTime.now();
+        if (shift == 1){
+            max = ChronoUnit.MILLIS.between(zmena1zaciatok, zmena1koniec);
+            max -= ChronoUnit.MILLIS.between(zmena1prestavka1zaciatok, zmena1prestavka1koniec);
+            max -= ChronoUnit.MILLIS.between(zmena1prestavka2zaciatok, zmena1prestavka2koniec);
+            max -= ChronoUnit.MILLIS.between(zmena1prestavka3zaciatok, zmena1prestavka3koniec);
+
+            if(now.isBefore(zmena1koniec)) {
+                teraz = ChronoUnit.MILLIS.between(zmena1zaciatok, LocalTime.now());
+
+                if(now.isAfter(zmena1prestavka1koniec)){
+                    teraz -= ChronoUnit.MILLIS.between(zmena1prestavka1zaciatok, zmena1prestavka1koniec);
+
+                    if(now.isAfter(zmena1prestavka2koniec)){
+                        teraz -= ChronoUnit.MILLIS.between(zmena1prestavka2zaciatok, zmena1prestavka2koniec);
+
+                        if(now.isAfter(zmena1prestavka3koniec)){
+                            teraz -= ChronoUnit.MILLIS.between(zmena1prestavka3zaciatok, zmena1prestavka3koniec);
+                        }
+                    }
+                }
+            }
+            else{
+                teraz = max;
+
+            }
+        }else{
+            max = ChronoUnit.MILLIS.between(zmena2zaciatok, zmena2koniec);
+            max -= ChronoUnit.MILLIS.between(zmena2prestavka1zaciatok, zmena2prestavka1koniec);
+            max -= ChronoUnit.MILLIS.between(zmena2prestavka2zaciatok, zmena2prestavka2koniec);
+            max -= ChronoUnit.MILLIS.between(zmena2prestavka3zaciatok, zmena2prestavka3koniec);
+
+            if(now.isBefore(zmena2koniec)) {
+                teraz = ChronoUnit.MILLIS.between(zmena2zaciatok, LocalTime.now());
+
+                if(now.isAfter(zmena2prestavka1koniec)){
+                    teraz -= ChronoUnit.MILLIS.between(zmena2prestavka1zaciatok, zmena2prestavka1koniec);
+
+                    if(now.isAfter(zmena2prestavka2koniec)){
+                        teraz -= ChronoUnit.MILLIS.between(zmena2prestavka2zaciatok, zmena2prestavka2koniec);
+
+                        if(now.isAfter(zmena2prestavka3koniec)){
+                            teraz -= ChronoUnit.MILLIS.between(zmena2prestavka3zaciatok, zmena2prestavka3koniec);
+                        }
+                    }
+                }
+            }
+            else{
+                teraz = max;
+            }
+        }
+
+        double kolko = teraz/max * ciel;
+        return (int)kolko;
+    }
+
+    public int kolkoRzchlost(int pal){
+
+        LocalTime now = LocalTime.now();
+        double teraz;
+        double max;
+        if (shift == 1){
+            max = ChronoUnit.MILLIS.between(zmena1zaciatok, zmena1koniec);
+            max -= ChronoUnit.MILLIS.between(zmena1prestavka1zaciatok, zmena1prestavka1koniec);
+            max -= ChronoUnit.MILLIS.between(zmena1prestavka2zaciatok, zmena1prestavka2koniec);
+            max -= ChronoUnit.MILLIS.between(zmena1prestavka3zaciatok, zmena1prestavka3koniec);
+
+            if(now.isBefore(zmena1koniec)) {
+                teraz = ChronoUnit.MILLIS.between(zmena1zaciatok, LocalTime.now());
+
+                if(now.isAfter(zmena1prestavka1koniec)){
+                    teraz -= ChronoUnit.MILLIS.between(zmena1prestavka1zaciatok, zmena1prestavka1koniec);
+
+                    if(now.isAfter(zmena1prestavka2koniec)){
+                        teraz -= ChronoUnit.MILLIS.between(zmena1prestavka2zaciatok, zmena1prestavka2koniec);
+
+                        if(now.isAfter(zmena1prestavka3koniec)){
+                            teraz -= ChronoUnit.MILLIS.between(zmena1prestavka3zaciatok, zmena1prestavka3koniec);
+                        }
+                    }
+                }
+            }
+            else{
+                teraz = max;
+
+            }
+        }else{
+            max = ChronoUnit.MILLIS.between(zmena2zaciatok, zmena2koniec);
+            max -= ChronoUnit.MILLIS.between(zmena2prestavka1zaciatok, zmena2prestavka1koniec);
+            max -= ChronoUnit.MILLIS.between(zmena2prestavka2zaciatok, zmena2prestavka2koniec);
+            max -= ChronoUnit.MILLIS.between(zmena2prestavka3zaciatok, zmena2prestavka3koniec);
+
+            if(now.isBefore(zmena2koniec)) {
+                teraz = ChronoUnit.MILLIS.between(zmena2zaciatok, LocalTime.now());
+
+                if(now.isAfter(zmena2prestavka1koniec)){
+                    teraz -= ChronoUnit.MILLIS.between(zmena2prestavka1zaciatok, zmena2prestavka1koniec);
+
+                    if(now.isAfter(zmena2prestavka2koniec)){
+                        teraz -= ChronoUnit.MILLIS.between(zmena2prestavka2zaciatok, zmena2prestavka2koniec);
+
+                        if(now.isAfter(zmena2prestavka3koniec)){
+                            teraz -= ChronoUnit.MILLIS.between(zmena2prestavka3zaciatok, zmena2prestavka3koniec);
+                        }
+                    }
+                }
+            }
+            else{
+                teraz = max;
+            }
+        }
+
+        int ostava = ciel - pal;
+        double cas = max - teraz;
+
+        if (cas == 0.0){
+            return -1;
+
+        }
+        double z = (ostava/cas)*1000*60*60;
+
+        return (int)z;
     }
 
     public void update() throws SQLException{
-        /*System.out.println("UPDATE");
+        System.out.println("UPDATE");
+        if(LocalTime.now().isAfter(zmena2zaciatok)){
+            shift = 2;
+        }
         Date date = new Date(System.currentTimeMillis());
-        Daily_statistics_Finder.getInstance().findByShiftandDateAll(shift, date);
-        System.out.println(Normalized_Paletts_Finder.getInstance().findByDateShiftNormalizedALl(date, shift).getPaletts() + 1);*/
 
-        operController.setTodayGraph(rnd.nextInt(500), 500);
+        Daily_statistics_Finder.getInstance().findByShiftandDateAll(1, date);
+        Daily_statistics_Finder.getInstance().findByShiftandDateAll(2, date);
+        double pallets = Normalized_Paletts_Finder.getInstance().findByDateShiftNormalizedALl(date, shift).getPaletts();
+        //System.out.println(pallets);
 
-        operController.setWeekGraph();
+        operController.setTodayGraph((int)pallets, kolkoMaloByt());
 
-        operController.setBoxes(25, 40, 75);
-        operController.setModel("PLONG");
-        operController.setNextModel(null);
-        operController.setShiftName("Doobedna");
+        //operController.setWeekGraph(this);
 
-        operController.setTable();
+        stackSet(operController.weekGraph);
+
+        T_raw_data raw = T_raw_data_Finder.getInstance().findLast();
+        int kolko = kolkoRzchlost((int)pallets);
+        operController.setBoxes(raw.getPerf_real_per_min(), raw.getPerf_norm_per_min(), kolko);
+        try {
+            operController.setModel(Series_Finder.getInstance().findById(raw.getSeries()).getName());
+        }catch (NullPointerException nl){
+            operController.setModel("--------");
+        }
+        try {
+            operController.setNextModel(Series_Finder.getInstance().findById(raw.getNext_series()).getName());
+        }catch(NullPointerException nl){
+            operController.setNextModel("--------");
+        }
+
+        if(shift == 1) {
+            operController.setShiftName("Doobedna");
+        }else {
+            operController.setShiftName("Poobedna");
+        }
+        operController.setTable(this);
     }
 
-    public void handle(String option)throws IOException,NullPointerException,SQLException {
-        try {
-            switch (option) {
-                default: skuska(); break;
+    public void stackSet(StackedBarChart graph) throws SQLException {
+        List<XYChart.Series> series = new ArrayList<>();
 
-                //System.out.println("NESPRAVNA VOLBA"); break;
+        List<Series> ser = Series_Finder.getInstance().findAll();
+        for (int i = 0; i < ser.size(); i++) { //for kazdy dnesni model
+            XYChart.Series docas = new XYChart.Series();
+            docas.setName(ser.get(i).getName());
+            series.add(docas);
+        }
+
+
+        List<Event_type> eve = Event_type_Finder.getInstance().findAll();
+        for (int i = 0; i < eve.size(); i++) { //for kazdy dnesni model
+            XYChart.Series docas = new XYChart.Series();
+            docas.setName(eve.get(i).getName());
+            series.add(docas);
+        }
+
+        int dni = 0;
+        int j = 0;
+        LocalDate date = LocalDate.now();
+        while(dni < 5){
+            j++;
+            date = date.minusDays(1);
+            if(Normalized_Paletts_Finder.getInstance().findByDateShiftNormalizedALl(Date.valueOf(date), shift).getPaletts() > 0){
+                dni++;
+                for (int k = 0; k < ser.size(); k++) {
+                    double a = Normalized_Paletts_Finder.getInstance().findByDateSeriesShiftNormalized(Date.valueOf(date),
+                            ser.get(k).getId(), shift).getPaletts();
+                    series.get(k).getData().add(new XYChart.Data(Date.valueOf(date).toString(), a));
+                    //System.out.println(series.get(k).getName());
+                }
+
+                for (int k = 0; k < eve.size(); k++) {
+
+                    series.get(ser.size() + k).getData().add(new XYChart.Data(Date.valueOf(date).toString(), 0));
+                    //System.out.println(series.get(ser.size() + k).getName());
+                }
+                //series.get(0).getData().add(new XYChart.Data(Date.valueOf(date).toString(), 100));
             }
         }
-        catch (Exception e){
-            System.out.println("Nastala ina chyba!");
-            System.out.println(e.getMessage());
-        }
 
+        graph.getData().setAll();
+
+        for (int i = 0; i < series.size(); i++) {
+            graph.getData().add(series.get(i));
+        }
     }
+
     public void print() {
         System.out.println("|==============FUNGUJE=================|");
 
-    }
-    public void skuska() throws SQLException{
-//        List<Events> vrat =(Events_Finder.getInstance()
-//                .findByTimestampInterval((new Timestamp(121,10,1,0,0,0,0)),
-//                        new Timestamp(121,10,7,0,0,0,0)));
-//    for (Events i:vrat){
-//        System.out.println(i);;
-//    }
     }
 
     public void startOper() { //akcia pre tlacitko yacat v menu - zacne zobrazenie operator
@@ -269,16 +510,13 @@ public class HlavneMenu{
         operStage.setTitle("Operator");
         operStage.show();
 
-        if (adminPrihlaseny){
-            adminStage.setTitle("Admin");
-            adminStage.setScene(guiAdmin);
+        //update timeline
+        try {
+            update();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
-        else{
-            adminStage.setTitle("Monitor");
-            adminStage.setScene(guiMonitor);
-        }
-
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), ev -> {
+        timeline = new Timeline(new KeyFrame(Duration.seconds(60), ev -> {
             try {
                 update();
             } catch (SQLException throwables) {
@@ -288,16 +526,29 @@ public class HlavneMenu{
 
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
+        //cas timeline
+        Timeline timelineDatetime = new Timeline(new KeyFrame(Duration.millis(500), ev -> {
+            updateDatetime();
+        }));
+
+        timelineDatetime.setCycleCount(Animation.INDEFINITE);
+
+        timelineDatetime.play();
 
         System.out.println("Start");
     }
 
     public void loginAction() { //login - logout / atd / akcia na menu button
         //docasna zmena bez hesla
+
         if (!adminPrihlaseny){
-            adminStage.setTitle("Admin menu");
-            adminStage.setScene(adminMenu);
-            adminPrihlaseny = true;
+            String inputHeslo = JOptionPane.showInputDialog(null, "Heslo",
+                    "Login", JOptionPane.INFORMATION_MESSAGE);
+            if(inputHeslo.equals(heslo)) {
+                adminStage.setTitle("Admin menu");
+                adminStage.setScene(adminMenu);
+                adminPrihlaseny = true;
+            }
         }
         else if (adminPrihlaseny){
             adminStage.setTitle("Monitor menu");
@@ -307,11 +558,27 @@ public class HlavneMenu{
         System.out.println("Login");
     }
 
-    public void editButt() { //co sa po kliknuti na vykonat zmenu
+    public void editButt() throws SQLException { //co sa po kliknuti na vykonat zmenu
         System.out.println("Edit");
+        if (adminPrihlaseny){
+            adminStage.setTitle("Admin");
+            adminStage.setScene(guiAdmin);
+        }
+        else{
+            adminStage.setTitle("Monitor");
+            adminStage.setScene(guiAdmin);
+        }
+        stackSet(superController.graph);
+        //superController.open(this);
     }
 
     public void editConfig() { //co sa po kliknuti na zmenit config
+        ProcessBuilder pb = new ProcessBuilder("Notepad.exe", "src/main/resources/config.properties");
+        try {
+            pb.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         System.out.println("Config");
     }
 
