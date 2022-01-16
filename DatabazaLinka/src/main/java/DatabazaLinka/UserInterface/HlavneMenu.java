@@ -516,6 +516,9 @@ public class HlavneMenu{
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        if(timeline != null){
+            timeline.stop();
+        }
         timeline = new Timeline(new KeyFrame(Duration.seconds(60), ev -> {
             try {
                 update();

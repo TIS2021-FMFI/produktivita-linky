@@ -52,6 +52,7 @@ public class OperController {
         weekGraph.setAnimated(false);
         exitButton.setOnAction(e -> {
             menu.operStage.close();
+            menu.timeline.stop();
         });
     }
 
