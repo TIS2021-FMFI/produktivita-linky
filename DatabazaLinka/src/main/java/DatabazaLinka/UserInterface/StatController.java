@@ -36,13 +36,14 @@ public class StatController {
     @FXML
     public Button ret;
 
-    public void setUp(){
+    public void setUp(HlavneMenu menu){
         udrzba.setOnAction(e -> {
             //blablabla
         });
 
         ret.setOnAction(e -> {
-            //blebleble
+            menu.adminStage.setTitle("Menu");
+            menu.adminStage.setScene(menu.guiAdmin);
         });
     }
 

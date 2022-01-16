@@ -38,6 +38,27 @@ public class Events_Finder {
         return result;
     }
 
+    public List<Events> findByDateAndType(int type, Date date) throws SQLException {
+        String sql = "SELECT *" +
+                "FROM events " +
+                "WHERE  Cast(\"timestamp_begin\" as date) = ? AND \"id_event\" = ?";
+        Connection connection = DbContext.getConnection();
+
+        List<Events> result = new ArrayList<>();
+
+        try (PreparedStatement s = connection.prepareStatement(sql)) {
+            s.setDate(1, date);
+            s.setInt(2, type);
+
+            try (ResultSet rs = s.executeQuery()){
+                while (rs.next()){
+                    result.add(load(rs));
+                }
+            }
+        }
+        return result;
+    }
+
     public Events load(ResultSet rs) throws SQLException {
         Events log = new Events();
 
