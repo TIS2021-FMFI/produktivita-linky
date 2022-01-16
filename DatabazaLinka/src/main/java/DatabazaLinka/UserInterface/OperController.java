@@ -54,6 +54,11 @@ public class OperController {
             menu.operStage.close();
             menu.timeline.stop();
         });
+        errorButton.setOnAction(e -> {
+                System.out.println("Error");
+                menu.operStage.setTitle("Error");
+                menu.operStage.setScene(menu.chyby);
+        });
     }
 
     public void setTime(String tm){

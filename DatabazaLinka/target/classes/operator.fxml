@@ -93,7 +93,7 @@
                   <Font size="17.0" />
                </font>
             </Text>
-            <Line fx:id="oddelovacDennehoLim" endX="149.0" layoutX="171.0" layoutY="253.0" startX="-102.0" strokeWidth="2.0" />
+            <!--<Line fx:id="oddelovacDennehoLim" endX="149.0" layoutX="171.0" layoutY="253.0" startX="-102.0" strokeWidth="2.0" />-->
          </children>
     </AnchorPane>
   </children>

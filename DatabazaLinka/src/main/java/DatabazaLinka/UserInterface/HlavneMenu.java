@@ -217,7 +217,7 @@ public class HlavneMenu{
         loader.setLocation(xmlUrl);
         root = loader.load();
         chybyController = loader.getController();
-        chybyController.setUp();
+        chybyController.setUp(this);
 
         chyby = new Scene(root, x, y);
 
@@ -284,9 +284,9 @@ public class HlavneMenu{
         }
     }
 
-    public int kolkoMaloByt(){
-        double max = 0;
+    public List<Double> terazMax(){
         double teraz = 0;
+        double max = 0;
         LocalTime now = LocalTime.now();
         if (shift == 1){
             max = ChronoUnit.MILLIS.between(zmena1zaciatok, zmena1koniec);
@@ -338,66 +338,25 @@ public class HlavneMenu{
                 teraz = max;
             }
         }
+        List<Double> x = new ArrayList<>();
+        x.add(teraz);
+        x.add(max);
 
-        double kolko = teraz/max * ciel;
+        return x;
+    }
+
+    public int kolkoMaloByt(){
+        List<Double> a = terazMax();
+
+        double kolko = a.get(0)/a.get(1) * ciel;
         return (int)kolko;
     }
 
     public int kolkoRzchlost(int pal){
 
-        LocalTime now = LocalTime.now();
-        double teraz;
-        double max;
-        if (shift == 1){
-            max = ChronoUnit.MILLIS.between(zmena1zaciatok, zmena1koniec);
-            max -= ChronoUnit.MILLIS.between(zmena1prestavka1zaciatok, zmena1prestavka1koniec);
-            max -= ChronoUnit.MILLIS.between(zmena1prestavka2zaciatok, zmena1prestavka2koniec);
-            max -= ChronoUnit.MILLIS.between(zmena1prestavka3zaciatok, zmena1prestavka3koniec);
-
-            if(now.isBefore(zmena1koniec)) {
-                teraz = ChronoUnit.MILLIS.between(zmena1zaciatok, LocalTime.now());
-
-                if(now.isAfter(zmena1prestavka1koniec)){
-                    teraz -= ChronoUnit.MILLIS.between(zmena1prestavka1zaciatok, zmena1prestavka1koniec);
-
-                    if(now.isAfter(zmena1prestavka2koniec)){
-                        teraz -= ChronoUnit.MILLIS.between(zmena1prestavka2zaciatok, zmena1prestavka2koniec);
-
-                        if(now.isAfter(zmena1prestavka3koniec)){
-                            teraz -= ChronoUnit.MILLIS.between(zmena1prestavka3zaciatok, zmena1prestavka3koniec);
-                        }
-                    }
-                }
-            }
-            else{
-                teraz = max;
-
-            }
-        }else{
-            max = ChronoUnit.MILLIS.between(zmena2zaciatok, zmena2koniec);
-            max -= ChronoUnit.MILLIS.between(zmena2prestavka1zaciatok, zmena2prestavka1koniec);
-            max -= ChronoUnit.MILLIS.between(zmena2prestavka2zaciatok, zmena2prestavka2koniec);
-            max -= ChronoUnit.MILLIS.between(zmena2prestavka3zaciatok, zmena2prestavka3koniec);
-
-            if(now.isBefore(zmena2koniec)) {
-                teraz = ChronoUnit.MILLIS.between(zmena2zaciatok, LocalTime.now());
-
-                if(now.isAfter(zmena2prestavka1koniec)){
-                    teraz -= ChronoUnit.MILLIS.between(zmena2prestavka1zaciatok, zmena2prestavka1koniec);
-
-                    if(now.isAfter(zmena2prestavka2koniec)){
-                        teraz -= ChronoUnit.MILLIS.between(zmena2prestavka2zaciatok, zmena2prestavka2koniec);
-
-                        if(now.isAfter(zmena2prestavka3koniec)){
-                            teraz -= ChronoUnit.MILLIS.between(zmena2prestavka3zaciatok, zmena2prestavka3koniec);
-                        }
-                    }
-                }
-            }
-            else{
-                teraz = max;
-            }
-        }
+        List<Double> a = terazMax();
+        double teraz = a.get(0);
+        double max = a.get(1);
 
         int ostava = ciel - pal;
         double cas = max - teraz;
@@ -463,17 +422,19 @@ public class HlavneMenu{
 
 
         List<Event_type> eve = Event_type_Finder.getInstance().findAll();
-        for (int i = 0; i < eve.size(); i++) { //for kazdy dnesni model
+        for (int i = 0; i < eve.size(); i++) { //for kazdy event
             XYChart.Series docas = new XYChart.Series();
             docas.setName(eve.get(i).getName());
             series.add(docas);
         }
 
         int dni = 0;
-        int j = 0;
+
         LocalDate date = LocalDate.now();
+
+        List<Events> dayeve;
         while(dni < 5){
-            j++;
+
             date = date.minusDays(1);
             if(Normalized_Paletts_Finder.getInstance().findByDateShiftNormalizedALl(Date.valueOf(date), shift).getPaletts() > 0){
                 dni++;
@@ -485,15 +446,23 @@ public class HlavneMenu{
                 }
 
                 for (int k = 0; k < eve.size(); k++) {
+                    dayeve = Events_Finder.getInstance().findByDateAndType(eve.get(k).getId(), Date.valueOf(date));
+                    for (int x = 0; x < dayeve.size(); x++) {
+                        series.get(ser.size() + k).getData().add(new XYChart.Data(Date.valueOf(date).toString(),
+                                dayeve.get(x).getPotencionaly_washed_pallets()));
+                    }
 
-                    series.get(ser.size() + k).getData().add(new XYChart.Data(Date.valueOf(date).toString(), 0));
                     //System.out.println(series.get(ser.size() + k).getName());
                 }
                 //series.get(0).getData().add(new XYChart.Data(Date.valueOf(date).toString(), 100));
             }
         }
 
+
         graph.getData().setAll();
+
+
+        graph.setLegendVisible(true);
 
         for (int i = 0; i < series.size(); i++) {
             graph.getData().add(series.get(i));
