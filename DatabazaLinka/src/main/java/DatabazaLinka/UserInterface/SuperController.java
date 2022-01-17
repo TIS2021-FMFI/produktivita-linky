@@ -9,6 +9,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import org.postgresql.util.PSQLException;
 
 import javax.swing.*;
 import java.io.*;
@@ -254,7 +255,7 @@ public class SuperController {
                 Timestamp tamZac = Timestamp.valueOf(zac);
                 Timestamp tamKon = Timestamp.valueOf(kon);
 
-                event.setId(tamZac.hashCode());
+                event.setId(tamZac.hashCode()*10 + 2);
                 event.setId_event(2);
                 event.setTimestamp_begin(tamZac);
                 event.setTimestamp_end(tamKon);
@@ -265,7 +266,14 @@ public class SuperController {
                 event.setDuration(duration);
                 event.setPotencionaly_washed_pallets(duration * 800/430);
 
-                event.insert();
+                try {
+                    event.insert();
+                    JOptionPane.showMessageDialog(null, "Plánovaný event pridaný",
+                            "Notice", JOptionPane.INFORMATION_MESSAGE);
+                }catch(PSQLException ex){
+                    JOptionPane.showMessageDialog(null, "Event už exzistuje",
+                            "Notice", JOptionPane.INFORMATION_MESSAGE);
+                }
             }
         }
     }

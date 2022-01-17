@@ -92,7 +92,7 @@ public class ChybyController {
 
         Events event = new Events();
 
-        event.setId(startTS.hashCode());
+        event.setId(startTS.hashCode()*10 + currentError);
         event.setId_event(currentError);
         event.setTimestamp_begin(startTS);
         Timestamp temp = new Timestamp(System.currentTimeMillis());

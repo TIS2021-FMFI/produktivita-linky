@@ -72,6 +72,8 @@ public class HlavneMenu{
     int shift = 1;
     int ciel;
     Timeline timeline;
+    Properties props;
+    boolean planUdrzba = false;
     StackedBarChart graph1;
     StackedBarChart graph2;
 
@@ -101,8 +103,6 @@ public class HlavneMenu{
 
     LocalTime zmena2prestavka3zaciatok;
     LocalTime zmena2prestavka3koniec;
-
-    Properties props;
 
     public void start(Stage primaryStage) throws SQLException, Vynimka,IOException {
         readProp();
@@ -426,6 +426,19 @@ public class HlavneMenu{
             superController.setGraph(graph2);
         }
         operController.setTable(this);
+
+        List<Events> allEve = Events_Finder.getInstance().findByTimestampIntervalButDiffrently(
+                new Timestamp(System.currentTimeMillis() + 1000), new Timestamp(System.currentTimeMillis() + 61000)); //vsetky planovane eventy v najblzsej minute
+        if (allEve.size() > 0){
+            operStage.setTitle("Udrzba");
+            operStage.setScene(udrzba);
+            planUdrzba = true;
+        }
+        else if(operStage.getTitle().equals("Udrzba") && planUdrzba){
+            planUdrzba = false;
+            operStage.setTitle("Operator");
+            operStage.setScene(operator);
+        }
     }
 
     public StackedBarChart stackSet(StackedBarChart graph, int sh) throws SQLException {
