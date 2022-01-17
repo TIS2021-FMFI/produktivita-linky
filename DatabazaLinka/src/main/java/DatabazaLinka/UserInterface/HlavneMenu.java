@@ -102,12 +102,14 @@ public class HlavneMenu{
     LocalTime zmena2prestavka3zaciatok;
     LocalTime zmena2prestavka3koniec;
 
+    Properties props;
+
     public void start(Stage primaryStage) throws SQLException, Vynimka,IOException {
         File configFile = new File("src/main/resources/config.properties");
 
         try {
             FileReader reader = new FileReader(configFile);
-            Properties props = new Properties();
+            props = new Properties();
             props.load(reader);
 
             heslo = props.getProperty("heslo");
