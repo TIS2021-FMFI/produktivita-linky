@@ -54,11 +54,6 @@ public class OperController {
             menu.operStage.close();
             menu.timeline.stop();
         });
-        errorButton.setOnAction(e -> {
-                System.out.println("Error");
-                menu.operStage.setTitle("Error");
-                menu.operStage.setScene(menu.chyby);
-        });
     }
 
     public void setTime(String tm){
@@ -98,52 +93,8 @@ public class OperController {
         todayGraph.getData().setAll(series1);
     }
 
-    public void setWeekGraph(HlavneMenu menu) throws SQLException {
-        List<XYChart.Series> series = new ArrayList<>();
-
-        List<Series> ser = Series_Finder.getInstance().findAll();
-        for (int i = 0; i < ser.size(); i++) { //for kazdy dnesni model
-            XYChart.Series docas = new XYChart.Series();
-            docas.setName(ser.get(i).getName());
-            series.add(docas);
-        }
-
-
-        List<Event_type> eve = Event_type_Finder.getInstance().findAll();
-        for (int i = 0; i < eve.size(); i++) { //for kazdy dnesni model
-            XYChart.Series docas = new XYChart.Series();
-            docas.setName(eve.get(i).getName());
-            series.add(docas);
-        }
-
-        int dni = 0;
-        int j = 0;
-        LocalDate date = LocalDate.now();
-        while(dni < 5){
-            j++;
-            date = date.minusDays(1);
-            if(Normalized_Paletts_Finder.getInstance().findByDateShiftNormalizedALl(Date.valueOf(date), menu.shift).getPaletts() > 0){
-                dni++;
-                for (int k = 0; k < ser.size(); k++) {
-                    double a = Normalized_Paletts_Finder.getInstance().findByDateSeriesShiftNormalized(Date.valueOf(date),
-                            ser.get(k).getId(), menu.shift).getPaletts();
-                    series.get(k).getData().add(new XYChart.Data(Date.valueOf(date).toString(), a));
-                    //System.out.println(series.get(k).getName());
-                }
-
-                for (int k = 0; k < eve.size(); k++) {
-
-                    series.get(ser.size() + k).getData().add(new XYChart.Data(Date.valueOf(date).toString(), 0));
-                    //System.out.println(series.get(ser.size() + k).getName());
-                }
-                //series.get(0).getData().add(new XYChart.Data(Date.valueOf(date).toString(), 100));
-            }
-        }
-
-        weekGraph.getData().setAll();
-        for (int i = 0; i < series.size(); i++) {
-            weekGraph.getData().add(series.get(i));
-        }
+    public void setGraph(StackedBarChart b){
+        weekGraph = b;
     }
 
     public void setBoxes(int i, int j, int k){

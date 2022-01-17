@@ -72,6 +72,11 @@ public class HlavneMenu{
     int shift = 1;
     int ciel;
     Timeline timeline;
+    StackedBarChart graph1;
+    StackedBarChart graph2;
+
+    StackedBarChart graph11;
+    StackedBarChart graph22;
 
     LocalTime zmena1zaciatok;
     LocalTime zmena1koniec;
@@ -262,6 +267,11 @@ public class HlavneMenu{
         udrzbaController = loader.getController();
 
         udrzba = new Scene(root, x, y);
+
+        graph1 = stackSet(operController.weekGraph, 1);
+        graph2 = stackSet(operController.weekGraph, 2);
+        graph11 = stackSet(superController.graph, 1);
+        graph22 = stackSet(superController.graph, 2);
     }
 
 
@@ -269,6 +279,9 @@ public class HlavneMenu{
         LocalTime now = LocalTime.now();
         String time = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now());
         operController.setTime(time);
+        pauseController.setCurrentDate();
+        chybaContoller.setCurrentDate();
+        udrzbaController.setCurrentDate();
         if (now.isAfter(zmena1prestavka1zaciatok) && now.isBefore(zmena1prestavka1koniec) ||
                 now.isAfter(zmena1prestavka2zaciatok) && now.isBefore(zmena1prestavka2koniec) ||
                 now.isAfter(zmena1prestavka3zaciatok) && now.isBefore(zmena1prestavka3koniec) ||
@@ -277,7 +290,7 @@ public class HlavneMenu{
                 now.isAfter(zmena2prestavka3zaciatok) && now.isBefore(zmena2prestavka3koniec)){
             operStage.setTitle("Prestavka");
             operStage.setScene(prestavka);
-            pauseController.setCurrentDate();
+
         }else if(operStage.getScene() == prestavka){
             operStage.setTitle("Operator");
             operStage.setScene(operator);
@@ -386,8 +399,6 @@ public class HlavneMenu{
 
         //operController.setWeekGraph(this);
 
-        stackSet(operController.weekGraph);
-
         T_raw_data raw = T_raw_data_Finder.getInstance().findLast();
         int kolko = kolkoRzchlost((int)pallets);
         operController.setBoxes(raw.getPerf_real_per_min(), raw.getPerf_norm_per_min(), kolko);
@@ -404,13 +415,15 @@ public class HlavneMenu{
 
         if(shift == 1) {
             operController.setShiftName("Doobedna");
+            superController.setGraph(graph1);
         }else {
             operController.setShiftName("Poobedna");
+            superController.setGraph(graph2);
         }
         operController.setTable(this);
     }
 
-    public void stackSet(StackedBarChart graph) throws SQLException {
+    public StackedBarChart stackSet(StackedBarChart graph, int sh) throws SQLException {
         List<XYChart.Series> series = new ArrayList<>();
 
         List<Series> ser = Series_Finder.getInstance().findAll();
@@ -436,11 +449,11 @@ public class HlavneMenu{
         while(dni < 5){
 
             date = date.minusDays(1);
-            if(Normalized_Paletts_Finder.getInstance().findByDateShiftNormalizedALl(Date.valueOf(date), shift).getPaletts() > 0){
+            if(Normalized_Paletts_Finder.getInstance().findByDateShiftNormalizedALl(Date.valueOf(date), sh).getPaletts() > 0){
                 dni++;
                 for (int k = 0; k < ser.size(); k++) {
                     double a = Normalized_Paletts_Finder.getInstance().findByDateSeriesShiftNormalized(Date.valueOf(date),
-                            ser.get(k).getId(), shift).getPaletts();
+                            ser.get(k).getId(), sh).getPaletts();
                     series.get(k).getData().add(new XYChart.Data(Date.valueOf(date).toString(), a));
                     //System.out.println(series.get(k).getName());
                 }
@@ -467,6 +480,7 @@ public class HlavneMenu{
         for (int i = 0; i < series.size(); i++) {
             graph.getData().add(series.get(i));
         }
+        return graph;
     }
 
     public void print() {
@@ -540,7 +554,12 @@ public class HlavneMenu{
             adminStage.setTitle("Monitor");
             adminStage.setScene(guiAdmin);
         }
-        stackSet(superController.graph);
+        if(shift == 1) {
+            superController.setGraph(graph1);
+        }
+        else{
+            superController.setGraph(graph2);
+        }
         //superController.open(this);
     }
 
