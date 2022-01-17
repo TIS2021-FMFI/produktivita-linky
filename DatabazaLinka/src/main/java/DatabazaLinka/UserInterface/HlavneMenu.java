@@ -105,48 +105,7 @@ public class HlavneMenu{
     Properties props;
 
     public void start(Stage primaryStage) throws SQLException, Vynimka,IOException {
-        File configFile = new File("src/main/resources/config.properties");
-
-        try {
-            FileReader reader = new FileReader(configFile);
-            props = new Properties();
-            props.load(reader);
-
-            heslo = props.getProperty("heslo");
-            ciel = Integer.valueOf(props.getProperty("ciel"));
-
-            zmena1zaciatok = LocalTime.parse(props.getProperty("zmena1zaciatok"));
-            zmena1koniec = LocalTime.parse(props.getProperty("zmena1koniec"));
-
-            zmena1prestavka1zaciatok = LocalTime.parse(props.getProperty("zmena1prestavka1zaciatok"));
-            zmena1prestavka1koniec = LocalTime.parse(props.getProperty("zmena1prestavka1koniec"));
-
-            zmena1prestavka2zaciatok = LocalTime.parse(props.getProperty("zmena1prestavka2zaciatok"));
-            zmena1prestavka2koniec = LocalTime.parse(props.getProperty("zmena1prestavka2koniec"));
-
-            zmena1prestavka3zaciatok = LocalTime.parse(props.getProperty("zmena1prestavka3zaciatok"));
-            zmena1prestavka3koniec = LocalTime.parse(props.getProperty("zmena1prestavka3koniec"));
-
-            zmena2zaciatok = LocalTime.parse(props.getProperty("zmena2zaciatok"));
-            zmena2koniec = LocalTime.parse(props.getProperty("zmena2koniec"));
-
-            zmena2prestavka1zaciatok = LocalTime.parse(props.getProperty("zmena2prestavka1zaciatok"));
-            zmena2prestavka1koniec = LocalTime.parse(props.getProperty("zmena2prestavka1koniec"));
-
-            zmena2prestavka2zaciatok = LocalTime.parse(props.getProperty("zmena2prestavka2zaciatok"));
-            zmena2prestavka2koniec = LocalTime.parse(props.getProperty("zmena2prestavka2koniec"));
-
-            zmena2prestavka3zaciatok = LocalTime.parse(props.getProperty("zmena2prestavka3zaciatok"));
-            zmena2prestavka3koniec = LocalTime.parse(props.getProperty("zmena2prestavka3koniec"));
-
-            reader.close();
-        } catch (FileNotFoundException ex) {
-            // file does not exist
-            throw ex;
-        } catch (IOException ex) {
-            // I/O error
-            throw ex;
-        }
+        readProp();
 
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -276,6 +235,50 @@ public class HlavneMenu{
         graph22 = stackSet(superController.graph, 2);
     }
 
+    public void readProp() throws IOException {
+        File configFile = new File("src/main/resources/config.properties");
+
+        try {
+            FileReader reader = new FileReader(configFile);
+            props = new Properties();
+            props.load(reader);
+
+            heslo = props.getProperty("heslo");
+            ciel = Integer.valueOf(props.getProperty("ciel"));
+
+            zmena1zaciatok = LocalTime.parse(props.getProperty("zmena1zaciatok"));
+            zmena1koniec = LocalTime.parse(props.getProperty("zmena1koniec"));
+
+            zmena1prestavka1zaciatok = LocalTime.parse(props.getProperty("zmena1prestavka1zaciatok"));
+            zmena1prestavka1koniec = LocalTime.parse(props.getProperty("zmena1prestavka1koniec"));
+
+            zmena1prestavka2zaciatok = LocalTime.parse(props.getProperty("zmena1prestavka2zaciatok"));
+            zmena1prestavka2koniec = LocalTime.parse(props.getProperty("zmena1prestavka2koniec"));
+
+            zmena1prestavka3zaciatok = LocalTime.parse(props.getProperty("zmena1prestavka3zaciatok"));
+            zmena1prestavka3koniec = LocalTime.parse(props.getProperty("zmena1prestavka3koniec"));
+
+            zmena2zaciatok = LocalTime.parse(props.getProperty("zmena2zaciatok"));
+            zmena2koniec = LocalTime.parse(props.getProperty("zmena2koniec"));
+
+            zmena2prestavka1zaciatok = LocalTime.parse(props.getProperty("zmena2prestavka1zaciatok"));
+            zmena2prestavka1koniec = LocalTime.parse(props.getProperty("zmena2prestavka1koniec"));
+
+            zmena2prestavka2zaciatok = LocalTime.parse(props.getProperty("zmena2prestavka2zaciatok"));
+            zmena2prestavka2koniec = LocalTime.parse(props.getProperty("zmena2prestavka2koniec"));
+
+            zmena2prestavka3zaciatok = LocalTime.parse(props.getProperty("zmena2prestavka3zaciatok"));
+            zmena2prestavka3koniec = LocalTime.parse(props.getProperty("zmena2prestavka3koniec"));
+
+            reader.close();
+        } catch (FileNotFoundException ex) {
+            // file does not exist
+            throw ex;
+        } catch (IOException ex) {
+            // I/O error
+            throw ex;
+        }
+    }
 
     public void updateDatetime(){
         LocalTime now = LocalTime.now();

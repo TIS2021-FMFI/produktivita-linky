@@ -132,7 +132,7 @@
                   <Font size="15.0" />
                </font>
             </Text>
-            <DatePicker layoutX="364.0" layoutY="293.0" prefHeight="27.0" prefWidth="168.0" />
+            <DatePicker fx:id="datePicker" layoutX="364.0" layoutY="293.0" prefHeight="27.0" prefWidth="168.0" />
 
             <ImageView fitHeight="43.0" fitWidth="60.0" layoutX="13.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                <image>

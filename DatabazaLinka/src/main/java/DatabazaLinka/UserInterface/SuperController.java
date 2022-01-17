@@ -6,6 +6,7 @@ import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
@@ -13,7 +14,9 @@ import javax.swing.*;
 import java.io.*;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +55,13 @@ public class SuperController {
     @FXML
     public TextField to3;
 
+    @FXML
+    public DatePicker datePicker;
+    @FXML
+    public TextField from4;
+    @FXML
+    public TextField to4;
+
     HlavneMenu mm;
 
     public void setUp(HlavneMenu menu) throws SQLException {
@@ -73,7 +83,11 @@ public class SuperController {
             }
         });
         submit2.setOnAction(e -> {
-
+            try {
+                plannedEvent();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         });
 
         statisticsButton.setOnAction(e -> {
@@ -155,50 +169,49 @@ public class SuperController {
             }
         }
 
-        if(err) {
-            JOptionPane.showMessageDialog(null, "Wrong input",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        else{
-            JOptionPane.showMessageDialog(null, "Properties changed",
-                    "Notice", JOptionPane.INFORMATION_MESSAGE);
-        }
-
+        boolean zmena = false;
         try {
             FileReader reader = new FileReader(configFile);
 
             if (dl > 0) {
                 mm.props.setProperty("ciel", String.valueOf(dl));
+                zmena = true;
             }
 
             if (A.isSelected()) {
                 if (x) {
                     mm.props.setProperty("zmena1prestavka1zaciatok", fr1);
                     mm.props.setProperty("zmena1prestavka1koniec", t1);
+                    zmena = true;
                 }
                 if (y) {
                     mm.props.setProperty("zmena1prestavka2zaciatok", fr2);
                     mm.props.setProperty("zmena1prestavka2koniec", t2);
+                    zmena = true;
                 }
                 if (z) {
                     mm.props.setProperty("zmena1prestavka3zaciatok", fr3);
                     mm.props.setProperty("zmena1prestavka3koniec", t3);
+                    zmena = true;
                 }
             } else if (B.isSelected()) {
                 if (x) {
                     mm.props.setProperty("zmena2prestavka1zaciatok", fr1);
                     mm.props.setProperty("zmena2prestavka1koniec", t1);
+                    zmena = true;
                 }
                 if (y) {
                     mm.props.setProperty("zmena2prestavka2zaciatok", fr2);
                     mm.props.setProperty("zmena2prestavka2koniec", t2);
+                    zmena = true;
                 }
                 if (z) {
                     mm.props.setProperty("zmena2prestavka3zaciatok", fr3);
                     mm.props.setProperty("zmena2prestavka3koniec", t3);
+                    zmena = true;
                 }
             }
-            mm.props.store(writer, "property file");
+            mm.props.store(writer, "ked tam je \\: tak to neva");
             writer.close();
             reader.close();
         } catch (FileNotFoundException ex) {
@@ -208,10 +221,53 @@ public class SuperController {
             // I/O error
             throw ex;
         }
+
+        if(err) {
+            JOptionPane.showMessageDialog(null, "Wrong input",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else if(zmena){
+            JOptionPane.showMessageDialog(null, "Properties changed",
+                    "Notice", JOptionPane.INFORMATION_MESSAGE);
+            mm.readProp();
+        }
     }
 
-    public void plannedEvent(){
+    public void plannedEvent() throws SQLException {
+        System.out.println(datePicker.getValue());
+        String rex = "^[0-2]\\d:[0-6]\\d$";
 
+        String fr1 = "";
+        String t1 = "";
+        if(!from4.getText().equals("") && !to4.getText().equals("") && datePicker.getValue() != null){
+            fr1 = from4.getText();
+            t1 = to4.getText();
+
+            if(fr1.matches(rex) && t1.matches(rex)){
+                LocalTime f = LocalTime.parse(fr1);
+                LocalTime t = LocalTime.parse(t1);
+
+                LocalDateTime zac = LocalDateTime.of(datePicker.getValue(), f);
+                LocalDateTime kon = LocalDateTime.of(datePicker.getValue(), t);
+
+                Events event = new Events();
+                Timestamp tamZac = Timestamp.valueOf(zac);
+                Timestamp tamKon = Timestamp.valueOf(kon);
+
+                event.setId(tamZac.hashCode());
+                event.setId_event(2);
+                event.setTimestamp_begin(tamZac);
+                event.setTimestamp_end(tamKon);
+
+                double duration = (double)(tamKon.getTime() - tamZac.getTime());
+                duration = duration/(60 * 1000);
+
+                event.setDuration(duration);
+                event.setPotencionaly_washed_pallets(duration * 800/430);
+
+                event.insert();
+            }
+        }
     }
 
     public void setGraph(StackedBarChart b){
