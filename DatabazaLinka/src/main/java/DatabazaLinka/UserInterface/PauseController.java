@@ -12,7 +12,7 @@ public class PauseController {
     public Text text2;
 
     public void setDate(String ttime) {
-        System.out.println(text2.getText());
+        //System.out.println(text2.getText());
         text2.setText(ttime);
     }
     public void setCurrentDate(){

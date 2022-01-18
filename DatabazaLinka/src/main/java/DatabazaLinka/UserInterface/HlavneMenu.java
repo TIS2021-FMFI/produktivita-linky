@@ -72,6 +72,13 @@ public class HlavneMenu{
     int shift = 1;
     int ciel;
     Timeline timeline;
+    Properties props;
+    boolean planUdrzba = false;
+    StackedBarChart graph1;
+    StackedBarChart graph2;
+
+    StackedBarChart graph11;
+    StackedBarChart graph22;
 
     LocalTime zmena1zaciatok;
     LocalTime zmena1koniec;
@@ -98,48 +105,7 @@ public class HlavneMenu{
     LocalTime zmena2prestavka3koniec;
 
     public void start(Stage primaryStage) throws SQLException, Vynimka,IOException {
-        File configFile = new File("src/main/resources/config.properties");
-
-        try {
-            FileReader reader = new FileReader(configFile);
-            Properties props = new Properties();
-            props.load(reader);
-
-            heslo = props.getProperty("heslo");
-            ciel = Integer.valueOf(props.getProperty("ciel"));
-
-            zmena1zaciatok = LocalTime.parse(props.getProperty("zmena1zaciatok"));
-            zmena1koniec = LocalTime.parse(props.getProperty("zmena1koniec"));
-
-            zmena1prestavka1zaciatok = LocalTime.parse(props.getProperty("zmena1prestavka1zaciatok"));
-            zmena1prestavka1koniec = LocalTime.parse(props.getProperty("zmena1prestavka1koniec"));
-
-            zmena1prestavka2zaciatok = LocalTime.parse(props.getProperty("zmena1prestavka2zaciatok"));
-            zmena1prestavka2koniec = LocalTime.parse(props.getProperty("zmena1prestavka2koniec"));
-
-            zmena1prestavka3zaciatok = LocalTime.parse(props.getProperty("zmena1prestavka3zaciatok"));
-            zmena1prestavka3koniec = LocalTime.parse(props.getProperty("zmena1prestavka3koniec"));
-
-            zmena2zaciatok = LocalTime.parse(props.getProperty("zmena2zaciatok"));
-            zmena2koniec = LocalTime.parse(props.getProperty("zmena2koniec"));
-
-            zmena2prestavka1zaciatok = LocalTime.parse(props.getProperty("zmena2prestavka1zaciatok"));
-            zmena2prestavka1koniec = LocalTime.parse(props.getProperty("zmena2prestavka1koniec"));
-
-            zmena2prestavka2zaciatok = LocalTime.parse(props.getProperty("zmena2prestavka2zaciatok"));
-            zmena2prestavka2koniec = LocalTime.parse(props.getProperty("zmena2prestavka2koniec"));
-
-            zmena2prestavka3zaciatok = LocalTime.parse(props.getProperty("zmena2prestavka3zaciatok"));
-            zmena2prestavka3koniec = LocalTime.parse(props.getProperty("zmena2prestavka3koniec"));
-
-            reader.close();
-        } catch (FileNotFoundException ex) {
-            // file does not exist
-            throw ex;
-        } catch (IOException ex) {
-            // I/O error
-            throw ex;
-        }
+        readProp();
 
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -262,13 +228,65 @@ public class HlavneMenu{
         udrzbaController = loader.getController();
 
         udrzba = new Scene(root, x, y);
+
+        graph1 = stackSet(operController.weekGraph, 1);
+        graph2 = stackSet(operController.weekGraph, 2);
+        graph11 = stackSet(superController.graph, 1);
+        graph22 = stackSet(superController.graph, 2);
     }
 
+    public void readProp() throws IOException {
+        File configFile = new File("src/main/resources/config.properties");
+
+        try {
+            FileReader reader = new FileReader(configFile);
+            props = new Properties();
+            props.load(reader);
+
+            heslo = props.getProperty("heslo");
+            ciel = Integer.valueOf(props.getProperty("ciel"));
+
+            zmena1zaciatok = LocalTime.parse(props.getProperty("zmena1zaciatok"));
+            zmena1koniec = LocalTime.parse(props.getProperty("zmena1koniec"));
+
+            zmena1prestavka1zaciatok = LocalTime.parse(props.getProperty("zmena1prestavka1zaciatok"));
+            zmena1prestavka1koniec = LocalTime.parse(props.getProperty("zmena1prestavka1koniec"));
+
+            zmena1prestavka2zaciatok = LocalTime.parse(props.getProperty("zmena1prestavka2zaciatok"));
+            zmena1prestavka2koniec = LocalTime.parse(props.getProperty("zmena1prestavka2koniec"));
+
+            zmena1prestavka3zaciatok = LocalTime.parse(props.getProperty("zmena1prestavka3zaciatok"));
+            zmena1prestavka3koniec = LocalTime.parse(props.getProperty("zmena1prestavka3koniec"));
+
+            zmena2zaciatok = LocalTime.parse(props.getProperty("zmena2zaciatok"));
+            zmena2koniec = LocalTime.parse(props.getProperty("zmena2koniec"));
+
+            zmena2prestavka1zaciatok = LocalTime.parse(props.getProperty("zmena2prestavka1zaciatok"));
+            zmena2prestavka1koniec = LocalTime.parse(props.getProperty("zmena2prestavka1koniec"));
+
+            zmena2prestavka2zaciatok = LocalTime.parse(props.getProperty("zmena2prestavka2zaciatok"));
+            zmena2prestavka2koniec = LocalTime.parse(props.getProperty("zmena2prestavka2koniec"));
+
+            zmena2prestavka3zaciatok = LocalTime.parse(props.getProperty("zmena2prestavka3zaciatok"));
+            zmena2prestavka3koniec = LocalTime.parse(props.getProperty("zmena2prestavka3koniec"));
+
+            reader.close();
+        } catch (FileNotFoundException ex) {
+            // file does not exist
+            throw ex;
+        } catch (IOException ex) {
+            // I/O error
+            throw ex;
+        }
+    }
 
     public void updateDatetime(){
         LocalTime now = LocalTime.now();
         String time = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now());
         operController.setTime(time);
+        pauseController.setCurrentDate();
+        chybaContoller.setCurrentDate();
+        udrzbaController.setCurrentDate();
         if (now.isAfter(zmena1prestavka1zaciatok) && now.isBefore(zmena1prestavka1koniec) ||
                 now.isAfter(zmena1prestavka2zaciatok) && now.isBefore(zmena1prestavka2koniec) ||
                 now.isAfter(zmena1prestavka3zaciatok) && now.isBefore(zmena1prestavka3koniec) ||
@@ -277,7 +295,7 @@ public class HlavneMenu{
                 now.isAfter(zmena2prestavka3zaciatok) && now.isBefore(zmena2prestavka3koniec)){
             operStage.setTitle("Prestavka");
             operStage.setScene(prestavka);
-            pauseController.setCurrentDate();
+
         }else if(operStage.getScene() == prestavka){
             operStage.setTitle("Operator");
             operStage.setScene(operator);
@@ -386,8 +404,6 @@ public class HlavneMenu{
 
         //operController.setWeekGraph(this);
 
-        stackSet(operController.weekGraph);
-
         T_raw_data raw = T_raw_data_Finder.getInstance().findLast();
         int kolko = kolkoRzchlost((int)pallets);
         operController.setBoxes(raw.getPerf_real_per_min(), raw.getPerf_norm_per_min(), kolko);
@@ -404,13 +420,28 @@ public class HlavneMenu{
 
         if(shift == 1) {
             operController.setShiftName("Doobedna");
+            superController.setGraph(graph1);
         }else {
             operController.setShiftName("Poobedna");
+            superController.setGraph(graph2);
         }
         operController.setTable(this);
+
+        List<Events> allEve = Events_Finder.getInstance().findByTimestampIntervalButDiffrently(
+                new Timestamp(System.currentTimeMillis() + 1000), new Timestamp(System.currentTimeMillis() + 61000)); //vsetky planovane eventy v najblzsej minute
+        if (allEve.size() > 0){
+            operStage.setTitle("Udrzba");
+            operStage.setScene(udrzba);
+            planUdrzba = true;
+        }
+        else if(operStage.getTitle().equals("Udrzba") && planUdrzba){
+            planUdrzba = false;
+            operStage.setTitle("Operator");
+            operStage.setScene(operator);
+        }
     }
 
-    public void stackSet(StackedBarChart graph) throws SQLException {
+    public StackedBarChart stackSet(StackedBarChart graph, int sh) throws SQLException {
         List<XYChart.Series> series = new ArrayList<>();
 
         List<Series> ser = Series_Finder.getInstance().findAll();
@@ -436,11 +467,11 @@ public class HlavneMenu{
         while(dni < 5){
 
             date = date.minusDays(1);
-            if(Normalized_Paletts_Finder.getInstance().findByDateShiftNormalizedALl(Date.valueOf(date), shift).getPaletts() > 0){
+            if(Normalized_Paletts_Finder.getInstance().findByDateShiftNormalizedALl(Date.valueOf(date), sh).getPaletts() > 0){
                 dni++;
                 for (int k = 0; k < ser.size(); k++) {
                     double a = Normalized_Paletts_Finder.getInstance().findByDateSeriesShiftNormalized(Date.valueOf(date),
-                            ser.get(k).getId(), shift).getPaletts();
+                            ser.get(k).getId(), sh).getPaletts();
                     series.get(k).getData().add(new XYChart.Data(Date.valueOf(date).toString(), a));
                     //System.out.println(series.get(k).getName());
                 }
@@ -467,6 +498,7 @@ public class HlavneMenu{
         for (int i = 0; i < series.size(); i++) {
             graph.getData().add(series.get(i));
         }
+        return graph;
     }
 
     public void print() {
@@ -540,7 +572,12 @@ public class HlavneMenu{
             adminStage.setTitle("Monitor");
             adminStage.setScene(guiAdmin);
         }
-        stackSet(superController.graph);
+        if(shift == 1) {
+            superController.setGraph(graph1);
+        }
+        else{
+            superController.setGraph(graph2);
+        }
         //superController.open(this);
     }
 
