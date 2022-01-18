@@ -109,7 +109,7 @@ public class ChybyController {
         System.out.println("Duration: " + event.getDuration());
 
         event.insert();
-        JOptionPane.showMessageDialog(null, "Event už bol zaznamenaný",
+        JOptionPane.showMessageDialog(null, "Event bol zaznamenaný",
                 "Notice", JOptionPane.INFORMATION_MESSAGE);
     }
 }
