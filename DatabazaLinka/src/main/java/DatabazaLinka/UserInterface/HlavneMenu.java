@@ -370,13 +370,13 @@ public class HlavneMenu{
         return (int)kolko;
     }
 
-    public int kolkoRzchlost(int pal){
+    public double kolkoRzchlost(double pal, double relative){
 
         List<Double> a = terazMax();
         double teraz = a.get(0);
         double max = a.get(1);
 
-        int ostava = ciel - pal;
+        double ostava = ciel - pal;
         double cas = max - teraz;
 
         if (cas == 0.0){
@@ -384,8 +384,8 @@ public class HlavneMenu{
 
         }
         double z = (ostava/cas)*1000*60*60;
-
-        return (int)z;
+        z = z/relative;
+        return z;
     }
 
     public void update() throws SQLException{
@@ -405,8 +405,10 @@ public class HlavneMenu{
         //operController.setWeekGraph(this);
 
         T_raw_data raw = T_raw_data_Finder.getInstance().findLast();
-        int kolko = kolkoRzchlost((int)pallets);
-        operController.setBoxes(raw.getPerf_real_per_min(), raw.getPerf_norm_per_min(), kolko);
+        double rel =  Series_Finder.getInstance().findById(raw.getSeries()).getWorth();
+        double kolko = kolkoRzchlost(pallets, rel);
+
+        operController.setBoxes(raw.getPerf_real_per_min(), raw.getPerf_norm_per_min(), (int)kolko);
         try {
             operController.setModel(Series_Finder.getInstance().findById(raw.getSeries()).getName());
         }catch (NullPointerException nl){
