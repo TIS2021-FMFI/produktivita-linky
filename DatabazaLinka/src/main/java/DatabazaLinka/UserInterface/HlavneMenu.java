@@ -57,6 +57,7 @@ public class HlavneMenu{
     MenuController menuController;
     OperController operController;
     SuperController superController;
+    SuperController monitorController;
     PauseController pauseController;
     ChybyController chybyController;
     StatController statController;
@@ -79,6 +80,9 @@ public class HlavneMenu{
 
     StackedBarChart graph11;
     StackedBarChart graph22;
+
+    StackedBarChart graph111;
+    StackedBarChart graph222;
 
     LocalTime zmena1zaciatok;
     LocalTime zmena1koniec;
@@ -143,16 +147,16 @@ public class HlavneMenu{
         adminMenu = new Scene(root, x, y);
 
         //guiMonitor
-        /*
+
         loader = new FXMLLoader();
-        xmlUrl = getClass().getResource("/ineguiSupervisor.fxml");
+        xmlUrl = getClass().getResource("/guiSupervisor.fxml");
         loader.setController(new SuperController());
         loader.setLocation(xmlUrl);
         root = loader.load();
-        superController = loader.getController();
-        superController.setUp(this);
+        monitorController = loader.getController();
+        monitorController.setUp(this);
 
-        guiMonitor = new Scene(root, x, y);*/
+        guiMonitor = new Scene(root, x, y);
 
         //guiAdmin
         loader = new FXMLLoader();
@@ -167,7 +171,7 @@ public class HlavneMenu{
 
         //operator
         loader = new FXMLLoader();
-        xmlUrl = getClass().getResource("/operator.fxml");
+        xmlUrl = getClass().getResource("/operator1.fxml");
         loader.setController(new OperController());
         loader.setLocation(xmlUrl);
         root = loader.load();
@@ -178,7 +182,7 @@ public class HlavneMenu{
 
         //chyby
         loader = new FXMLLoader();
-        xmlUrl = getClass().getResource("/chyby.fxml");
+        xmlUrl = getClass().getResource("/chyby1.fxml");
         loader.setController(new ChybyController());
         loader.setLocation(xmlUrl);
         root = loader.load();
@@ -233,6 +237,8 @@ public class HlavneMenu{
         graph2 = stackSet(operController.weekGraph, 2);
         graph11 = stackSet(superController.graph, 1);
         graph22 = stackSet(superController.graph, 2);
+        graph111 = stackSet(monitorController.graph, 1);
+        graph222 = stackSet(monitorController.graph, 2);
     }
 
     public void readProp() throws IOException {
@@ -370,7 +376,7 @@ public class HlavneMenu{
         return (int)kolko;
     }
 
-    public double kolkoRzchlost(double pal, double relative){
+    public double kolkoRzchlost(double pal, double rel){
 
         List<Double> a = terazMax();
         double teraz = a.get(0);
@@ -381,10 +387,13 @@ public class HlavneMenu{
 
         if (cas == 0.0){
             return -1;
-
         }
+
+        //System.out.println("Ostava " + ostava);
         double z = (ostava/cas)*1000*60*60;
-        z = z/relative;
+        //System.out.println("Ostava norm per h " + z);
+        z = z/rel;
+        //System.out.println("Ostava spec " + z);
         return z;
     }
 
@@ -397,15 +406,19 @@ public class HlavneMenu{
 
         Daily_statistics_Finder.getInstance().findByShiftandDateAll(1, date);
         Daily_statistics_Finder.getInstance().findByShiftandDateAll(2, date);
+
+        //System.out.println("pred alebo po");
+
         double pallets = Normalized_Paletts_Finder.getInstance().findByDateShiftNormalizedALl(date, shift).getPaletts();
-        //System.out.println(pallets);
+        System.out.println(pallets);
 
         operController.setTodayGraph((int)pallets, kolkoMaloByt());
 
         //operController.setWeekGraph(this);
-
+        //hore
         T_raw_data raw = T_raw_data_Finder.getInstance().findLast();
-        double rel =  Series_Finder.getInstance().findById(raw.getSeries()).getWorth();
+        double rel = Series_Finder.getInstance().findById(raw.getSeries()).getWorth();
+        System.out.println(raw);
         double kolko = kolkoRzchlost(pallets, rel);
 
         operController.setBoxes(raw.getPerf_real_per_min(), raw.getPerf_norm_per_min(), (int)kolko);
@@ -418,7 +431,7 @@ public class HlavneMenu{
             operController.setNextModel(Series_Finder.getInstance().findById(raw.getNext_series()).getName());
         }catch(NullPointerException nl){
             operController.setNextModel("--------");
-        }
+        }//------hore
 
         if(shift == 1) {
             operController.setShiftName("Doobedna");
@@ -572,13 +585,15 @@ public class HlavneMenu{
         }
         else{
             adminStage.setTitle("Monitor");
-            adminStage.setScene(guiAdmin);
+            adminStage.setScene(guiMonitor);
         }
         if(shift == 1) {
-            superController.setGraph(graph1);
+            superController.setGraph(graph11);
+            monitorController.setGraph(graph111);
         }
         else{
             superController.setGraph(graph2);
+            monitorController.setGraph(graph222);
         }
         //superController.open(this);
     }

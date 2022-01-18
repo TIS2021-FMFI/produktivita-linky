@@ -24,7 +24,7 @@ public class Daily_statistics_Finder {
         List<T_raw_data> all = T_raw_data_Finder.getInstance().findBySeriesAndShiftandDate(series,shift,date);
         if (all.size() == 0){
             result.setPallets(0D);
-            System.out.println("tu");
+            //System.out.println("tu");
             return result;
         }
         int size = all.size();
@@ -76,7 +76,7 @@ public class Daily_statistics_Finder {
                 seria = all.get(i).getSeries();
             }
             if (all.get(i).getPaletts() > all.get(i+1).getPaletts()){
-                System.out.println(all.get(i));
+                //System.out.println(all.get(i));
                 number.get(seria).setPaletts(number.get(seria).getPaletts()+all.get(i).getPaletts());
             }
 

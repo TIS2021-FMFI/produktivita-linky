@@ -136,7 +136,7 @@
             </Text>
             <TextField fx:id="to4" layoutX="467.0" layoutY="331.0" prefHeight="27.0" prefWidth="66.0" />
             <Button layoutX="576.0" layoutY="362.0" mnemonicParsing="false" text="Submit" />
-
+          <Button fx:id="exitButton" layoutX="598.0" layoutY="14.0" mnemonicParsing="false" text="X" />
       </children>
     </AnchorPane>
   </children>
