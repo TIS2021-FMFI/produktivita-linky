@@ -12,6 +12,7 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.text.Text;
 
+import javax.swing.*;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -108,5 +109,7 @@ public class ChybyController {
         System.out.println("Duration: " + event.getDuration());
 
         event.insert();
+        JOptionPane.showMessageDialog(null, "Event bol zaznamenaný",
+                "Notice", JOptionPane.INFORMATION_MESSAGE);
     }
 }
