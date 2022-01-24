@@ -31,7 +31,7 @@ public class Series_Finder {
                     result.add(load(rs));
                 }
             }
-        }
+        }//eventu jednou farbou
         return result;
     }
     public Series findById(int id) throws SQLException {
