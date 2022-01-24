@@ -11,6 +11,7 @@ import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.text.Text;
 
 import java.lang.reflect.InvocationTargetException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,7 +32,13 @@ public class MenuController {
 
         loginButton.setOnAction(e -> menu.loginAction());
 
-        editButton.setOnAction(e -> menu.editButt());
+        editButton.setOnAction(e -> {
+            try {
+                menu.editButt();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        });
 
         try {
             configButton.setOnAction(e -> menu.editConfig());

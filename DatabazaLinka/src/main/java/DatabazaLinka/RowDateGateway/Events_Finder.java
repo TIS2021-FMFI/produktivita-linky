@@ -38,6 +38,57 @@ public class Events_Finder {
         return result;
     }
 
+    public List<Events> findByTimestampIntervalButDiffrently(Timestamp t1, Timestamp t2) throws SQLException {
+        String sql = "SELECT *" +
+                "FROM events " +
+                "WHERE  timestamp_begin BETWEEN ? and ? or " +
+                "timestamp_end BETWEEN ? and ? or " +
+
+                "timestamp_begin <= ? and timestamp_begin <= ? and " +
+                "timestamp_end >= ? and timestamp_end >= ?";
+        Connection connection = DbContext.getConnection();
+
+        List<Events> result = new ArrayList<>();
+
+        try (PreparedStatement s = connection.prepareStatement(sql)) {
+            s.setTimestamp(1, t1);
+            s.setTimestamp(2, t2);
+            s.setTimestamp(3, t1);
+            s.setTimestamp(4, t2);
+            s.setTimestamp(5, t1);
+            s.setTimestamp(6, t2);
+            s.setTimestamp(7, t1);
+            s.setTimestamp(8, t2);
+            try (ResultSet rs = s.executeQuery()){
+                while (rs.next()){
+                    result.add(load(rs));
+                }
+            }
+        }
+        return result;
+    }
+
+    public List<Events> findByDateAndType(int type, Date date) throws SQLException {
+        String sql = "SELECT *" +
+                "FROM events " +
+                "WHERE  Cast(\"timestamp_begin\" as date) = ? AND \"id_event\" = ?";
+        Connection connection = DbContext.getConnection();
+
+        List<Events> result = new ArrayList<>();
+
+        try (PreparedStatement s = connection.prepareStatement(sql)) {
+            s.setDate(1, date);
+            s.setInt(2, type);
+
+            try (ResultSet rs = s.executeQuery()){
+                while (rs.next()){
+                    result.add(load(rs));
+                }
+            }
+        }
+        return result;
+    }
+
     public Events load(ResultSet rs) throws SQLException {
         Events log = new Events();
 

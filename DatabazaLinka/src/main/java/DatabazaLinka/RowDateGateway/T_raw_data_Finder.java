@@ -94,7 +94,7 @@ public class T_raw_data_Finder {
         String sql = "SELECT *" +
                 "FROM t_raw_data ORDER BY \"Time_stamp\" DESC LIMIT 1; ";
         Connection connection = DbContext.getConnection();
-        System.out.println("tu");
+
         try (PreparedStatement s = connection.prepareStatement(sql)) {
 
             try (ResultSet rs = s.executeQuery()){
