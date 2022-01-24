@@ -76,38 +76,50 @@ public class SuperController {
             }
         });
 
-        submit.setOnAction(e -> {
-            try {
-                editCon();
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-        });
-        submit2.setOnAction(e -> {
-            try {
-                plannedEvent();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-        });
+        if (submit != null) {
 
-        statisticsButton.setOnAction(e -> {
-            menu.adminStage.setTitle("Stats");
-            menu.adminStage.setScene(menu.statistick);
-        });
 
-        errorButton.setOnAction(e -> {
-            System.out.println("Error");
-            menu.adminStage.setTitle("Error");
-            menu.adminStage.setScene(menu.chyby);
-        });
+            submit.setOnAction(e -> {
+                try {
+                    editCon();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+            });
+        }
+        if (submit2 != null) {
+            submit2.setOnAction(e -> {
+                try {
+                    plannedEvent();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            });
+        }
+        if (statisticsButton != null) {
+            statisticsButton.setOnAction(e -> {
+                menu.adminStage.setTitle("Stats");
+                menu.adminStage.setScene(menu.statistick);
+            });
+        }
 
-        A.setOnAction(e -> {
-            B.setSelected(false);
-        });
-        B.setOnAction(e -> {
-            A.setSelected(false);
-        });
+        if(errorButton != null) {
+            errorButton.setOnAction(e -> {
+                System.out.println("Error");
+                menu.adminStage.setTitle("Error");
+                menu.adminStage.setScene(menu.chyby);
+            });
+        }
+        if(A != null) {
+            A.setOnAction(e -> {
+                B.setSelected(false);
+            });
+        }
+        if(B != null) {
+            B.setOnAction(e -> {
+                A.setSelected(false);
+            });
+        }
 
         mm = menu;
     }
@@ -118,14 +130,17 @@ public class SuperController {
         int dl = 0;
         boolean err = false;
 
-        if (!changeDL.getText().equals("")){
-            try{
-                dl = Integer.parseInt(changeDL.getText());
-                System.out.println(dl);
+        if(changeDL != null) {
+            if (!changeDL.getText().equals("")) {
+                try {
+                    dl = Integer.parseInt(changeDL.getText());
+                    System.out.println(dl);
+                } catch (Exception ex) {
+                    err = true;
+                }
             }
-            catch (Exception ex){
-                err = true;
-            }
+        }else{
+            dl = -1;
         }
 
         String fr1 = "";

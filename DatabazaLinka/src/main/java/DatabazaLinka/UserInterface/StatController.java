@@ -37,7 +37,7 @@ public class StatController {
     public Button ret;
 
     public void setUp(HlavneMenu menu){
-        udrzba.setOnAction(e -> {
+        export.setOnAction(e -> {
             //blablabla
         });
 
