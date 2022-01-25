@@ -4,6 +4,9 @@ import DatabazaLinka.DbContext;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.event.ActionEvent;
+
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,7 +24,7 @@ public class StatController {
     @FXML
     public RadioButton zmenaAll;
     @FXML
-    public CheckBox error; // Porucha ID 1
+    public CheckBox error;
     @FXML
     public CheckBox c30l; //PE20
     @FXML
@@ -33,7 +36,7 @@ public class StatController {
     @FXML
     public CheckBox all;
     @FXML
-    public CheckBox udrzba; // Udrzba ID 2
+    public CheckBox udrzba;
     @FXML
     public Button export;
     @FXML
@@ -43,16 +46,16 @@ public class StatController {
     private String getQuery() {
         String query = "SELECT DISTINCT dat.date, dat.shift";
 
-        if(c30l.isSelected()) query += ", p30.p30";
-        if(c45l.isSelected()) query += ", p45.p45";
-        if(c60l.isSelected()) query += ", p60.p60";
-        if(error.isSelected()) query += ", poruchy.duration AS error";
-        if(udrzba.isSelected()) query += ", udrzby.duration AS udrzba";
-        if(ine.isSelected()) query += ", ine.duration AS ine";
+        if (c30l.isSelected()) query += ", p30.p30";
+        if (c45l.isSelected()) query += ", p45.p45";
+        if (c60l.isSelected()) query += ", p60.p60";
+        if (error.isSelected()) query += ", poruchy.duration AS error";
+        if (udrzba.isSelected()) query += ", udrzby.duration AS udrzba";
+        if (ine.isSelected()) query += ", ine.duration AS ine";
 
         query += " FROM t_raw_data_history dat";
 
-        if(c30l.isSelected()) query += " LEFT JOIN (" +
+        if (c30l.isSelected()) query += " LEFT JOIN (" +
                 " SELECT t30.date AS datum, t30.shift AS shift, SUM(t30.paletts) AS p30" +
                 " FROM t_raw_data_history t30" +
                 " JOIN series s30 ON t30.series = s30.id" +
@@ -60,7 +63,7 @@ public class StatController {
                 " GROUP BY t30.date, t30.shift" +
                 " ) p30 ON dat.date = p30.datum AND dat.shift = p30.shift";
 
-        if(c45l.isSelected()) query += " LEFT JOIN (" +
+        if (c45l.isSelected()) query += " LEFT JOIN (" +
                 " SELECT t45.date AS datum, t45.shift AS shift, SUM(t45.paletts) AS p45" +
                 " FROM t_raw_data_history t45" +
                 " JOIN series s45 ON t45.series = s45.id" +
@@ -68,7 +71,7 @@ public class StatController {
                 " GROUP BY t45.date, t45.shift" +
                 " ) p45 ON dat.date = p45.datum AND dat.shift = p45.shift";
 
-        if(c60l.isSelected()) query += " LEFT JOIN (" +
+        if (c60l.isSelected()) query += " LEFT JOIN (" +
                 " SELECT t60.date AS datum, t60.shift AS shift, SUM(t60.paletts) AS p60" +
                 " FROM t_raw_data_history t60" +
                 " JOIN series s60 ON t60.series = s60.id" +
@@ -76,7 +79,7 @@ public class StatController {
                 " GROUP BY t60.date, t60.shift" +
                 " ) p60 ON dat.date = p60.datum AND dat.shift = p60.shift";
 
-        if(error.isSelected()) query += " LEFT JOIN (" +
+        if (error.isSelected()) query += " LEFT JOIN (" +
                 " SELECT DATE(timestamp_begin) AS datum, SUM(duration) AS duration" +
                 " FROM events" +
                 " WHERE id_event = 1" +
@@ -84,7 +87,7 @@ public class StatController {
                 " ORDER BY DATE(timestamp_begin)" +
                 " ) poruchy ON dat.date = poruchy.datum";
 
-        if(udrzba.isSelected()) query += " LEFT JOIN (" +
+        if (udrzba.isSelected()) query += " LEFT JOIN (" +
                 " SELECT DATE(timestamp_begin) AS datum, SUM(duration) AS duration" +
                 " FROM events" +
                 " WHERE id_event = 2" +
@@ -92,7 +95,7 @@ public class StatController {
                 " ORDER BY DATE(timestamp_begin)" +
                 " ) udrzby ON dat.date = udrzby.datum";
 
-        if(ine.isSelected()) query += " LEFT JOIN (" +
+        if (ine.isSelected()) query += " LEFT JOIN (" +
                 " SELECT DATE(timestamp_begin) AS datum, SUM(duration) AS duration" +
                 " FROM events" +
                 " WHERE id_event NOT IN (1, 2)" +
@@ -114,8 +117,8 @@ public class StatController {
         if (ine.isSelected()) query += " OR ine.duration IS NOT NULL";
         query += " )";
 
-        if(date1.getValue() != null) query += String.format(" AND dat.date >= '%s'", date1.getValue().toString());
-        if(date2.getValue() != null) query += String.format(" AND dat.date <= '%s'", date2.getValue().toString());
+        if (date1.getValue() != null) query += String.format(" AND dat.date >= '%s'", date1.getValue().toString());
+        if (date2.getValue() != null) query += String.format(" AND dat.date <= '%s'", date2.getValue().toString());
         query += " ORDER BY dat.date DESC";
 
         return query;
@@ -130,8 +133,8 @@ public class StatController {
         if (c60l.isSelected()) result += ";" + rs.getDouble(c++);
         if (error.isSelected()) result += ";" + rs.getDouble(c++);
         if (udrzba.isSelected()) result += ";" + rs.getDouble(c++);
-        if (ine.isSelected()) result += ";" + rs.getDouble(c++);
-
+        if (ine.isSelected()) result += ";" + rs.getDouble(c);
+        result += "\n";
         return result;
     }
 
@@ -155,17 +158,34 @@ public class StatController {
             Connection connection = DbContext.getConnection();
 
             String sql = getQuery();
-            System.out.printf(sql);
-            try(PreparedStatement s = connection.prepareStatement(sql)){
-                try (ResultSet rs = s.executeQuery()){
-                    while (rs.next()){
-                        System.out.println(parseResult(rs));
+            //System.out.printf(sql);
+            try {
+                PrintWriter writer = new PrintWriter("export.csv");
+                writer.append("sep=;");
+                writer.append("\n");
+                writer.append("Datum;");
+                writer.append("Zmena;");
+                if (c30l.isSelected()) writer.append(" 30l;");
+                if (c45l.isSelected()) writer.append(" 45l;");
+                if (c60l.isSelected()) writer.append(" 60l;");
+                if (error.isSelected()) writer.append(" Chyby;");
+                if (udrzba.isSelected()) writer.append(" Udrzba;");
+                if (ine.isSelected()) writer.append(" Ine;");
+                writer.append("\n");
+                try (PreparedStatement s = connection.prepareStatement(sql)) {
+                    try (ResultSet rs = s.executeQuery()) {
+                        while (rs.next()) {
+                            //System.out.println(parseResult(rs));
+                            writer.append(parseResult(rs));
+                        }
+                        writer.close();
                     }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
                 }
-            } catch (SQLException ex) {
+            } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
             }
-
         });
 
         ret.setOnAction(e -> {
@@ -174,7 +194,7 @@ public class StatController {
         });
     }
 
-    private void allClicked(ActionEvent e){
+    private void allClicked(ActionEvent e) {
         boolean allSet = all.isSelected();
         error.setSelected(allSet);
         c30l.setSelected(allSet);
@@ -184,7 +204,7 @@ public class StatController {
         udrzba.setSelected(allSet);
     }
 
-    private void otherClicked(ActionEvent e){
+    private void otherClicked(ActionEvent e) {
         if (error.isSelected() && c30l.isSelected() && c45l.isSelected() && c60l.isSelected() && ine.isSelected() &&
                 udrzba.isSelected()) {
             all.setSelected(true);
@@ -192,5 +212,4 @@ public class StatController {
             all.setSelected(false);
         }
     }
-
 }
