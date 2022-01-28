@@ -38,7 +38,7 @@ public class Normalized_Paletts_Finder {
     }
     public Normalized_Paletts findByDateSeriesShiftNormalized(Date date, int series, int shift) throws SQLException {
         String sql = "SELECT series, t.paletts*s.worth as paletts, s.name "+
-                "FROM t_raw_data_history as t INNER JOIN series s on s.id = t.series" +
+                "FROM t_raw_data_history as t INNER JOIN series as s on s.id = t.series" +
                 " where series = ? and t.shift = ? and t.date = ? and t.paletts is not null ;";
 
         Connection connection = DbContext.getConnection();

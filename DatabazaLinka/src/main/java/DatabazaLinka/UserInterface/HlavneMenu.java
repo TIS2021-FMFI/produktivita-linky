@@ -410,7 +410,7 @@ public class HlavneMenu{
         //System.out.println("pred alebo po");
 
         double pallets = Normalized_Paletts_Finder.getInstance().findByDateShiftNormalizedALl(date, shift).getPaletts();
-        System.out.println(pallets);
+        //System.out.println(pallets);
 
         operController.setTodayGraph((int)pallets, kolkoMaloByt());
 
@@ -418,7 +418,7 @@ public class HlavneMenu{
         //hore
         T_raw_data raw = T_raw_data_Finder.getInstance().findLast();
         double rel = Series_Finder.getInstance().findById(raw.getSeries()).getWorth();
-        System.out.println(raw);
+        //System.out.println(raw);
         double kolko = kolkoRzchlost(pallets, rel);
 
         operController.setBoxes(raw.getPerf_real_per_min(), raw.getPerf_norm_per_min(), (int)kolko);
@@ -458,50 +458,66 @@ public class HlavneMenu{
 
     public StackedBarChart stackSet(StackedBarChart graph, int sh) throws SQLException {
         List<XYChart.Series> series = new ArrayList<>();
-
-        List<Series> ser = Series_Finder.getInstance().findAll();
-        for (int i = 0; i < ser.size(); i++) { //for kazdy dnesni model
-            XYChart.Series docas = new XYChart.Series();
-            docas.setName(ser.get(i).getName());
-            series.add(docas);
-        }
-
-
-        List<Event_type> eve = Event_type_Finder.getInstance().findAll();
-        for (int i = 0; i < eve.size(); i++) { //for kazdy event
-            XYChart.Series docas = new XYChart.Series();
-            docas.setName(eve.get(i).getName());
-            series.add(docas);
-        }
-
-        int dni = 0;
-
         LocalDate date = LocalDate.now();
 
-        List<Events> dayeve;
-        while(dni < 5){
+        System.out.println("__________________________");
 
-            date = date.minusDays(1);
-            if(Normalized_Paletts_Finder.getInstance().findByDateShiftNormalizedALl(Date.valueOf(date), sh).getPaletts() > 0){
-                dni++;
-                for (int k = 0; k < ser.size(); k++) {
-                    double a = Normalized_Paletts_Finder.getInstance().findByDateSeriesShiftNormalized(Date.valueOf(date),
-                            ser.get(k).getId(), sh).getPaletts();
-                    series.get(k).getData().add(new XYChart.Data(Date.valueOf(date).toString(), a));
-                    //System.out.println(series.get(k).getName());
+
+        List<Series> ser = Series_Finder.getInstance().findAll();
+        List<Series> notAll = new ArrayList<>();
+
+        LocalDate docasDate = date;
+
+        for (int i = 0; i < date.getDayOfWeek().getValue() - 1; i++) {
+            docasDate = date.minusDays(i + 1);
+            //System.out.println(Normalized_Paletts_Finder.getInstance().findByDateShiftNormalizedALl(Date.valueOf(docasDate), sh));
+            for (int j = 0; j < ser.size(); j++) {
+                if (Normalized_Paletts_Finder.getInstance().findByDateSeriesShiftNormalized
+                        (Date.valueOf(docasDate), ser.get(j).getId(), sh).getPaletts() > 0 && !notAll.contains(ser.get(j))) {
+
+                    notAll.add(ser.get(j));
                 }
 
-                for (int k = 0; k < eve.size(); k++) {
-                    dayeve = Events_Finder.getInstance().findByDateAndType(eve.get(k).getId(), Date.valueOf(date));
-                    for (int x = 0; x < dayeve.size(); x++) {
-                        series.get(ser.size() + k).getData().add(new XYChart.Data(Date.valueOf(date).toString(),
-                                dayeve.get(x).getPotencionaly_washed_pallets()));
-                    }
-
-                    //System.out.println(series.get(ser.size() + k).getName());
-                }
-                //series.get(0).getData().add(new XYChart.Data(Date.valueOf(date).toString(), 100));
             }
+            //System.out.println("==============");
+        }
+        //notAll = ser;
+
+
+        for (int i = 0; i < notAll.size(); i++){
+            XYChart.Series docas = new XYChart.Series();
+            docas.setName(notAll.get(i).getName());
+            //docas.setName("test " + i);
+            series.add(docas);
+        }
+
+        XYChart.Series docas = new XYChart.Series();
+        docas.setName("Eventy");
+        series.add(docas);
+
+        //System.out.println(series.size());
+
+        List<String> dni = Arrays.asList("", "Po", "Ut", "St", "Šv", "Pi", "So");
+
+
+        for (int i = 0; i < date.getDayOfWeek().getValue() - 1; i++) {
+            docasDate = date.minusDays(i + 1);
+
+            for (int j = 0; j < notAll.size(); j++) {
+                double a = Normalized_Paletts_Finder.getInstance().findByDateSeriesShiftNormalized(Date.valueOf(docasDate),
+                        notAll.get(j).getId(), sh).getPaletts();
+                //System.out.println(a);
+                series.get(j).getData().add(
+                        new XYChart.Data(dni.get(docasDate.getDayOfWeek().getValue()), a));
+            }
+
+            List<Events> eve = Events_Finder.getInstance().findByDate(Date.valueOf(docasDate));
+            double sucetEve = 0;
+            for (int k = 0; k < eve.size(); k++) {
+                sucetEve += eve.get(k).getPotencionaly_washed_pallets();
+            }
+            series.get(series.size() - 1).getData().add(
+                    new XYChart.Data(dni.get(docasDate.getDayOfWeek().getValue()), sucetEve));
         }
 
 

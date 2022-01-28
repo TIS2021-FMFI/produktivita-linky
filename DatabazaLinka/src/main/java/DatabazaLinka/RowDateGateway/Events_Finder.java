@@ -89,6 +89,26 @@ public class Events_Finder {
         return result;
     }
 
+    public List<Events> findByDate(Date date) throws SQLException {
+        String sql = "SELECT *" +
+                "FROM events " +
+                "WHERE  Cast(\"timestamp_begin\" as date) = ?";
+        Connection connection = DbContext.getConnection();
+
+        List<Events> result = new ArrayList<>();
+
+        try (PreparedStatement s = connection.prepareStatement(sql)) {
+            s.setDate(1, date);
+
+            try (ResultSet rs = s.executeQuery()){
+                while (rs.next()){
+                    result.add(load(rs));
+                }
+            }
+        }
+        return result;
+    }
+
     public Events load(ResultSet rs) throws SQLException {
         Events log = new Events();
 
