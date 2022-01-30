@@ -110,15 +110,6 @@ public class HlavneMenu{
 
     public void start(Stage primaryStage) throws SQLException, Vynimka,IOException {
         readProp();
-
-
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("VITAJ V DATABAZE LINKY!");
-        System.out.println("ZVOL PONUKA PRE PONUKU");
-        System.out.println();
-        print();
-        System.out.println();
-
         //skuska();
 
         //monitor menu
@@ -233,12 +224,20 @@ public class HlavneMenu{
 
         udrzba = new Scene(root, x, y);
 
+        System.out.println("Loading 05%");
         graph1 = stackSet(operController.weekGraph, 1);
+        System.out.println("Loading 19%");
         graph2 = stackSet(operController.weekGraph, 2);
+        System.out.println("Loading 31%");
         graph11 = stackSet(superController.graph, 1);
+        System.out.println("Loading 48%");
         graph22 = stackSet(superController.graph, 2);
+        System.out.println("Loading 63%");
         graph111 = stackSet(monitorController.graph, 1);
+        System.out.println("Loading 79%");
         graph222 = stackSet(monitorController.graph, 2);
+        System.out.println("Loading 91%");
+        System.out.println("Loading 100%");
     }
 
     public void readProp() throws IOException {
@@ -460,9 +459,6 @@ public class HlavneMenu{
         List<XYChart.Series> series = new ArrayList<>();
         LocalDate date = LocalDate.now();
 
-        System.out.println("__________________________");
-
-
         List<Series> ser = Series_Finder.getInstance().findAll();
         List<Series> notAll = new ArrayList<>();
 
@@ -533,8 +529,7 @@ public class HlavneMenu{
     }
 
     public void print() {
-        System.out.println("|==============FUNGUJE=================|");
-
+        //System.out.println("|==============FUNGUJE=================|");
     }
 
     public void startOper() { //akcia pre tlacitko yacat v menu - zacne zobrazenie operator
