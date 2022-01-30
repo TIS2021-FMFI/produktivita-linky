@@ -14,8 +14,11 @@ import DatabazaLinka.UserInterface.LoginMenu;
 import DatabazaLinka.UserInterface.LoginMenu;
 import DatabazaLinka.UserInterface.HlavneMenu;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 import org.postgresql.ds.PGSimpleDataSource;
+
+import javax.swing.*;
 
 public class DatabazaLinka extends Application {
     @Override
@@ -33,7 +36,9 @@ public class DatabazaLinka extends Application {
             HlavneMenu menu = new HlavneMenu();
             menu.start(primaryStage);
         }catch(Exception ex){
-            throw ex;
+            JOptionPane.showMessageDialog(null, "Database error",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            Platform.exit();
         }
     }
     public static void main(String[] args) throws SQLException, IOException, Vynimka {

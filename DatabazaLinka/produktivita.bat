@@ -1,0 +1,3 @@
+@echo off
+echo starting application, wait please...
+java -cp postgresql-42.2.18.jre7.jar --module-path "javafx-sdk-11.0.2\lib" --add-modules javafx.controls,javafx.fxml,javafx.base,javafx.web -jar DatabazaLinka.jar

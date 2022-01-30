@@ -31,7 +31,7 @@
                   <Font size="22.0" />
                </font>
             </Text>
-            <StackedBarChart fx:id="weekGraph" layoutX="20.0" layoutY="216.0" prefHeight="142.0" prefWidth="285.0">
+            <StackedBarChart fx:id="weekGraph" layoutX="20.0" layoutY="150.0" prefHeight="255.0" prefWidth="285.0" >
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>
@@ -39,7 +39,7 @@
                 <NumberAxis prefHeight="122.0" prefWidth="34.0" side="LEFT" />
               </yAxis>
             </StackedBarChart>
-            <Text fx:id="weekLabel" layoutX="28.0" layoutY="212.0" strokeType="INSIDE" strokeWidth="0.0" text="Týždenná štatistika" wrappingWidth="143.9000280028356">
+            <Text fx:id="weekLabel" layoutX="28.0" layoutY="153.0" strokeType="INSIDE" strokeWidth="0.0" text="Týždenná štatistika" wrappingWidth="143.9000280028356">
                <font>
                   <Font size="17.0" />
                </font>
@@ -55,16 +55,18 @@
                 <TableColumn fx:id="col2" prefWidth="79.0" text="Počet" />
               </columns>
             </TableView>
-            <Text fx:id="boxes" layoutX="105.0" layoutY="411.0" strokeType="INSIDE" strokeWidth="0.0" text="37 / 42 / 40" wrappingWidth="115.88052727041372">
+
+            <Text fx:id="boxes" layoutX="255.0" layoutY="462.0" strokeType="INSIDE" strokeWidth="0.0" text="37 / 42 / 40" wrappingWidth="115.88052727041372">
                <font>
                   <Font size="20.0" />
                </font>
             </Text>
-            <Text fx:id="boxesLabel" layoutX="22.0" layoutY="382.0" strokeType="INSIDE" strokeWidth="0.0" text="Počet boxov za hodinu" wrappingWidth="197.93756462392935">
+            <Text fx:id="boxesLabel" layoutX="232.0" layoutY="433.0" strokeType="INSIDE" strokeWidth="0.0" text="Počet boxov za hodinu" wrappingWidth="197.93756462392935">
                <font>
                   <Font size="17.0" />
                </font>
             </Text>
+
             <Text fx:id="shiftName" layoutX="537.0" layoutY="462.0" strokeType="INSIDE" strokeWidth="0.0" text="Názov smeny" wrappingWidth="102.85834099111685">
                <font>
                   <Font size="17.0" />
@@ -72,12 +74,12 @@
             </Text>
             <Text fx:id="model" fontSmoothingType="LCD" layoutX="125.0" layoutY="49.0" strokeType="INSIDE" strokeWidth="0.0" text="MODEL" wrappingWidth="92.81122659670473">
                <font>
-                  <Font size="24.0" />
+                  <Font size="20.0" />
                </font>
             </Text>
             <Text fx:id="nextModel" layoutX="125.0" layoutY="103.0" strokeType="INSIDE" strokeWidth="0.0" text="NASLEDUJE MODEL" wrappingWidth="157.8750035887731">
                <font>
-                  <Font size="17.0" />
+                  <Font size="15.0" />
                </font>
             </Text>
             <ImageView fitHeight="72.0" fitWidth="84.0" layoutX="14.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
