@@ -36,9 +36,11 @@ public class DatabazaLinka extends Application {
             HlavneMenu menu = new HlavneMenu();
             menu.start(primaryStage);
         }catch(Exception ex){
+
             JOptionPane.showMessageDialog(null, "Database error",
                     "Error", JOptionPane.ERROR_MESSAGE);
             Platform.exit();
+            //throw ex;
         }
     }
     public static void main(String[] args) throws SQLException, IOException, Vynimka {
