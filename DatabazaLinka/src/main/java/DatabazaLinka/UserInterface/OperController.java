@@ -97,11 +97,11 @@ public class OperController {
         weekGraph = b;
     }
 
-    public void setBoxes(int i, int j, int k){
+    public void setBoxes(int i, int k){
         if (k < 0){
-            boxes.setText(i + "/" + j + "/" + "NaN");
+            boxes.setText(i + "/" + "NaN");
         }else{
-            boxes.setText(i + "/" + j + "/" + k);
+            boxes.setText(i + "/" + k);
         }
     }
     public void setModel(String mod){

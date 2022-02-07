@@ -17,6 +17,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 import org.postgresql.ds.PGSimpleDataSource;
+import org.postgresql.util.PSQLException;
 
 import javax.swing.*;
 
@@ -35,12 +36,16 @@ public class DatabazaLinka extends Application {
             DbContext.setConnection(connection);
             HlavneMenu menu = new HlavneMenu();
             menu.start(primaryStage);
-        }catch(Exception ex){
-
+        }catch(PSQLException ex){
             JOptionPane.showMessageDialog(null, "Database error",
-                    "Error", JOptionPane.ERROR_MESSAGE);
+                        "Error", JOptionPane.ERROR_MESSAGE);
             Platform.exit();
+            //Platform.exit();
             //throw ex;
+        }catch (Exception exx){
+            JOptionPane.showMessageDialog(null, "Unknown error error",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            throw exx;
         }
     }
     public static void main(String[] args) throws SQLException, IOException, Vynimka {

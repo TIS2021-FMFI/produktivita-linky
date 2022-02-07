@@ -56,7 +56,7 @@
               </columns>
             </TableView>
 
-            <Text fx:id="boxes" layoutX="255.0" layoutY="462.0" strokeType="INSIDE" strokeWidth="0.0" text="37 / 42 / 40" wrappingWidth="115.88052727041372">
+            <Text fx:id="boxes" layoutX="285.0" layoutY="462.0" strokeType="INSIDE" strokeWidth="0.0" text="37 / 42 / 40" wrappingWidth="115.88052727041372">
                <font>
                   <Font size="20.0" />
                </font>

@@ -401,13 +401,17 @@ public class HlavneMenu{
         if(LocalTime.now().isAfter(zmena2zaciatok)){
             shift = 2;
         }
+        else{
+            shift = 1;
+        }
+
         Date date = new Date(System.currentTimeMillis());
 
         Daily_statistics_Finder.getInstance().findByShiftandDateAll(1, date);
         Daily_statistics_Finder.getInstance().findByShiftandDateAll(2, date);
 
         //System.out.println("pred alebo po");
-
+        //System.out.println(shift);
         double pallets = Normalized_Paletts_Finder.getInstance().findByDateShiftNormalizedALl(date, shift).getPaletts();
         //System.out.println(pallets);
 
@@ -420,7 +424,7 @@ public class HlavneMenu{
         //System.out.println(raw);
         double kolko = kolkoRzchlost(pallets, rel);
 
-        operController.setBoxes(raw.getPerf_real_per_min(), raw.getPerf_norm_per_min(), (int)kolko);
+        operController.setBoxes(raw.getPerf_real_per_min(), (int)kolko);
         try {
             operController.setModel(Series_Finder.getInstance().findById(raw.getSeries()).getName());
         }catch (NullPointerException nl){
@@ -433,11 +437,11 @@ public class HlavneMenu{
         }//------hore
 
         if(shift == 1) {
-            operController.setShiftName("Doobedna");
-            superController.setGraph(graph1);
+            operController.setShiftName("Ranná");
+            //superController.setGraph(graph11);
         }else {
             operController.setShiftName("Poobedna");
-            superController.setGraph(graph2);
+            //superController.setGraph(graph22);
         }
         operController.setTable(this);
 
@@ -459,12 +463,14 @@ public class HlavneMenu{
         List<XYChart.Series> series = new ArrayList<>();
         LocalDate date = LocalDate.now();
 
+        //date = date.plusDays(1);
+
         List<Series> ser = Series_Finder.getInstance().findAll();
         List<Series> notAll = new ArrayList<>();
 
         LocalDate docasDate = date;
 
-        for (int i = 0; i < date.getDayOfWeek().getValue() - 1; i++) {
+        for (int i = date.getDayOfWeek().getValue() - 2; i >= 0; i--) {
             docasDate = date.minusDays(i + 1);
             //System.out.println(Normalized_Paletts_Finder.getInstance().findByDateShiftNormalizedALl(Date.valueOf(docasDate), sh));
             for (int j = 0; j < ser.size(); j++) {
@@ -496,7 +502,7 @@ public class HlavneMenu{
         List<String> dni = Arrays.asList("", "Po", "Ut", "St", "Šv", "Pi", "So");
 
 
-        for (int i = 0; i < date.getDayOfWeek().getValue() - 1; i++) {
+        for (int i = date.getDayOfWeek().getValue() - 2; i >= 0; i--) {
             docasDate = date.minusDays(i + 1);
 
             for (int j = 0; j < notAll.size(); j++) {
@@ -603,7 +609,7 @@ public class HlavneMenu{
             monitorController.setGraph(graph111);
         }
         else{
-            superController.setGraph(graph2);
+            superController.setGraph(graph22);
             monitorController.setGraph(graph222);
         }
         //superController.open(this);
