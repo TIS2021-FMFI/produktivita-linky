@@ -11,10 +11,10 @@ Pracovníci aj zúčastnení smeny budú na televíznych displejoch vidieť info
 - štatistiku za minulý týždeň
 - možnosť zaznamenať chybu počas prevádzky a linku pozastaviť
 
-<img width="605" alt="Snímka obrazovky 2022-01-18 o 13 42 42" src="https://user-images.githubusercontent.com/79453298/149940270-62fbc381-8daa-4514-954a-1d24213772c6.png">
+<img width="664" alt="obrazovkaGEFCO" src="https://user-images.githubusercontent.com/79453298/152864753-c226e3e7-4fe6-42e2-8521-4beaa3a4d126.png">
 
 
-Administrátori a monitori budú môcť meniť, prestávky, denný ciel a exportovať štatistiky za zvolené obdobie
+Administrátori a monitori budú môcť meniť, prestávky, denný ciel a andstavovať čas údržby. Funkcia admnina je rozšírená ešte o export štatistiky za zvolené obdobie.
 
 Podrobnejšie informácie sú v dokumentoch: Návrh a Katalóg požiadaviek
 
