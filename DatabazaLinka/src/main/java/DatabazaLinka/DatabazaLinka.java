@@ -39,8 +39,8 @@ public class DatabazaLinka extends Application {
 
             JOptionPane.showMessageDialog(null, "Database error",
                     "Error", JOptionPane.ERROR_MESSAGE);
-            Platform.exit();
-            //throw ex;
+            //Platform.exit();
+            throw ex;
         }
     }
     public static void main(String[] args) throws SQLException, IOException, Vynimka {
