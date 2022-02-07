@@ -36,13 +36,11 @@ public class DatabazaLinka extends Application {
             DbContext.setConnection(connection);
             HlavneMenu menu = new HlavneMenu();
             menu.start(primaryStage);
-        }catch(PSQLException ex){
+        }catch(PSQLException ex){//error ak nejde databaza
             JOptionPane.showMessageDialog(null, "Database error",
                         "Error", JOptionPane.ERROR_MESSAGE);
             Platform.exit();
-            //Platform.exit();
-            //throw ex;
-        }catch (Exception exx){
+        }catch (Exception exx){//iny error
             JOptionPane.showMessageDialog(null, "Unknown error error",
                     "Error", JOptionPane.ERROR_MESSAGE);
             throw exx;
