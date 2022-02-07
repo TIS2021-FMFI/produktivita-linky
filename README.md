@@ -17,3 +17,7 @@ Pracovníci aj zúčastnení smeny budú na televíznych displejoch vidieť info
 Administrátori a monitori budú môcť meniť, prestávky, denný ciel a exportovať štatistiky za zvolené obdobie
 
 Podrobnejšie informácie sú v dokumentoch: Návrh a Katalóg požiadaviek
+
+# Ako spustiť aplikáciu:
+1. Otvorte adresár DatabazaLinka
+2. Aplikáciu spustíte pomocou súboru produktivita.bat
