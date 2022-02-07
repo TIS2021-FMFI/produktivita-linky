@@ -421,7 +421,7 @@ public class HlavneMenu{
         //hore
         T_raw_data raw = T_raw_data_Finder.getInstance().findLast();
         double rel = Series_Finder.getInstance().findById(raw.getSeries()).getWorth();
-        System.out.println(raw);
+        //System.out.println(raw);
         double kolko = kolkoRzchlost(pallets, rel);
 
         operController.setBoxes(raw.getPerf_real_per_min(), (int)kolko);
