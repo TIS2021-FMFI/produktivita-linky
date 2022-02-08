@@ -44,7 +44,7 @@
                   <Font size="17.0" />
                </font>
             </Text>
-            <Text fx:id="weekLabel2" layoutX="366.0" layoutY="212.0" strokeType="INSIDE" strokeWidth="0.0" text="Prehľad početu umytých boxov " wrappingWidth="234.93755531311035">
+            <Text fx:id="weekLabel2" layoutX="366.0" layoutY="212.0" strokeType="INSIDE" strokeWidth="0.0" text="Prehľad počtu umytých boxov " wrappingWidth="234.93755531311035">
                <font>
                   <Font size="17.0" />
                </font>
