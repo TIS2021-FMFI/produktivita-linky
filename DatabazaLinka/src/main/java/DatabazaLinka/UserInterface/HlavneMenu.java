@@ -111,16 +111,6 @@ public class HlavneMenu{
     public void start(Stage primaryStage) throws SQLException, Vynimka,IOException {
         readProp();
 
-
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("VITAJ V DATABAZE LINKY!");
-        System.out.println("ZVOL PONUKA PRE PONUKU");
-        System.out.println();
-        print();
-        System.out.println();
-
-        //skuska();
-
         //monitor menu
         FXMLLoader loader = new FXMLLoader();
         URL xmlUrl = getClass().getResource("/menuMonitor.fxml");
@@ -233,12 +223,22 @@ public class HlavneMenu{
 
         udrzba = new Scene(root, x, y);
 
+
+        //nacitanie tyzdennych grafov, musi to byt takto kedze inak to blblo, precenta su orientacne
+        System.out.println("Loading 05%");
         graph1 = stackSet(operController.weekGraph, 1);
+        System.out.println("Loading 19%");
         graph2 = stackSet(operController.weekGraph, 2);
+        System.out.println("Loading 31%");
         graph11 = stackSet(superController.graph, 1);
+        System.out.println("Loading 48%");
         graph22 = stackSet(superController.graph, 2);
+        System.out.println("Loading 63%");
         graph111 = stackSet(monitorController.graph, 1);
+        System.out.println("Loading 79%");
         graph222 = stackSet(monitorController.graph, 2);
+        System.out.println("Loading 91%");
+        System.out.println("Loading 100%");
     }
 
     public void readProp() throws IOException {
@@ -287,12 +287,17 @@ public class HlavneMenu{
     }
 
     public void updateDatetime(){
+        //sucastnz cas
         LocalTime now = LocalTime.now();
         String time = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now());
+
+        //nastavenie casu v kontroleroch
         operController.setTime(time);
         pauseController.setCurrentDate();
         chybaContoller.setCurrentDate();
         udrzbaController.setCurrentDate();
+
+        //kontrola prestavok
         if (now.isAfter(zmena1prestavka1zaciatok) && now.isBefore(zmena1prestavka1koniec) ||
                 now.isAfter(zmena1prestavka2zaciatok) && now.isBefore(zmena1prestavka2koniec) ||
                 now.isAfter(zmena1prestavka3zaciatok) && now.isBefore(zmena1prestavka3koniec) ||
@@ -307,7 +312,7 @@ public class HlavneMenu{
             operStage.setScene(operator);
         }
     }
-
+    //funkcia na kolko uz ubehlo zo zmeny a kolko je dokopoy
     public List<Double> terazMax(){
         double teraz = 0;
         double max = 0;
@@ -368,7 +373,7 @@ public class HlavneMenu{
 
         return x;
     }
-
+    //kolko malo byt urobene
     public int kolkoMaloByt(){
         List<Double> a = terazMax();
 
@@ -377,7 +382,7 @@ public class HlavneMenu{
     }
 
     public double kolkoRzchlost(double pal, double rel){
-
+        //ako rychlo musia robit
         List<Double> a = terazMax();
         double teraz = a.get(0);
         double max = a.get(1);
@@ -389,39 +394,36 @@ public class HlavneMenu{
             return -1;
         }
 
-        //System.out.println("Ostava " + ostava);
         double z = (ostava/cas)*1000*60*60;
-        //System.out.println("Ostava norm per h " + z);
         z = z/rel;
-        //System.out.println("Ostava spec " + z);
         return z;
     }
-
+    //update
     public void update() throws SQLException{
         System.out.println("UPDATE");
+        //kontrola zmeny
         if(LocalTime.now().isAfter(zmena2zaciatok)){
             shift = 2;
         }
-        Date date = new Date(System.currentTimeMillis());
+        else{
+            shift = 1;
+        }
 
+        Date date = new Date(System.currentTimeMillis());
+        //presun riadkov do historie
         Daily_statistics_Finder.getInstance().findByShiftandDateAll(1, date);
         Daily_statistics_Finder.getInstance().findByShiftandDateAll(2, date);
 
-        //System.out.println("pred alebo po");
-
         double pallets = Normalized_Paletts_Finder.getInstance().findByDateShiftNormalizedALl(date, shift).getPaletts();
-        //System.out.println(pallets);
 
+        //vkladanie udajov do oper controllera
         operController.setTodayGraph((int)pallets, kolkoMaloByt());
 
-        //operController.setWeekGraph(this);
-        //hore
         T_raw_data raw = T_raw_data_Finder.getInstance().findLast();
         double rel = Series_Finder.getInstance().findById(raw.getSeries()).getWorth();
-        //System.out.println(raw);
         double kolko = kolkoRzchlost(pallets, rel);
 
-        operController.setBoxes(raw.getPerf_real_per_min(), raw.getPerf_norm_per_min(), (int)kolko);
+        operController.setBoxes(raw.getPerf_real_per_min(), (int)kolko);
         try {
             operController.setModel(Series_Finder.getInstance().findById(raw.getSeries()).getName());
         }catch (NullPointerException nl){
@@ -429,19 +431,18 @@ public class HlavneMenu{
         }
         try {
             operController.setNextModel(Series_Finder.getInstance().findById(raw.getNext_series()).getName());
-        }catch(NullPointerException nl){
+        }catch(NullPointerException nl) {
             operController.setNextModel("--------");
-        }//------hore
-
+        }
+        //nastavenie shift textu
         if(shift == 1) {
-            operController.setShiftName("Doobedna");
-            superController.setGraph(graph1);
+            operController.setShiftName("Ranná");
         }else {
             operController.setShiftName("Poobedna");
-            superController.setGraph(graph2);
         }
         operController.setTable(this);
 
+        //kontrola ci nejde event a spracovanie toho
         List<Events> allEve = Events_Finder.getInstance().findByTimestampIntervalButDiffrently(
                 new Timestamp(System.currentTimeMillis() + 1000), new Timestamp(System.currentTimeMillis() + 61000)); //vsetky planovane eventy v najblzsej minute
         if (allEve.size() > 0){
@@ -455,20 +456,19 @@ public class HlavneMenu{
             operStage.setScene(operator);
         }
     }
-
+    //generovanie barchart
     public StackedBarChart stackSet(StackedBarChart graph, int sh) throws SQLException {
         List<XYChart.Series> series = new ArrayList<>();
         LocalDate date = LocalDate.now();
 
-        System.out.println("__________________________");
-
+        //date = date.plusDays(1);
 
         List<Series> ser = Series_Finder.getInstance().findAll();
         List<Series> notAll = new ArrayList<>();
 
         LocalDate docasDate = date;
-
-        for (int i = 0; i < date.getDayOfWeek().getValue() - 1; i++) {
+        //najdenie vsetkych pouzitich serii
+        for (int i = date.getDayOfWeek().getValue() - 2; i >= 0; i--) {
             docasDate = date.minusDays(i + 1);
             //System.out.println(Normalized_Paletts_Finder.getInstance().findByDateShiftNormalizedALl(Date.valueOf(docasDate), sh));
             for (int j = 0; j < ser.size(); j++) {
@@ -499,8 +499,9 @@ public class HlavneMenu{
 
         List<String> dni = Arrays.asList("", "Po", "Ut", "St", "Šv", "Pi", "So");
 
+        //nacitanie hodnot per day
 
-        for (int i = 0; i < date.getDayOfWeek().getValue() - 1; i++) {
+        for (int i = date.getDayOfWeek().getValue() - 2; i >= 0; i--) {
             docasDate = date.minusDays(i + 1);
 
             for (int j = 0; j < notAll.size(); j++) {
@@ -520,9 +521,7 @@ public class HlavneMenu{
                     new XYChart.Data(dni.get(docasDate.getDayOfWeek().getValue()), sucetEve));
         }
 
-
         graph.getData().setAll();
-
 
         graph.setLegendVisible(true);
 
@@ -530,11 +529,6 @@ public class HlavneMenu{
             graph.getData().add(series.get(i));
         }
         return graph;
-    }
-
-    public void print() {
-        System.out.println("|==============FUNGUJE=================|");
-
     }
 
     public void startOper() { //akcia pre tlacitko yacat v menu - zacne zobrazenie operator
@@ -608,10 +602,9 @@ public class HlavneMenu{
             monitorController.setGraph(graph111);
         }
         else{
-            superController.setGraph(graph2);
+            superController.setGraph(graph22);
             monitorController.setGraph(graph222);
         }
-        //superController.open(this);
     }
 
     public void editConfig() { //co sa po kliknuti na zmenit config

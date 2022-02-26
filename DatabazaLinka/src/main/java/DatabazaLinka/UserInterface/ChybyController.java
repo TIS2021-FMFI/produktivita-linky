@@ -35,6 +35,7 @@ public class ChybyController {
     HlavneMenu mm;
 
     public void setUp(HlavneMenu menu) throws SQLException {
+        //pre kazde tlacitko sa setupne akcia
         startButton.setOnAction(e -> {
             System.out.println(currentError);
             startEvent();
@@ -67,7 +68,7 @@ public class ChybyController {
         }
         mm = menu;
     }
-
+    //zacne event, ulozi timestamp
     public void startEvent(){
         if(currentError < 0){
             return;
@@ -88,6 +89,7 @@ public class ChybyController {
         if(currentError < 0){
             return;
         }
+        //nahodi naspet oper screen
         mm.operStage.setScene(mm.operator);
         mm.operStage.setTitle("Operator");
 
