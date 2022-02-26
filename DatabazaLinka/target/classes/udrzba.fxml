@@ -1,42 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
-  <children>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS" />
-      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="643.0">
-         <children>
-            <ImageView fx:id="img" fitHeight="465.0" fitWidth="717.0" layoutX="-71.0" layoutY="-7.0" pickOnBounds="true">
-               <image>
-                  <Image url="@udrzba.jpg" />
-               </image>
-            </ImageView>
-            <Rectangle fx:id="rectengle" arcHeight="5.0" arcWidth="5.0" fill="#d7d5d5" height="136.0" layoutX="192.0" layoutY="146.0" stroke="#e2ffbc" strokeType="INSIDE" strokeWidth="0.0" width="260.0" />
-            <Text fx:id="text1" fill="#9d3128" layoutX="214.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prebieha údržba" textAlignment="CENTER" wrappingWidth="219.46252532248258">
-               <font>
-                  <Font size="44.0" />
-               </font>
-            </Text>
-            <Rectangle fx:id="rec2" arcHeight="5.0" arcWidth="5.0" fill="#9d3128" height="41.0" layoutX="232.0" layoutY="290.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="179.0" />
-            <Text fx:id="text2" fill="#d7d5d5" layoutX="255.0" layoutY="318.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Čas a dátum">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Text>
-            <Button layoutX="604.0" layoutY="18.0" mnemonicParsing="false" text="X">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
-         </children>
-      </AnchorPane>
-  </children>
-</VBox>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="643.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fx:id="img" fitHeight="465.0" fitWidth="833.0" layoutX="-71.0" layoutY="-7.0" pickOnBounds="true">
+         <image>
+            <Image url="@udrzba.jpg" />
+         </image>
+      </ImageView>
+      <Rectangle fx:id="rectengle" arcHeight="5.0" arcWidth="5.0" fill="#ae3700" height="136.0" layoutX="192.0" layoutY="158.0" stroke="#ae3700" strokeType="INSIDE" width="260.0" />
+      <Text fx:id="text1" fill="#d7d7d7" layoutX="221.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prebieha údržba" textAlignment="CENTER" wrappingWidth="202.00000036135316">
+         <font>
+            <Font size="44.0" />
+         </font>
+      </Text>
+      <Rectangle fx:id="rec2" arcHeight="5.0" arcWidth="5.0" fill="#d7d7d7" height="41.0" layoutX="232.0" layoutY="309.0" stroke="#d7d7d7" strokeType="INSIDE" strokeWidth="0.0" width="179.0" />
+      <Text fx:id="text2" fill="#ae3700" layoutX="255.0" layoutY="337.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Čas a dátum">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>

@@ -10,11 +10,18 @@ import java.time.format.DateTimeFormatter;
 public class PauseController {
     @FXML
     public Text text2;
+    @FXML
+    public Text text1;
 
     public void setDate(String ttime) {
         //System.out.println(text2.getText());
         text2.setText(ttime);
     }
+
+    public void setText1(String txt){
+        text1.setText(txt);
+    }
+
     public void setCurrentDate(){
         LocalTime dateTime = LocalTime.now();
         String timeStamp = DateTimeFormatter.ofPattern("HH:mm:ss").format(dateTime);

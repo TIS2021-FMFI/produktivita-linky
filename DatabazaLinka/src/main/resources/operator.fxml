@@ -21,7 +21,7 @@
          <children>
             <AnchorPane layoutX="654.0" layoutY="81.0" prefHeight="599.0" prefWidth="628.0" AnchorPane.bottomAnchor="120.0" AnchorPane.leftAnchor="654.0" AnchorPane.rightAnchor="19.0">
                <children>
-                  <BarChart fx:id="todayGraph" layoutX="36.0" layoutY="23.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="241.0" prefWidth="573.0" AnchorPane.leftAnchor="36.0" AnchorPane.rightAnchor="19.0" AnchorPane.topAnchor="23.0">
+                  <BarChart fx:id="todayGraph" layoutX="36.0" layoutY="23.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="281.0" prefWidth="573.0" AnchorPane.leftAnchor="36.0" AnchorPane.rightAnchor="19.0" AnchorPane.topAnchor="23.0">
                     <xAxis>
                         <NumberAxis side="LEFT" />
                     </xAxis>
@@ -35,7 +35,7 @@
                      </font>
                   </Text>
                   <TableView fx:id="table" layoutX="86.0" layoutY="354.0" prefHeight="230.0" prefWidth="521.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="86.0" AnchorPane.rightAnchor="21.0">
-                    <columns>
+                      <columns>
                       <TableColumn fx:id="col1" prefWidth="127.0" text="Názov modelu" />
                       <TableColumn fx:id="col2" prefWidth="79.0" text="Počet" />
                     </columns>

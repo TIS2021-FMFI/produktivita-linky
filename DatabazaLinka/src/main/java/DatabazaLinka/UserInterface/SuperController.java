@@ -4,10 +4,7 @@ import DatabazaLinka.RowDateGateway.*;
 import javafx.fxml.FXML;
 import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import org.postgresql.util.PSQLException;
 
@@ -239,12 +236,16 @@ public class SuperController {
         }
 
         if(err) {
-            JOptionPane.showMessageDialog(null, "Wrong input",
-                    "Error", JOptionPane.ERROR_MESSAGE);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Wrong input");
+            alert.setTitle("Error");
+            alert.show();
         }
         else if(zmena){
-            JOptionPane.showMessageDialog(null, "Properties changed",
-                    "Notice", JOptionPane.INFORMATION_MESSAGE);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Properties changed");
+            alert.setTitle("Notice");
+            alert.show();
             mm.readProp();
         }
     }
@@ -283,11 +284,15 @@ public class SuperController {
 
                 try {
                     event.insert();
-                    JOptionPane.showMessageDialog(null, "Plánovaný event pridaný",
-                            "Notice", JOptionPane.INFORMATION_MESSAGE);
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setHeaderText("Plánovaný event pridaný");
+                    alert.setTitle("Notice");
+                    alert.show();
                 }catch(PSQLException ex){
-                    JOptionPane.showMessageDialog(null, "Event už exzistuje",
-                            "Notice", JOptionPane.INFORMATION_MESSAGE);
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setHeaderText("Event už exzistuje");
+                    alert.setTitle("ERROR");
+                    alert.show();
                 }
             }
         }

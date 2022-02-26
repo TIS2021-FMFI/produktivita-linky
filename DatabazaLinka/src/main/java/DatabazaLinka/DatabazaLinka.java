@@ -19,6 +19,7 @@ import DatabazaLinka.UserInterface.LoginMenu;
 import DatabazaLinka.UserInterface.HlavneMenu;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import org.postgresql.ds.PGSimpleDataSource;
 import org.postgresql.util.PSQLException;
@@ -57,12 +58,18 @@ public class DatabazaLinka extends Application {
             HlavneMenu menu = new HlavneMenu();
             menu.start(primaryStage);
         }catch(PSQLException ex){//error ak nejde databaza
-            JOptionPane.showMessageDialog(null, "Database error",
-                        "Error", JOptionPane.ERROR_MESSAGE);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Database error");
+            alert.setTitle("Error");
+            alert.show();
+
             Platform.exit();
         }catch (Exception exx){//iny error
-            JOptionPane.showMessageDialog(null, "Unknown error error",
-                    "Error", JOptionPane.ERROR_MESSAGE);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Unknown error");
+            alert.setTitle("Error");
+            alert.show();
+
             throw exx;
         }
     }
