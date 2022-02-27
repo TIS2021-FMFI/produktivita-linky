@@ -1,21 +1,12 @@
 package DatabazaLinka;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.List;
 import java.util.Properties;
 
-import DatabazaLinka.RowDateGateway.Events;
-import DatabazaLinka.RowDateGateway.Events_Finder;
 import DatabazaLinka.TransactionScript.Vynimka;
 
-import DatabazaLinka.UserInterface.LoginMenu;
-import DatabazaLinka.UserInterface.LoginMenu;
 import DatabazaLinka.UserInterface.HlavneMenu;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -29,11 +20,10 @@ import javax.swing.*;
 public class DatabazaLinka extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
-        File configFile = new File("src/main/resources/db.properties");
-
         PGSimpleDataSource ds = new PGSimpleDataSource();
-
         try {
+            File configFile = new File("src/main/resources/db.properties");
+
             FileReader reader = new FileReader(configFile);
             Properties props = new Properties();
             props.load(reader);
@@ -46,31 +36,58 @@ public class DatabazaLinka extends Application {
             reader.close();
         } catch (FileNotFoundException ex) {
             // file does not exist
-            throw ex;
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("File not found");
+            alert.setTitle("Error");
+            alert.showAndWait();
+
+            ex.printStackTrace();
+
+            wait(5000);
+
+            Platform.exit();
         } catch (IOException ex) {
             // I/O error
-            throw ex;
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Unknown error");
+            alert.setTitle("Error");
+            alert.showAndWait();
+
+            ex.printStackTrace();
+
+            wait(5000);
+
+            Platform.exit();
         }
 
         try {
             Connection connection = ds.getConnection();
             DbContext.setConnection(connection);
             HlavneMenu menu = new HlavneMenu();
+
             menu.start(primaryStage);
         }catch(PSQLException ex){//error ak nejde databaza
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Database error");
             alert.setTitle("Error");
-            alert.show();
+            alert.showAndWait();
+
+            ex.printStackTrace();
+
+            wait(5000);
 
             Platform.exit();
         }catch (Exception exx){//iny error
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Unknown error");
             alert.setTitle("Error");
-            alert.show();
+            alert.showAndWait();
 
-            throw exx;
+            exx.printStackTrace();
+
+            wait(5000);
+
+            Platform.exit();
         }
     }
     public static void main(String[] args) throws SQLException, IOException, Vynimka {

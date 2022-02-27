@@ -2,8 +2,6 @@ package DatabazaLinka.UserInterface;
 
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 

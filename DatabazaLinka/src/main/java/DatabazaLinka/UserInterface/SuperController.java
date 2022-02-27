@@ -3,22 +3,14 @@ package DatabazaLinka.UserInterface;
 import DatabazaLinka.RowDateGateway.*;
 import javafx.fxml.FXML;
 import javafx.scene.chart.StackedBarChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
-import javafx.scene.text.Text;
 import org.postgresql.util.PSQLException;
 
-import javax.swing.*;
 import java.io.*;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
 
 public class SuperController {
     @FXML

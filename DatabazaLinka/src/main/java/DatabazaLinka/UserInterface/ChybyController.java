@@ -3,20 +3,15 @@ package DatabazaLinka.UserInterface;
 import DatabazaLinka.RowDateGateway.Event_type;
 import DatabazaLinka.RowDateGateway.Event_type_Finder;
 import DatabazaLinka.RowDateGateway.Events;
-import DatabazaLinka.RowDateGateway.Events_Finder;
 import javafx.fxml.FXML;
-import javafx.scene.chart.StackedBarChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.text.Text;
 
-import javax.swing.*;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class ChybyController {
