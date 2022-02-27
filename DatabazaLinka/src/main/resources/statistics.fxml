@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns:fx="http://javafx.com/fxml/1">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
@@ -39,8 +39,8 @@
                   <Font size="20.0" />
                </font>
             </Text>
-            <DatePicker layoutX="96.0" layoutY="65.0" prefHeight="27.0" prefWidth="106.0" promptText="dd/mm/yy" />
-            <DatePicker layoutX="96.0" layoutY="104.0" prefHeight="11.0" prefWidth="106.0" promptText="dd/mm/yy" />
+            <DatePicker fx:id="date1" layoutX="96.0" layoutY="65.0" prefHeight="27.0" prefWidth="106.0" promptText="dd/mm/yy" />
+            <DatePicker fx:id="date2" layoutX="96.0" layoutY="104.0" prefHeight="11.0" prefWidth="106.0" promptText="dd/mm/yy" />
             <Text layoutX="43.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Od:">
                <font>
                   <Font size="16.0" />
@@ -51,14 +51,14 @@
                   <Font size="16.0" />
                </font>
             </Text>
-            <RadioButton layoutX="96.0" layoutY="149.0" mnemonicParsing="false" text="A" />
-            <RadioButton layoutX="149.0" layoutY="149.0" mnemonicParsing="false" text="B" />
+            <RadioButton fx:id="zmenaA" layoutX="96.0" layoutY="149.0" mnemonicParsing="false" text="A" />
+            <RadioButton fx:id="zmenaB" layoutX="149.0" layoutY="149.0" mnemonicParsing="false" text="B" />
             <Text layoutX="45.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zmena">
                <font>
                   <Font size="16.0" />
                </font>
             </Text>
-            <RadioButton layoutX="202.0" layoutY="149.0" mnemonicParsing="false" selected="true" text="všetky" />
+            <RadioButton fx:id="zmenaAll" layoutX="202.0" layoutY="149.0" mnemonicParsing="false" selected="true" text="všetky" />
             <Text layoutX="361.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Špecifikácia">
                <font>
                   <Font size="20.0" />
@@ -69,22 +69,22 @@
                   <Font size="16.0" />
                </font>
             </Text>
-            <CheckBox layoutX="443.0" layoutY="211.0" mnemonicParsing="false" text="chyby" />
-            <CheckBox layoutX="443.0" layoutY="126.0" mnemonicParsing="false" text="30l" />
-            <CheckBox layoutX="443.0" layoutY="155.0" mnemonicParsing="false" text="45l" />
-            <CheckBox layoutX="443.0" layoutY="183.0" mnemonicParsing="false" text="60l" />
-            <CheckBox layoutX="444.0" layoutY="240.0" mnemonicParsing="false" text="iné" />
-            <CheckBox layoutX="361.0" layoutY="126.0" mnemonicParsing="false" selected="true" text="všetko" />
-            <CheckBox layoutX="444.0" layoutY="268.0" mnemonicParsing="false" text="údržba" />
-            <Button layoutX="579.0" layoutY="359.0" mnemonicParsing="false" text="export" />
-            <Button layoutX="525.0" layoutY="359.0" mnemonicParsing="false" text="späť" />
-            <CheckBox layoutX="545.0" layoutY="126.0" mnemonicParsing="false" text="PE60" />
-            <CheckBox layoutX="545.0" layoutY="155.0" mnemonicParsing="false" text="PE40" />
-            <CheckBox layoutX="545.0" layoutY="183.0" mnemonicParsing="false" text="PE10" />
-            <CheckBox layoutX="545.0" layoutY="211.0" mnemonicParsing="false" text="PE05" />
-            <CheckBox layoutX="545.0" layoutY="240.0" mnemonicParsing="false" text="PLA05" />
-            <CheckBox layoutX="545.0" layoutY="268.0" mnemonicParsing="false" text="PLA10" />
-            <CheckBox layoutX="545.0" layoutY="297.0" mnemonicParsing="false" text="PLONG" />
+            <CheckBox fx:id="error" layoutX="443.0" layoutY="211.0" mnemonicParsing="false" text="chyby" />
+            <CheckBox fx:id="c30l" layoutX="443.0" layoutY="126.0" mnemonicParsing="false" text="30l" />
+            <CheckBox fx:id="c45l" layoutX="443.0" layoutY="155.0" mnemonicParsing="false" text="45l" />
+            <CheckBox fx:id="c60l" layoutX="443.0" layoutY="183.0" mnemonicParsing="false" text="60l" />
+            <CheckBox fx:id="ine" layoutX="444.0" layoutY="240.0" mnemonicParsing="false" text="iné" />
+            <CheckBox fx:id="all" layoutX="361.0" layoutY="126.0" mnemonicParsing="false" selected="true" text="všetko" />
+            <CheckBox fx:id="udrzba" layoutX="444.0" layoutY="268.0" mnemonicParsing="false" text="údržba" />
+            <Button fx:id="export" layoutX="579.0" layoutY="359.0" mnemonicParsing="false" text="export" />
+            <Button fx:id="ret" layoutX="525.0" layoutY="359.0" mnemonicParsing="false" text="späť" />
+            <CheckBox fx:id="PE60" layoutX="545.0" layoutY="126.0" mnemonicParsing="false" text="PE60" />
+            <CheckBox fx:id="PE40" layoutX="545.0" layoutY="155.0" mnemonicParsing="false" text="PE40" />
+            <CheckBox fx:id="PE10" layoutX="545.0" layoutY="183.0" mnemonicParsing="false" text="PE10" />
+            <CheckBox fx:id="PE05" layoutX="545.0" layoutY="211.0" mnemonicParsing="false" text="PE05" />
+            <CheckBox fx:id="PLA05" layoutX="545.0" layoutY="240.0" mnemonicParsing="false" text="PLA05" />
+            <CheckBox fx:id="PLA10" layoutX="545.0" layoutY="268.0" mnemonicParsing="false" text="PLA10" />
+            <CheckBox fx:id="PLONG" layoutX="545.0" layoutY="297.0" mnemonicParsing="false" text="PLONG" />
       </children>
     </AnchorPane>
   </children>

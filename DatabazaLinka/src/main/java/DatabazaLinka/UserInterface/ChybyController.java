@@ -3,19 +3,15 @@ package DatabazaLinka.UserInterface;
 import DatabazaLinka.RowDateGateway.Event_type;
 import DatabazaLinka.RowDateGateway.Event_type_Finder;
 import DatabazaLinka.RowDateGateway.Events;
-import DatabazaLinka.RowDateGateway.Events_Finder;
 import javafx.fxml.FXML;
-import javafx.scene.chart.StackedBarChart;
-import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.text.Text;
 
-import javax.swing.*;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class ChybyController {
@@ -33,6 +29,7 @@ public class ChybyController {
     Timestamp startTS;
     int currentError = -1;
     HlavneMenu mm;
+    List<Event_type> eve;
 
     public void setUp(HlavneMenu menu) throws SQLException {
         //pre kazde tlacitko sa setupne akcia
@@ -55,7 +52,7 @@ public class ChybyController {
         });
 
         MenuItem docas;
-        List<Event_type> eve = Event_type_Finder.getInstance().findAll();
+        eve = Event_type_Finder.getInstance().findAll();
         for (int i = 0; i < eve.size(); i++) { //for kazdy event
             int dc = eve.get(i).getId();
             docas = new MenuItem(eve.get(i).getName());
@@ -81,6 +78,7 @@ public class ChybyController {
         else{
             mm.operStage.setScene(mm.udrzba);
             mm.operStage.setTitle("Udrzba");
+            mm.udrzbaController.setText1(eve.get(currentError - 1).getName());
         }
         odCas.setText("Zaciatok: " + startTS.toString());
         //System.out.println(startTS.hashCode());
@@ -89,10 +87,11 @@ public class ChybyController {
         if(currentError < 0){
             return;
         }
+        //System.out.println("hmmmmm");
         //nahodi naspet oper screen
         mm.operStage.setScene(mm.operator);
         mm.operStage.setTitle("Operator");
-
+        //System.out.println(9999);
         Events event = new Events();
 
         event.setId(startTS.hashCode()*10 + currentError);
@@ -110,8 +109,16 @@ public class ChybyController {
         System.out.println("Pot washed: " + event.getPotencionaly_washed_pallets());
         System.out.println("Duration: " + event.getDuration());
 
+        System.out.println(1111);
         event.insert();
-        JOptionPane.showMessageDialog(null, "Event bol zaznamenaný",
-                "Notice", JOptionPane.INFORMATION_MESSAGE);
+        System.out.println(9999);
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText("Event bol zaznamenaný");
+        alert.setTitle("Notice");
+        alert.showAndWait();
+
+        //JOptionPane.showMessageDialog(null, "Event bol zaznamenaný",
+                //"Notice", JOptionPane.INFORMATION_MESSAGE);
     }
 }

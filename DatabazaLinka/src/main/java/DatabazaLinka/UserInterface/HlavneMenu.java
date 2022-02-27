@@ -14,9 +14,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAmount;
-import java.time.temporal.TemporalUnit;
 import java.util.*;
 import java.util.List;
 
@@ -29,6 +26,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -67,6 +66,9 @@ public class HlavneMenu{
 
     int x = 700;
     int y = 500;
+
+    int xx = 700;
+    int yy = 500;
 
     String heslo;
     boolean ide = false;
@@ -108,7 +110,11 @@ public class HlavneMenu{
     LocalTime zmena2prestavka3zaciatok;
     LocalTime zmena2prestavka3koniec;
 
-    public void start(Stage primaryStage) throws SQLException, Vynimka,IOException {
+    public void start(Stage primaryStage) throws SQLException, Vynimka, IOException, InterruptedException {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        xx = screenSize.width;
+        yy = screenSize.height;
+
         readProp();
 
         //monitor menu
@@ -161,14 +167,14 @@ public class HlavneMenu{
 
         //operator
         loader = new FXMLLoader();
-        xmlUrl = getClass().getResource("/operator1.fxml");
+        xmlUrl = getClass().getResource("/operator.fxml");
         loader.setController(new OperController());
         loader.setLocation(xmlUrl);
         root = loader.load();
         operController = loader.getController();
         operController.setUp(this);
 
-        operator = new Scene(root, x, y);
+        operator = new Scene(root, xx, yy);
 
         //chyby
         loader = new FXMLLoader();
@@ -201,7 +207,7 @@ public class HlavneMenu{
         root = loader.load();
         pauseController = loader.getController();
 
-        prestavka = new Scene(root, x, y);
+        prestavka = new Scene(root, xx, yy);
 
         //chyba
         loader = new FXMLLoader();
@@ -211,7 +217,7 @@ public class HlavneMenu{
         root = loader.load();
         chybaContoller = loader.getController();
 
-        chyba = new Scene(root, x, y);
+        chyba = new Scene(root, xx, yy);
 
         //udrzba
         loader = new FXMLLoader();
@@ -221,10 +227,8 @@ public class HlavneMenu{
         root = loader.load();
         udrzbaController = loader.getController();
 
-        udrzba = new Scene(root, x, y);
+        udrzba = new Scene(root, xx, yy);
 
-
-        //nacitanie tyzdennych grafov, musi to byt takto kedze inak to blblo, precenta su orientacne
         System.out.println("Loading 05%");
         graph1 = stackSet(operController.weekGraph, 1);
         System.out.println("Loading 19%");
@@ -378,6 +382,9 @@ public class HlavneMenu{
         List<Double> a = terazMax();
 
         double kolko = a.get(0)/a.get(1) * ciel;
+        if (kolko < 0){
+            kolko = 0;
+        }
         return (int)kolko;
     }
 
@@ -410,6 +417,7 @@ public class HlavneMenu{
         }
 
         Date date = new Date(System.currentTimeMillis());
+
         //presun riadkov do historie
         Daily_statistics_Finder.getInstance().findByShiftandDateAll(1, date);
         Daily_statistics_Finder.getInstance().findByShiftandDateAll(2, date);
@@ -533,6 +541,7 @@ public class HlavneMenu{
 
     public void startOper() { //akcia pre tlacitko yacat v menu - zacne zobrazenie operator
         operStage.setScene(operator);
+        //operStage.setFullScreen(true);
         operStage.setTitle("Operator");
         operStage.show();
 
@@ -571,8 +580,14 @@ public class HlavneMenu{
         //docasna zmena bez hesla
 
         if (!adminPrihlaseny){
-            String inputHeslo = JOptionPane.showInputDialog(null, "Heslo",
-                    "Login", JOptionPane.INFORMATION_MESSAGE);
+
+            TextInputDialog td = new TextInputDialog("Heslo");
+            td.setHeaderText("Login");
+            td.showAndWait();
+            String inputHeslo = td.getEditor().getText();
+
+            System.out.println(inputHeslo);
+
             if(inputHeslo.equals(heslo)) {
                 adminStage.setTitle("Admin menu");
                 adminStage.setScene(adminMenu);
