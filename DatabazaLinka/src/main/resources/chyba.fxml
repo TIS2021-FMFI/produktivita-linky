@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -9,31 +10,33 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
   <children>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS" />
-      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="643.0">
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="803.0" prefWidth="1285.0">
          <children>
-            <ImageView fx:id="img" fitHeight="465.0" fitWidth="717.0" layoutX="-71.0" layoutY="-7.0" pickOnBounds="true">
+            <ImageView fx:id="img" depthTest="DISABLE" fitHeight="938.0" fitWidth="1525.0" layoutX="-43.0" layoutY="-31.0" pickOnBounds="true" AnchorPane.bottomAnchor="-104.0" AnchorPane.leftAnchor="-43.0" AnchorPane.rightAnchor="-197.0">
                <image>
                   <Image url="@chyba.jpg" />
                </image>
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
             </ImageView>
-            <Rectangle fx:id="rectengle" arcHeight="5.0" arcWidth="5.0" fill="#cc4040" height="136.0" layoutX="192.0" layoutY="146.0" stroke="#e2ffbc" strokeType="INSIDE" strokeWidth="0.0" width="260.0" />
-            <Text fx:id="text1" fill="#cacce7" layoutX="214.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chyba na prevádzke" textAlignment="CENTER" wrappingWidth="219.46252532248258">
+            <Rectangle fx:id="rectengle" arcHeight="5.0" arcWidth="5.0" fill="#cc4040" height="207.0" layoutX="457.0" layoutY="327.0" stroke="#e2ffbc" strokeType="INSIDE" strokeWidth="0.0" width="429.0" AnchorPane.leftAnchor="457.0" AnchorPane.rightAnchor="399.0" />
+            <Text fx:id="text1" boundsType="VISUAL" fill="#cacce7" layoutX="489.0" layoutY="413.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chyba na prevádzke" textAlignment="CENTER" wrappingWidth="378.3267831349826" AnchorPane.bottomAnchor="303.6875" AnchorPane.topAnchor="367.15625">
                <font>
-                  <Font size="44.0" />
+                  <Font size="64.0" />
                </font>
             </Text>
-            <Rectangle fx:id="rec2" arcHeight="5.0" arcWidth="5.0" fill="#cacce7" height="41.0" layoutX="232.0" layoutY="290.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="179.0" />
-            <Text fx:id="text2" fill="#cc4040" layoutX="255.0" layoutY="318.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Čas a dátum">
+            <Rectangle fx:id="rec2" arcHeight="5.0" arcWidth="5.0" fill="#cacce7" height="72.0" layoutX="512.0" layoutY="558.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="287.0" AnchorPane.bottomAnchor="173.0" AnchorPane.topAnchor="558.0" />
+            <Text fx:id="text2" fill="#cc4040" layoutX="530.0" layoutY="609.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Čas a dátum" AnchorPane.bottomAnchor="183.875" AnchorPane.topAnchor="562.59375">
+               <font>
+                  <Font size="48.0" />
+               </font>
+            </Text>
+            <Button alignment="TOP_RIGHT" layoutX="1220.0" layoutY="17.0" mnemonicParsing="false" text="X" textAlignment="CENTER" wrapText="true" AnchorPane.rightAnchor="17.5" AnchorPane.topAnchor="17.0">
                <font>
                   <Font size="24.0" />
-               </font>
-            </Text>
-            <Button layoutX="604.0" layoutY="18.0" mnemonicParsing="false" text="X">
-               <font>
-                  <Font size="18.0" />
                </font>
             </Button>
          </children>
