@@ -70,21 +70,23 @@
                </font>
             </Text>
             <CheckBox fx:id="error" layoutX="443.0" layoutY="211.0" mnemonicParsing="false" text="chyby" />
+          <!--
             <CheckBox fx:id="c30l" layoutX="443.0" layoutY="126.0" mnemonicParsing="false" text="30l" />
             <CheckBox fx:id="c45l" layoutX="443.0" layoutY="155.0" mnemonicParsing="false" text="45l" />
-            <CheckBox fx:id="c60l" layoutX="443.0" layoutY="183.0" mnemonicParsing="false" text="60l" />
+            <CheckBox fx:id="c60l" layoutX="443.0" layoutY="183.0" mnemonicParsing="false" text="60l" />-->
             <CheckBox fx:id="ine" layoutX="444.0" layoutY="240.0" mnemonicParsing="false" text="iné" />
-            <CheckBox fx:id="all" layoutX="361.0" layoutY="126.0" mnemonicParsing="false" selected="true" text="všetko" />
-            <CheckBox fx:id="udrzba" layoutX="444.0" layoutY="268.0" mnemonicParsing="false" text="údržba" />
+            <CheckBox fx:id="all" layoutX="444.0" layoutY="180.0" mnemonicParsing="false" selected="true" text="všetko" />
+            <CheckBox fx:id="udrzba" layoutX="444.0" layoutY="270.0" mnemonicParsing="false" text="údržba" />
             <Button fx:id="export" layoutX="579.0" layoutY="359.0" mnemonicParsing="false" text="export" />
             <Button fx:id="ret" layoutX="525.0" layoutY="359.0" mnemonicParsing="false" text="späť" />
-            <CheckBox fx:id="PE60" layoutX="545.0" layoutY="126.0" mnemonicParsing="false" text="PE60" />
-            <CheckBox fx:id="PE40" layoutX="545.0" layoutY="155.0" mnemonicParsing="false" text="PE40" />
-            <CheckBox fx:id="PE10" layoutX="545.0" layoutY="183.0" mnemonicParsing="false" text="PE10" />
-            <CheckBox fx:id="PE05" layoutX="545.0" layoutY="211.0" mnemonicParsing="false" text="PE05" />
-            <CheckBox fx:id="PLA05" layoutX="545.0" layoutY="240.0" mnemonicParsing="false" text="PLA05" />
-            <CheckBox fx:id="PLA10" layoutX="545.0" layoutY="268.0" mnemonicParsing="false" text="PLA10" />
-            <CheckBox fx:id="PLONG" layoutX="545.0" layoutY="297.0" mnemonicParsing="false" text="PLONG" />
+            <CheckBox fx:id="PE60" layoutX="545.0" layoutY="120.0" mnemonicParsing="false" text="PE60" />
+            <CheckBox fx:id="PE40" layoutX="545.0" layoutY="150.0" mnemonicParsing="false" text="PE40" />
+            <CheckBox fx:id="PE20" layoutX="545.0" layoutY="180.0" mnemonicParsing="false" text="PE20" />
+            <CheckBox fx:id="PE10" layoutX="545.0" layoutY="210.0" mnemonicParsing="false" text="PE10" />
+            <CheckBox fx:id="PE05" layoutX="545.0" layoutY="240.0" mnemonicParsing="false" text="PE05" />
+            <CheckBox fx:id="PLA05" layoutX="545.0" layoutY="270.0" mnemonicParsing="false" text="PLA05" />
+            <CheckBox fx:id="PLA10" layoutX="545.0" layoutY="300.0" mnemonicParsing="false" text="PLA10" />
+            <CheckBox fx:id="PLONG" layoutX="545.0" layoutY="330.0" mnemonicParsing="false" text="PLONG" />
       </children>
     </AnchorPane>
   </children>

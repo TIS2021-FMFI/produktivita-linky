@@ -71,6 +71,7 @@ public class HlavneMenu{
     int yy = 500;
 
     String heslo;
+    String heslo2;
     boolean ide = false;
     int shift = 1;
     int ciel;
@@ -112,25 +113,29 @@ public class HlavneMenu{
 
     public void start(Stage primaryStage) throws SQLException, Vynimka, IOException, InterruptedException {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        xx = screenSize.width;
-        yy = screenSize.height;
+        xx = screenSize.width - 50;
+        yy = screenSize.height - 50;
 
         readProp();
 
         //monitor menu
         FXMLLoader loader = new FXMLLoader();
-        URL xmlUrl = getClass().getResource("/menuMonitor.fxml");
+        URL xmlUrl = getClass().getResource("/menuAdmin.fxml");
         loader.setController(new MenuController());
         loader.setLocation(xmlUrl);
         Parent root = loader.load();
         menuController = loader.getController();
         menuController.setUp(this);
 
+        menuController.editButton.setVisible(false);
+        menuController.startButton.setVisible(false);
+        menuController.configButton.setVisible(false);
+
         monitorMenu = new Scene(root, x, y);
         adminStage.setTitle("Monitor menu");
         adminStage.setScene(monitorMenu);
         adminStage.show();
-
+        /*
         //admin menu
         loader = new FXMLLoader();
         xmlUrl = getClass().getResource("/menuAdmin.fxml");
@@ -141,7 +146,7 @@ public class HlavneMenu{
         menuController.setUp(this);
 
         adminMenu = new Scene(root, x, y);
-
+        */
         //guiMonitor
 
         loader = new FXMLLoader();
@@ -253,7 +258,8 @@ public class HlavneMenu{
             props = new Properties();
             props.load(reader);
 
-            heslo = props.getProperty("heslo");
+            heslo = props.getProperty("hesloadmin");
+            heslo2 = props.getProperty("heslomonitor");
             ciel = Integer.valueOf(props.getProperty("ciel"));
 
             zmena1zaciatok = LocalTime.parse(props.getProperty("zmena1zaciatok"));
@@ -578,26 +584,34 @@ public class HlavneMenu{
 
     public void loginAction() { //login - logout / atd / akcia na menu button
         //docasna zmena bez hesla
-
-        if (!adminPrihlaseny){
-
-            TextInputDialog td = new TextInputDialog("Heslo");
+        if (!adminPrihlaseny) {
+            TextInputDialog td = new TextInputDialog("");
             td.setHeaderText("Login");
             td.showAndWait();
             String inputHeslo = td.getEditor().getText();
 
             System.out.println(inputHeslo);
 
-            if(inputHeslo.equals(heslo)) {
+            if (inputHeslo.equals(heslo)) {
+                System.out.println("GOOD");
                 adminStage.setTitle("Admin menu");
-                adminStage.setScene(adminMenu);
                 adminPrihlaseny = true;
+                menuController.editButton.setVisible(true);
+                menuController.startButton.setVisible(true);
+                menuController.configButton.setVisible(true);
+            }
+            if (inputHeslo.equals(heslo2)) {
+                System.out.println("GOOD");
+                adminStage.setTitle("Monitor menu");
+                menuController.editButton.setVisible(true);
+                menuController.startButton.setVisible(true);
             }
         }
         else if (adminPrihlaseny){
             adminStage.setTitle("Monitor menu");
             adminStage.setScene(monitorMenu);
             adminPrihlaseny = false;
+            menuController.configButton.setVisible(false);
         }
         System.out.println("Login");
     }
