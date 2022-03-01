@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml/1">
   <children>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="803.0" prefWidth="1285.0">
          <children>
@@ -34,11 +34,6 @@
                   <Font size="48.0" />
                </font>
             </Text>
-            <Button alignment="TOP_RIGHT" layoutX="1220.0" layoutY="17.0" mnemonicParsing="false" text="X" textAlignment="CENTER" wrapText="true" AnchorPane.rightAnchor="17.5" AnchorPane.topAnchor="17.0">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Button>
          </children>
       </AnchorPane>
   </children>

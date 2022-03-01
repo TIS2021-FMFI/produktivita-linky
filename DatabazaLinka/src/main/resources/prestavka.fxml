@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView id="img" fitHeight="942.0" fitWidth="1535.0" layoutX="-71.0" layoutY="-7.0" pickOnBounds="true">
          <image>
@@ -16,13 +16,13 @@
          </image>
       </ImageView>
       <Rectangle id="rectengle" arcHeight="5.0" arcWidth="5.0" fill="#e2ffbc" height="199.0" layoutX="488.0" layoutY="261.0" stroke="#e2ffbc" strokeType="INSIDE" width="373.0" AnchorPane.bottomAnchor="340.0" />
-      <Text id="text1" fill="#344631" layoutX="525.0" layoutY="337.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Je čas na prestávku" textAlignment="CENTER" wrappingWidth="287.8533328808844" AnchorPane.bottomAnchor="369.958984375">
+      <Text fx:id="text1" fill="#344631" layoutX="525.0" layoutY="337.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Je čas na prestávku" textAlignment="CENTER" wrappingWidth="287.8533328808844" AnchorPane.bottomAnchor="369.958984375">
          <font>
             <Font size="67.0" />
          </font>
       </Text>
-      <Rectangle id="rec2" arcHeight="5.0" arcWidth="5.0" fill="#344631" height="57.0" layoutX="535.0" layoutY="474.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="270.0" AnchorPane.bottomAnchor="269.0" />
-      <Text id="text2" fill="#e2ffbc" layoutX="583.0" layoutY="513.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Čas a dátum" wrappingWidth="189.087890625" AnchorPane.bottomAnchor="279.40625">
+      <Rectangle fx:id="rec2" arcHeight="5.0" arcWidth="5.0" fill="#344631" height="57.0" layoutX="535.0" layoutY="474.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="270.0" AnchorPane.bottomAnchor="269.0" />
+      <Text fx:id="text2" fill="#e2ffbc" layoutX="583.0" layoutY="513.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Čas a dátum" wrappingWidth="189.087890625" AnchorPane.bottomAnchor="279.40625">
          <font>
             <Font size="36.0" />
          </font>
