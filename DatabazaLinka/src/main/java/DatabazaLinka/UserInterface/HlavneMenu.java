@@ -482,7 +482,7 @@ public class HlavneMenu{
 
         LocalDate docasDate = date;
         //najdenie vsetkych pouzitich serii
-        for (int i = date.getDayOfWeek().getValue() - 2; i >= 0; i--) {
+        for (int i = date.getDayOfWeek().getValue() - 1; i >= 0; i--) {
             docasDate = date.minusDays(i + 1);
             //System.out.println(Normalized_Paletts_Finder.getInstance().findByDateShiftNormalizedALl(Date.valueOf(docasDate), sh));
             for (int j = 0; j < ser.size(); j++) {
