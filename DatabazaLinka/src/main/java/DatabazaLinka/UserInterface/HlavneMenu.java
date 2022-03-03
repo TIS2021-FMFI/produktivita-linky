@@ -515,7 +515,7 @@ public class HlavneMenu{
 
         //nacitanie hodnot per day
 
-        for (int i = date.getDayOfWeek().getValue() - 2; i >= 0; i--) {
+        for (int i = date.getDayOfWeek().getValue() - 1; i >= 0; i--) {
             docasDate = date.minusDays(i + 1);
 
             for (int j = 0; j < notAll.size(); j++) {
