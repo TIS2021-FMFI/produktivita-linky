@@ -482,7 +482,7 @@ public class HlavneMenu{
 
         LocalDate docasDate = date;
         //najdenie vsetkych pouzitich serii
-        for (int i = date.getDayOfWeek().getValue() - 1; i >= 0; i--) {
+        for (int i = date.getDayOfWeek().getValue() - 2; i >= 0; i--) {
             docasDate = date.minusDays(i + 1);
             //System.out.println(Normalized_Paletts_Finder.getInstance().findByDateShiftNormalizedALl(Date.valueOf(docasDate), sh));
             for (int j = 0; j < ser.size(); j++) {
@@ -511,12 +511,14 @@ public class HlavneMenu{
 
         //System.out.println(series.size());
 
-        List<String> dni = Arrays.asList("", "Po", "Ut", "St", "Šv", "Pi", "So");
+        List<String> dni = Arrays.asList("", "Po", "Ut", "St", "Šv", "Pi", "So", "Ne");
 
         //nacitanie hodnot per day
 
-        for (int i = date.getDayOfWeek().getValue() - 1; i >= 0; i--) {
+        for (int i = date.getDayOfWeek().getValue() - 2; i >= 0; i--) {
             docasDate = date.minusDays(i + 1);
+
+            //System.out.println(notAll.size() + " " + series.size());
 
             for (int j = 0; j < notAll.size(); j++) {
                 double a = Normalized_Paletts_Finder.getInstance().findByDateSeriesShiftNormalized(Date.valueOf(docasDate),

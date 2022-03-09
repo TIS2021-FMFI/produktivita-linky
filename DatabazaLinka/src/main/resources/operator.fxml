@@ -34,7 +34,7 @@
                         <Font size="24.0" />
                      </font>
                   </Text>
-                  <TableView fx:id="table" layoutX="86.0" layoutY="354.0" prefHeight="230.0" prefWidth="521.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="86.0" AnchorPane.rightAnchor="21.0">
+                  <TableView fx:id="table" layoutX="86.0" layoutY="354.0" prefHeight="230.0" prefWidth="521.0" AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="86.0" AnchorPane.rightAnchor="21.0">
                       <columns>
                       <TableColumn fx:id="col1" prefWidth="127.0" text="Názov modelu" />
                       <TableColumn fx:id="col2" prefWidth="79.0" text="Počet" />
@@ -48,7 +48,7 @@
                   </TableView>
                </children>
             </AnchorPane>
-            <StackedBarChart fx:id="weekGraph" layoutX="20.0" layoutY="246.0" prefHeight="450.0" prefWidth="651.0" AnchorPane.bottomAnchor="104.0" AnchorPane.topAnchor="246.0">
+            <StackedBarChart fx:id="weekGraph" layoutX="20.0" layoutY="246.0" prefHeight="450.0" prefWidth="651.0" AnchorPane.bottomAnchor="120.0" AnchorPane.topAnchor="246.0">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>
@@ -67,7 +67,7 @@
                   <Font size="24.0" />
                </font>
             </Text>
-            <Text fx:id="boxesLabel" layoutX="558.0" layoutY="738.0" strokeType="INSIDE" strokeWidth="0.0" text="Počet boxov za hodinu" wrappingWidth="217.7366681867511" AnchorPane.bottomAnchor="57.359375">
+            <Text fx:id="boxesLabel" layoutX="558.0" layoutY="738.0" strokeType="INSIDE" strokeWidth="0.0" text="Počet boxov za hodinu" wrappingWidth="250" AnchorPane.bottomAnchor="60">
                <font>
                   <Font size="22.0" />
                </font>
@@ -98,22 +98,22 @@
                <font>
                   <Font size="18.0" />
                </font></Button>
-            <Text fx:id="time" layoutX="9.0" layoutY="462.0" strokeType="INSIDE" strokeWidth="0.0" text="Čas a dátum" wrappingWidth="132.5214820139562" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="9.0">
+            <Text fx:id="time" layoutX="9.0" layoutY="462.0" strokeType="INSIDE" strokeWidth="0.0" text="Čas a dátum" wrappingWidth="131" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="9.0">
                <font>
                   <Font size="24.0" />
                </font>
             </Text>
-            <Text fx:id="model1" fontSmoothingType="LCD" layoutX="297.0" layoutY="91.0" strokeType="INSIDE" strokeWidth="0.0" text="- momentálny model" wrappingWidth="218.93756484985352">
+            <Text fx:id="model1" fontSmoothingType="LCD" layoutX="275.0" layoutY="91.0" strokeType="INSIDE" strokeWidth="0.0" text="- momentálny model" wrappingWidth="300">
                <font>
                   <Font size="24.0" />
                </font>
             </Text>
-            <Text fx:id="model11" fontSmoothingType="LCD" layoutX="294.0" layoutY="168.0" strokeType="INSIDE" strokeWidth="0.0" text="- nasledujúci model" wrappingWidth="218.93756484985352">
+            <Text fx:id="model11" fontSmoothingType="LCD" layoutX="275.0" layoutY="168.0" strokeType="INSIDE" strokeWidth="0.0" text="- nasledujúci model" wrappingWidth="240">
                <font>
                   <Font size="24.0" />
                </font>
             </Text>
-            <Text fx:id="todayLabel" fontSmoothingType="LCD" layoutX="735.0" layoutY="72.0" strokeType="INSIDE" strokeWidth="0.0" text="Dnešná štatistika" wrappingWidth="216.7355992918981" AnchorPane.topAnchor="46.86328125">
+            <Text fx:id="todayLabel" fontSmoothingType="LCD" layoutX="735.0" layoutY="72.0" strokeType="INSIDE" strokeWidth="0.0" text="Dnešná štatistika" wrappingWidth="217" AnchorPane.topAnchor="47">
                <font>
                   <Font size="26.0" />
                </font>
