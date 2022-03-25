@@ -87,6 +87,9 @@ public class HlavneMenu{
     StackedBarChart graph111;
     StackedBarChart graph222;
 
+    StackedBarChart graphx;
+    StackedBarChart graphx2;
+
     LocalTime zmena1zaciatok;
     LocalTime zmena1koniec;
 
@@ -247,6 +250,8 @@ public class HlavneMenu{
         System.out.println("Loading 79%");
         graph222 = stackSet(monitorController.graph, 2);
         System.out.println("Loading 91%");
+        graphx = stackSet(statController.graph, 1);
+        graphx2 = stackSet(statController.graph, 2);
         System.out.println("Loading 100%");
     }
 
@@ -631,10 +636,12 @@ public class HlavneMenu{
         if(shift == 1) {
             superController.setGraph(graph11);
             monitorController.setGraph(graph111);
+
         }
         else{
             superController.setGraph(graph22);
             monitorController.setGraph(graph222);
+
         }
     }
 

@@ -84,6 +84,12 @@ public class SuperController {
             statisticsButton.setOnAction(e -> {
                 menu.adminStage.setTitle("Stats");
                 menu.adminStage.setScene(menu.statistick);
+                if (menu.shift == 1){
+                    menu.statController.setGraph(menu.graphx);
+                }
+                else{
+                    menu.statController.setGraph(menu.graphx2);
+                }
             });
         }
 

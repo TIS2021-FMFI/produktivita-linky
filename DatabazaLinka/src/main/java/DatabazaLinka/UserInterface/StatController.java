@@ -2,9 +2,11 @@ package DatabazaLinka.UserInterface;
 
 import DatabazaLinka.DbContext;
 import javafx.fxml.FXML;
+import javafx.scene.chart.StackedBarChart;
 import javafx.scene.control.*;
 import javafx.event.ActionEvent;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -57,6 +59,13 @@ public class StatController {
     public CheckBox PE60;
     @FXML
     public CheckBox PE20;
+
+    @FXML
+    public StackedBarChart graph;
+
+    public void setGraph(StackedBarChart b){
+        graph = b;
+    }
 
     private String getQuery() {
         String query = "SELECT DISTINCT dat.date, dat.shift";
@@ -240,36 +249,40 @@ public class StatController {
             String sql = getQuery();
             //System.out.printf(sql);
             try {
-                PrintWriter writer = new PrintWriter("export.csv");
-                writer.append("sep=;");
-                writer.append("\n");
-                writer.append("Datum;");
-                writer.append("Zmena;");
-                if (PE60.isSelected()) writer.append(" PE60;");
-                if (PE40.isSelected()) writer.append(" PE40;");
-                if (PE20.isSelected()) writer.append(" PE20;");
-                if (PE10.isSelected()) writer.append(" PE10;");
-                if (PE05.isSelected()) writer.append(" PE05;");
-                if (PLA05.isSelected()) writer.append(" PLA05;");
-                if (PLA10.isSelected()) writer.append(" PLA10;");
-                if (PLONG.isSelected()) writer.append(" PLONG;");
+                File f = new File("export.csv");
+                if (f.delete())                      //returns Boolean value
+                {
+                    PrintWriter writer = new PrintWriter("export.csv");
+                    writer.append("sep=;");
+                    writer.append("\n");
+                    writer.append("Datum;");
+                    writer.append("Zmena;");
+                    if (PE60.isSelected()) writer.append(" PE60;");
+                    if (PE40.isSelected()) writer.append(" PE40;");
+                    if (PE20.isSelected()) writer.append(" PE20;");
+                    if (PE10.isSelected()) writer.append(" PE10;");
+                    if (PE05.isSelected()) writer.append(" PE05;");
+                    if (PLA05.isSelected()) writer.append(" PLA05;");
+                    if (PLA10.isSelected()) writer.append(" PLA10;");
+                    if (PLONG.isSelected()) writer.append(" PLONG;");
 
-                if (error.isSelected()) writer.append(" Chyby;");
-                if (udrzba.isSelected()) writer.append(" Udrzba;");
-                if (ine.isSelected()) writer.append(" Ine;");
-                writer.append("\n");
-                try (PreparedStatement s = connection.prepareStatement(sql)) {
-                    try (ResultSet rs = s.executeQuery()) {
-                        while (rs.next()) {
-                            //System.out.println(parseResult(rs));
-                            writer.append(parseResult(rs));
+                    if (error.isSelected()) writer.append(" Chyby;");
+                    if (udrzba.isSelected()) writer.append(" Udrzba;");
+                    if (ine.isSelected()) writer.append(" Ine;");
+                    writer.append("\n");
+                    try (PreparedStatement s = connection.prepareStatement(sql)) {
+                        try (ResultSet rs = s.executeQuery()) {
+                            while (rs.next()) {
+                                //System.out.println(parseResult(rs));
+                                writer.append(parseResult(rs));
+                            }
+                            writer.close();
                         }
-                        writer.close();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
                     }
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
                 }
-            } catch (FileNotFoundException ex) {
+            } catch(FileNotFoundException ex){
                 ex.printStackTrace();
             }
         });
