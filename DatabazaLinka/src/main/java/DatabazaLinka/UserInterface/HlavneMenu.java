@@ -87,6 +87,9 @@ public class HlavneMenu{
     StackedBarChart graph111;
     StackedBarChart graph222;
 
+    StackedBarChart graphx;
+    StackedBarChart graphx2;
+
     LocalTime zmena1zaciatok;
     LocalTime zmena1koniec;
 
@@ -247,6 +250,8 @@ public class HlavneMenu{
         System.out.println("Loading 79%");
         graph222 = stackSet(monitorController.graph, 2);
         System.out.println("Loading 91%");
+        graphx = stackSet(statController.graph, 1);
+        graphx2 = stackSet(statController.graph, 2);
         System.out.println("Loading 100%");
     }
 
@@ -482,7 +487,7 @@ public class HlavneMenu{
 
         LocalDate docasDate = date;
         //najdenie vsetkych pouzitich serii
-        for (int i = date.getDayOfWeek().getValue() - 1; i >= 0; i--) {
+        for (int i = date.getDayOfWeek().getValue() - 2; i >= 0; i--) {
             docasDate = date.minusDays(i + 1);
             //System.out.println(Normalized_Paletts_Finder.getInstance().findByDateShiftNormalizedALl(Date.valueOf(docasDate), sh));
             for (int j = 0; j < ser.size(); j++) {
@@ -511,12 +516,14 @@ public class HlavneMenu{
 
         //System.out.println(series.size());
 
-        List<String> dni = Arrays.asList("", "Po", "Ut", "St", "Šv", "Pi", "So");
+        List<String> dni = Arrays.asList("", "Po", "Ut", "St", "Šv", "Pi", "So", "Ne");
 
         //nacitanie hodnot per day
 
-        for (int i = date.getDayOfWeek().getValue() - 1; i >= 0; i--) {
+        for (int i = date.getDayOfWeek().getValue() - 2; i >= 0; i--) {
             docasDate = date.minusDays(i + 1);
+
+            //System.out.println(notAll.size() + " " + series.size());
 
             for (int j = 0; j < notAll.size(); j++) {
                 double a = Normalized_Paletts_Finder.getInstance().findByDateSeriesShiftNormalized(Date.valueOf(docasDate),
@@ -629,10 +636,12 @@ public class HlavneMenu{
         if(shift == 1) {
             superController.setGraph(graph11);
             monitorController.setGraph(graph111);
+
         }
         else{
             superController.setGraph(graph22);
             monitorController.setGraph(graph222);
+
         }
     }
 

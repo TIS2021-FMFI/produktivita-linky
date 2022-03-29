@@ -57,12 +57,7 @@ public class SuperController {
     public void setUp(HlavneMenu menu) throws SQLException {
         exitButton.setOnAction(e -> {
             menu.adminStage.setTitle("Menu");
-            if (menu.adminPrihlaseny){
-                menu.adminStage.setScene(menu.adminMenu);
-            }
-            else{
-                menu.adminStage.setScene(menu.monitorMenu);
-            }
+            menu.adminStage.setScene(menu.monitorMenu);
         });
 
         if (submit != null) {
@@ -89,6 +84,12 @@ public class SuperController {
             statisticsButton.setOnAction(e -> {
                 menu.adminStage.setTitle("Stats");
                 menu.adminStage.setScene(menu.statistick);
+                if (menu.shift == 1){
+                    menu.statController.setGraph(menu.graphx);
+                }
+                else{
+                    menu.statController.setGraph(menu.graphx2);
+                }
             });
         }
 
